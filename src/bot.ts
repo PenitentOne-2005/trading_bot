@@ -1,5 +1,7 @@
 import TelegramBot from "node-telegram-bot-api";
 import dotenv from "dotenv";
+import { createWallet } from "./createWallet";
+import { saveUser } from "./saveUser";
 
 dotenv.config();
 
@@ -14,26 +16,33 @@ if (!token) {
 
 const bot = new TelegramBot(token, { polling: true });
 
-console.log("Бот запущен и слушает сообщения..."); // Выводим сообщение при старте
-
-// Обработка сообщений
 bot.on("message", (msg) => {
-  console.log("Получено сообщение:", msg); // Выводим полученное сообщение
   const chatId = msg.chat.id;
   const text = msg.text;
 
-  // Ответ на каждое сообщение
-  bot.sendMessage(chatId, `Ты написал: ${text}`);
+  if (!text?.startsWith("/")) {
+    bot.sendMessage(chatId, `Ты написал: ${text}`);
+  }
 });
 
-// Обработка команд
+bot.onText(/\/register/, async (msg) => {
+  const chatId = msg.chat.id;
+
+  const { privateKey, wallet } = await createWallet();
+
+  await saveUser(chatId, wallet, privateKey);
+
+  bot.sendMessage(chatId, `Твой кошелек был создан: ${wallet}`);
+});
+
 bot.onText(/\/start/, (msg) => {
   const chatId = msg.chat.id;
-  bot.sendMessage(chatId, "Привет! Я твой бот. Чем могу помочь?");
-  console.log("/start команда получена от пользователя", msg.chat.id); // Логируем команду
+  bot.sendMessage(
+    chatId,
+    "Welcome to p2p exchange telegram bot, a decentralized P2P exchange bot that allows users to securely trade cryptocurrency for fiat without relying on centralized platforms."
+  );
 });
 
-// Обработка ошибок
 bot.on("polling_error", (error) => {
   console.error("Ошибка при опросе бота:", error);
 });
