@@ -28,11 +28,19 @@ bot.on("message", (msg) => {
 bot.onText(/\/register/, async (msg) => {
   const chatId = msg.chat.id;
 
-  const { privateKey, wallet } = await createWallet();
+  const result = await createWallet();
 
-  await saveUser(chatId, wallet, privateKey);
+  if (result) {
+    const { privateKey, wallet } = result;
+    await saveUser(chatId, wallet, privateKey);
 
-  bot.sendMessage(chatId, `Твой кошелек был создан: ${wallet}`);
+    bot.sendMessage(
+      chatId,
+      `Твой кошелек был создан: ${wallet.address.base58}`
+    );
+  } else {
+    bot.sendMessage(chatId, "Не удалось создать кошелек. Попробуй позже.");
+  }
 });
 
 bot.onText(/\/start/, (msg) => {
