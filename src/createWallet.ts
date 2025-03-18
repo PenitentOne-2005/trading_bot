@@ -1,18 +1,26 @@
-import TronWeb from "tronweb";
+const { TronWeb } = require("tronweb");
+import dotenv from "dotenv";
 import crypto from "crypto";
 
+dotenv.config();
+
+interface WalletData {
+  privateKey: string;
+  wallet: any;
+}
+
 const privateKey = crypto.randomBytes(32).toString("hex");
-const fullNode = new TronWeb.providers.HttpProvider("https://api.trongrid.io");
-const solidityNode = new TronWeb.providers.HttpProvider(
-  "https://api.trongrid.io"
-);
-const eventServer = new TronWeb.providers.HttpProvider(
-  "https://api.trongrid.io"
-);
-const tronWeb = new TronWeb(fullNode, solidityNode, eventServer, privateKey);
 
-export const createWallet = async () => {
-  const wallet = await tronWeb.createAccount();
+const tronWeb = new TronWeb({
+  fullHost: process.env.QUICKNODE_RPC,
+  privateKey: privateKey,
+});
 
-  return { privateKey, wallet };
+export const createWallet = async (): Promise<WalletData | undefined> => {
+  try {
+    const wallet = await tronWeb.createAccount();
+    return { privateKey, wallet };
+  } catch (error) {
+    console.error("Ошибка при создании кошелька:", error);
+  }
 };
