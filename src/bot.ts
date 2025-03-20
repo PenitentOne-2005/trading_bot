@@ -2,6 +2,7 @@ import TelegramBot from "node-telegram-bot-api";
 import dotenv from "dotenv";
 import { createWallet } from "./createWallet";
 import { saveUser } from "./saveUser";
+import { getWalletBalance } from "./getWalletBalance";
 
 dotenv.config();
 
@@ -41,6 +42,13 @@ bot.onText(/\/register/, async (msg) => {
   } else {
     bot.sendMessage(chatId, "Не удалось создать кошелек. Попробуй позже.");
   }
+});
+
+bot.onText(/\/show/, async (msg) => {
+  const chatId = msg.chat.id;
+
+  const walletBalance = await getWalletBalance();
+  bot.sendMessage(chatId, `Your balance: ${walletBalance}`);
 });
 
 bot.onText(/\/start/, (msg) => {
