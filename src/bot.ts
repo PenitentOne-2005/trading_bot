@@ -3,6 +3,7 @@ import dotenv from "dotenv";
 import { createWallet } from "./createWallet";
 import { saveUser } from "./saveUser";
 import { getWalletBalance } from "./getWalletBalance";
+import { isUserRegistered } from "./isUserRegistered";
 
 dotenv.config();
 
@@ -29,6 +30,13 @@ bot.on("message", (msg) => {
 bot.onText(/\/register/, async (msg) => {
   const chatId = msg.chat.id;
   const username = msg.from?.username || "Неизвестный";
+
+  const isRegistered = await isUserRegistered(chatId);
+
+  if (isRegistered) {
+    bot.sendMessage(chatId, "Ты уже зарегистрирован! 🚀");
+    return;
+  }
 
   const result = await createWallet();
 
