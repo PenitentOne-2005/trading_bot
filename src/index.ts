@@ -25,6 +25,7 @@ const createUsersTable = async () => {
       CREATE TABLE IF NOT EXISTS users (
         id SERIAL PRIMARY KEY,
         telegram_id BIGINT UNIQUE NOT NULL,
+        username TEXT,
         wallet_address TEXT NOT NULL,
         private_key TEXT NOT NULL
       )

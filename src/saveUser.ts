@@ -13,19 +13,21 @@ const pool = new Pool({
 
 export const saveUser = async (
   telegramId: number,
+  username: string,
   walletAddress: string,
   privateKey: string
 ) => {
   try {
     await pool.query(
-      `
-      INSERT INTO users (telegram_id, wallet_address, private_key)
-      VALUES ($1, $2, $3)
-      ON CONFLICT (telegram_id) DO NOTHING
-      `,
-      [telegramId, walletAddress, privateKey]
+      `INSERT INTO users (telegram_id, username, wallet_address, private_key)
+       VALUES ($1, $2, $3, $4)
+       ON CONFLICT (telegram_id) DO UPDATE 
+       SET wallet_address = EXCLUDED.wallet_address, 
+           private_key = EXCLUDED.private_key, 
+           username = EXCLUDED.username;`,
+      [telegramId, username, walletAddress, privateKey]
     );
-    console.log(`✅ Пользователь ${telegramId} сохранён`);
+    console.log(`✅ Пользователь ${telegramId} сохранен`);
   } catch (error) {
     console.error("❌ Ошибка при сохранении пользователя:", error);
   }

@@ -28,12 +28,13 @@ bot.on("message", (msg) => {
 
 bot.onText(/\/register/, async (msg) => {
   const chatId = msg.chat.id;
+  const username = msg.from?.username || "Неизвестный";
 
   const result = await createWallet();
 
   if (result) {
     const { privateKey, wallet } = result;
-    await saveUser(chatId, wallet, privateKey);
+    await saveUser(chatId, username, wallet, privateKey);
 
     bot.sendMessage(
       chatId,
