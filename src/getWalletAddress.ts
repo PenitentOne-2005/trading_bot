@@ -17,7 +17,7 @@ export async function getWalletAddress() {
     if (res.rows.length > 0) {
       const wallet = JSON.parse(res.rows[0].wallet_address);
 
-      return wallet.address.hex;
+      return wallet.hex;
     } else {
       throw new Error("❌ Кошелек не найден в базе");
     }
