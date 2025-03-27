@@ -4,6 +4,7 @@ import { createWallet } from "./createWallet";
 import { saveUser } from "./saveUser";
 import { getWalletBalance } from "./getWalletBalance";
 import { isUserRegistered } from "./isUserRegistered";
+import { encryptPrivateKey } from "./encryptPrivateKey";
 
 dotenv.config();
 
@@ -42,7 +43,10 @@ bot.onText(/\/register/, async (msg) => {
 
   if (result) {
     const { privateKey, wallet } = result;
-    await saveUser(chatId, username, wallet, privateKey);
+
+    const encryptedPrivateKey = encryptPrivateKey(privateKey);
+
+    await saveUser(chatId, username, wallet.address, encryptedPrivateKey);
 
     bot.sendMessage(
       chatId,
