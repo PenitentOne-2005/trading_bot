@@ -1,7 +1,7 @@
-import { Message } from "node-telegram-bot-api";
+import { Message, SendMessageOptions } from "node-telegram-bot-api";
 
 export interface IsendMessage {
-  (id: number, text: string): Promise<Message>;
+  (id: number, text: string, menu?: SendMessageOptions): Promise<Message>;
 }
 
 export interface IprocessUserMessage {
