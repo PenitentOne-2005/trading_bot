@@ -1,6 +1,6 @@
 import { Iregister } from "./interface";
 import createWallet from "../create/createWallet";
-import encryptPrivateKey from "../encrypt/encryptPrivateKey";
+import { saveEncryptedPrivateKey } from "../encrypt/encryptPrivateKey";
 import saveUser from "../save/saveUser";
 import sendMessage from "../send/sendMessage";
 import isUserRegistered from "./isUserRegistered";
@@ -18,7 +18,7 @@ const registerHandler: Iregister = async (msg) => {
     if (!result) throw new Error("Ошибка создания кошелька.");
 
     const { privateKey, address } = result;
-    const encryptedPrivateKey = encryptPrivateKey(privateKey);
+    const encryptedPrivateKey = saveEncryptedPrivateKey(privateKey);
 
     await saveUser({ chat, username, address, encryptedPrivateKey });
     sendMessage(chat.id, `Твой кошелек был создан: ${address.base58}`);
