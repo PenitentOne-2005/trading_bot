@@ -1,17 +1,34 @@
+import { userState } from "../../userState";
 import { mainMenu } from "./commandKeyboard";
 import { IprocessUserMessage } from "./interface";
+import sellCrypto from "./sellCrypto";
 import sendMessage from "./sendMessage";
 
 const processUserMessage: IprocessUserMessage = (msg) => {
   const { chat, text } = msg;
-  if (!text?.startsWith("/")) sendMessage(chat.id, `Ты написал: ${text}`);
+  const chatId = chat.id;
 
-  if (text === "💸 Продать крипту") {
-    sendMessage(chat.id, "Введи сумму и валюту, которую хочешь продать.");
-  } else if (text === "💰 Купить крипту") {
-    sendMessage(chat.id, "Введи сумму и валюту, которую хочешь купить.");
-  } else if (text === "🔙 Назад") {
-    sendMessage(chat.id, "Основное меню:", mainMenu);
+  if (userState[chatId] === "waitingForSellAmount") {
+    const amount = parseFloat(text || "");
+    if (isNaN(amount) || amount <= 0) {
+      return sendMessage(chatId, "❌ Введи корректную сумму.");
+    }
+
+    sellCrypto(amount, chatId);
+    userState[chatId] = "idle"; // Сброс состояния
+    return;
+  }
+
+  if (!text?.startsWith("/")) {
+    return sendMessage(chatId, `Ты написал: ${text}`);
+  }
+
+  if (text === "/sellCrypto") {
+    userState[chatId] = "waitingForSellAmount";
+    sendMessage(chatId, "💰 Введи сумму TRX, которую хочешь продать:");
+  } else if (text === "/back") {
+    userState[chatId] = "idle";
+    sendMessage(chatId, "🔙 Главное меню:", mainMenu);
   }
 };
 
