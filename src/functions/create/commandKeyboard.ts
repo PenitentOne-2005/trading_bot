@@ -5,7 +5,7 @@ export const exchangeMenu: SendMessageOptions = {
   reply_markup: {
     keyboard: [
       [{ text: "/sellCrypto" }, { text: "/buyCrypto" }] as MenuButton[],
-      [{ text: "🔙 Назад" }] as MenuButton[],
+      [{ text: "/back" }] as MenuButton[],
     ],
     resize_keyboard: true,
     one_time_keyboard: true,
