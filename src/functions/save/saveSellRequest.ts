@@ -12,14 +12,14 @@ const pool = new Pool({
 });
 
 const saveSellRequest = async (
-  userId: number,
+  username: string,
   crypto: string,
   amount: number
 ) => {
   await pool.query(`
     CREATE TABLE IF NOT EXISTS sell_requests (
       id SERIAL PRIMARY KEY,
-      user_id BIGINT NOT NULL,
+      username TEXT NOT NULL,
       crypto TEXT NOT NULL,
       amount NUMERIC NOT NULL,
       status TEXT DEFAULT 'pending',
@@ -28,8 +28,8 @@ const saveSellRequest = async (
   `);
 
   await pool.query(
-    `INSERT INTO sell_requests (user_id, crypto, amount) VALUES ($1, $2, $3)`,
-    [userId, crypto, amount]
+    `INSERT INTO sell_requests (username, crypto, amount) VALUES ($1, $2, $3)`,
+    [username, crypto, amount]
   );
 };
 

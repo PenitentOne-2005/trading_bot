@@ -7,6 +7,9 @@ import sendMessage from "./sendMessage";
 const processUserMessage: IprocessUserMessage = async (msg) => {
   const { chat, text } = msg;
   const chatId = chat.id;
+  const username = chat.username;
+
+  if (!username) return;
 
   if (!text) return;
 
@@ -30,7 +33,7 @@ const processUserMessage: IprocessUserMessage = async (msg) => {
       return sendMessage(chatId, "❌ Введи корректную сумму.");
     }
 
-    await saveSellRequest(chatId, currentState.crypto!, amount);
+    await saveSellRequest(username, currentState.crypto!, amount);
     await sendMessage(
       chatId,
       `✅ Заявка на продажу ${amount} ${currentState.crypto} создана!
