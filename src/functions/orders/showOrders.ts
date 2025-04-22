@@ -1,34 +1,26 @@
-import { Pool } from "pg";
-import dotenv from "dotenv";
+import pool from "../../db";
+import { userOffsets } from "./userOffsets";
 import sendMessage from "../send/sendMessage";
 import { Message } from "node-telegram-bot-api";
 import { ordersMenu } from "./showOrdersKeyBoard";
 
-dotenv.config();
-
-const pool = new Pool({
-  host: process.env.DB_HOST,
-  port: Number(process.env.DB_PORT),
-  user: process.env.DB_USER,
-  password: process.env.DB_PASSWORD,
-  database: process.env.DB_NAME,
-});
-
 const showOrders = async (msg: Message) => {
-  const response = await pool.query(`SELECT * FROM sell_requests`);
-  const orders = response.rows;
+  const offset = userOffsets[msg.chat.id] ?? 0;
 
-  if (orders.length === 0) {
+  const query = `SELECT * FROM sell_requests ORDER BY created_at ASC LIMIT 1 OFFSET $1`;
+  const response = await pool.query(query, [offset]);
+
+  if (response.rows.length === 0) {
     sendMessage(msg.chat.id, "📭 Пока нет заявок.");
+    return;
   }
 
-  const formattedOrders = orders.map((order) => {
-    const { username, crypto, amount, status } = order;
+  const order = response.rows[0];
+  const { username, crypto, amount, status } = order;
 
-    return `username: ${username}\ncrypto: ${crypto}\namount: ${amount}\nstatus: ${status}`;
-  });
+  const formattedOrder = `username: ${username}\ncrypto: ${crypto}\namount: ${amount}\nstatus: ${status}`;
 
-  sendMessage(msg.chat.id, `Заявки:\n${formattedOrders}`, ordersMenu);
+  sendMessage(msg.chat.id, `\n${formattedOrder}`, ordersMenu);
 };
 
 export default showOrders;
