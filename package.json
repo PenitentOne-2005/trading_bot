@@ -11,7 +11,8 @@
     "web3": "^4.16.0"
   },
   "scripts": {
-    "start": "concurrently \"npx ts-node src/index.ts\" \"npx ts-node src/bot.ts\""
+    "start": "concurrently \"npx ts-node src/index.ts\" \"npx ts-node src/bot.ts\"",
+    "build": "tsc"
   },
   "devDependencies": {
     "@types/cors": "^2.8.17",
