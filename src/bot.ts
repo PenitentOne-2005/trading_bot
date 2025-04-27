@@ -1,3 +1,7 @@
+import dotenv from "dotenv";
+
+dotenv.config();
+
 import bot from "./botInstance";
 import registerHandler from "./functions/registered/registerHandler";
 import processUserMessage from "./functions/send/processUserMessage";
