@@ -10,6 +10,7 @@
     "tronweb": "^6.0.1",
     "web3": "^4.16.0"
   },
+  "type": "module",
   "scripts": {
     "start": "concurrently \"npx ts-node src/index.ts\" \"npx ts-node src/bot.ts\"",
     "build": "tsc"

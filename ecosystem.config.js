@@ -1,13 +1,14 @@
-require("dotenv").config();
+import dotenv from "dotenv";
+dotenv.config();
 
-module.exports = {
+export default {
   apps: [
     {
-      name: "index", // Название приложения
-      script: "dist/index.js",
-      instances: 1, // Количество экземпляров
-      exec_mode: "fork", // В этом случае запускать по одному процессу
-      watch: false, // Не отслеживать изменения
+      name: "index",
+      script: "dist/index.mjs",
+      instances: 1,
+      exec_mode: "fork",
+      watch: false,
       env_production: {
         BOT_TOKEN: process.env.BOT_TOKEN,
         DB_HOST: process.env.DB_HOST,
@@ -24,11 +25,11 @@ module.exports = {
       },
     },
     {
-      name: "bot", // Название приложения
-      script: "dist/bot.js",
-      instances: 1, // Количество экземпляров
-      exec_mode: "fork", // В этом случае запускать по одному процессу
-      watch: false, // Не отслеживать изменения
+      name: "bot",
+      script: "dist/bot.mjs",
+      instances: 1,
+      exec_mode: "fork",
+      watch: false,
       env_production: {
         BOT_TOKEN: process.env.BOT_TOKEN,
         DB_HOST: process.env.DB_HOST,
