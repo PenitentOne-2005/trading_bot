@@ -3,6 +3,8 @@ import dotenv from "dotenv";
 
 dotenv.config();
 
+console.log('BOT_TOKEN:', process.env.BOT_TOKEN); // Логируем токен
+
 const token = process.env.BOT_TOKEN;
 if (!token) {
   console.error(
