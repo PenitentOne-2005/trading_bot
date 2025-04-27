@@ -1,5 +1,5 @@
 import express, { Request, Response } from "express";
-import { Pool } from "pg";
+import pkg from "pg";
 import dotenv from "dotenv";
 import cors from "cors";
 
@@ -10,6 +10,8 @@ const port = 3000;
 
 app.use(express.json());
 app.use(cors());
+
+const { Pool } = pkg;
 
 const pool = new Pool({
   host: process.env.DB_HOST,
