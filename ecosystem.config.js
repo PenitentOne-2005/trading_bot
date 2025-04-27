@@ -1,5 +1,3 @@
-require("dotenv").config();
-
 module.exports = {
   apps: [
     {
@@ -8,7 +6,7 @@ module.exports = {
       instances: 1, // Количество экземпляров
       exec_mode: "fork", // В этом случае запускать по одному процессу
       watch: false, // Не отслеживать изменения
-      env: {
+      env_production: {
         BOT_TOKEN: process.env.BOT_TOKEN,
         DB_HOST: process.env.DB_HOST,
         DB_PORT: process.env.DB_PORT,
@@ -29,7 +27,7 @@ module.exports = {
       instances: 1, // Количество экземпляров
       exec_mode: "fork", // В этом случае запускать по одному процессу
       watch: false, // Не отслеживать изменения
-      env: {
+      env_production: {
         BOT_TOKEN: process.env.BOT_TOKEN,
         DB_HOST: process.env.DB_HOST,
         DB_PORT: process.env.DB_PORT,
