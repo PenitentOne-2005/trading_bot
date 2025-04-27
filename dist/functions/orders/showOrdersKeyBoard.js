@@ -1,7 +1,4 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.ordersMenu = void 0;
-exports.ordersMenu = {
+export const ordersMenu = {
     reply_markup: {
         keyboard: [
             [{ text: "/buy" }, { text: "/next" }],

@@ -1,7 +1,4 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.exchangeMenu = void 0;
-exports.exchangeMenu = {
+export const exchangeMenu = {
     reply_markup: {
         keyboard: [
             [{ text: "/sellCrypto" }, { text: "/buyCrypto" }],

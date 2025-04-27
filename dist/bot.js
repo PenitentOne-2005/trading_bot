@@ -1,25 +1,20 @@
-"use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-const dotenv_1 = __importDefault(require("dotenv"));
-dotenv_1.default.config();
-const botInstance_1 = __importDefault(require("./botInstance"));
-const registerHandler_1 = __importDefault(require("./functions/registered/registerHandler"));
-const processUserMessage_1 = __importDefault(require("./functions/send/processUserMessage"));
-const showWalletBalance_1 = __importDefault(require("./functions/balance/showWalletBalance"));
-const greetingsMessage_1 = __importDefault(require("./functions/greetings/greetingsMessage"));
-const createExchange_1 = __importDefault(require("./functions/create/createExchange"));
-const buyCrypto_1 = __importDefault(require("./functions/send/buyCrypto"));
-const showOrders_1 = __importDefault(require("./functions/orders/showOrders"));
-botInstance_1.default.on("message", processUserMessage_1.default);
-botInstance_1.default.onText(/\/createWallet/, registerHandler_1.default);
-botInstance_1.default.onText(/\/showBalance/, showWalletBalance_1.default);
-botInstance_1.default.onText(/\/createExchange/, createExchange_1.default);
-botInstance_1.default.onText(/\/buyCrypto/, buyCrypto_1.default);
-botInstance_1.default.onText(/\/showOrders/, showOrders_1.default);
-botInstance_1.default.onText(/\/start/, greetingsMessage_1.default);
-botInstance_1.default.on("polling_error", (error) => {
+import dotenv from "dotenv";
+dotenv.config();
+import bot from "./botInstance";
+import registerHandler from "./functions/registered/registerHandler";
+import processUserMessage from "./functions/send/processUserMessage";
+import showWalletBalance from "./functions/balance/showWalletBalance";
+import greetingsMessage from "./functions/greetings/greetingsMessage";
+import createExchange from "./functions/create/createExchange";
+import buyCrypto from "./functions/send/buyCrypto";
+import showOrders from "./functions/orders/showOrders";
+bot.on("message", processUserMessage);
+bot.onText(/\/createWallet/, registerHandler);
+bot.onText(/\/showBalance/, showWalletBalance);
+bot.onText(/\/createExchange/, createExchange);
+bot.onText(/\/buyCrypto/, buyCrypto);
+bot.onText(/\/showOrders/, showOrders);
+bot.onText(/\/start/, greetingsMessage);
+bot.on("polling_error", (error) => {
     console.error("❌ Ошибка опроса бота:", error);
 });

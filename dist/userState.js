@@ -1,5 +1,2 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.userState = void 0;
 // chatId -> состояние
-exports.userState = {};
+export const userState = {};
