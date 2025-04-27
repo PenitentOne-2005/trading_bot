@@ -1,4 +1,3 @@
-import dotenv from "dotenv";
 import bot from "./botInstance";
 import registerHandler from "./functions/registered/registerHandler";
 import processUserMessage from "./functions/send/processUserMessage";
@@ -7,8 +6,6 @@ import greetingsMessage from "./functions/greetings/greetingsMessage";
 import createExchange from "./functions/create/createExchange";
 import buyCrypto from "./functions/send/buyCrypto";
 import showOrders from "./functions/orders/showOrders";
-
-dotenv.config();
 
 bot.on("message", processUserMessage);
 
