@@ -4,7 +4,7 @@ module.exports = {
   apps: [
     {
       name: "index", // Название приложения
-      script: "npx ts-node src/index.ts",
+      script: "dist/index.js",
       instances: 1, // Количество экземпляров
       exec_mode: "fork", // В этом случае запускать по одному процессу
       watch: false, // Не отслеживать изменения
@@ -25,7 +25,7 @@ module.exports = {
     },
     {
       name: "bot", // Название приложения
-      script: "npx ts-node src/bot.ts",
+      script: "dist/bot.js",
       instances: 1, // Количество экземпляров
       exec_mode: "fork", // В этом случае запускать по одному процессу
       watch: false, // Не отслеживать изменения
