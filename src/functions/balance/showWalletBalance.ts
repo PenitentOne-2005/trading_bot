@@ -1,6 +1,6 @@
-import sendMessage from "../send/sendMessage";
-import getWalletBalance from "./getWalletBalance";
-import { IshowWalletBalance } from "./interface";
+import sendMessage from "../send/sendMessage.js";
+import getWalletBalance from "./getWalletBalance.js";
+import { IshowWalletBalance } from "./interface.js";
 
 const showWalletBalance: IshowWalletBalance = async (msg) => {
   const { chat } = msg;

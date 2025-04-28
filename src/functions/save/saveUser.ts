@@ -1,5 +1,5 @@
-import pool from "../../db";
-import { IsaveUser } from "./interface";
+import pool from "../../db.js";
+import { IsaveUser } from "./interface.js";
 
 const saveUser: IsaveUser = async (data) => {
   const { chat, username, address, encryptedPrivateKey } = data;

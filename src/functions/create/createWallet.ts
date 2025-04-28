@@ -1,7 +1,7 @@
 const { TronWeb } = require("tronweb");
 import dotenv from "dotenv";
 import crypto from "crypto";
-import { IcreateWallet } from "./interface";
+import { IcreateWallet } from "./interface.js";
 
 dotenv.config();
 

@@ -1,5 +1,5 @@
 import { Chat } from "node-telegram-bot-api";
-import { IAddress } from "../../interface";
+import { IAddress } from "../../interface.js";
 
 interface IData {
   chat: Chat;

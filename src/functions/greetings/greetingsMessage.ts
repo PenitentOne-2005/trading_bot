@@ -1,6 +1,6 @@
 import dotenv from "dotenv";
-import { IgreetingsMessage } from "./interface";
-import sendMessage from "../send/sendMessage";
+import { IgreetingsMessage } from "./interface.js";
+import sendMessage from "../send/sendMessage.js";
 
 dotenv.config();
 

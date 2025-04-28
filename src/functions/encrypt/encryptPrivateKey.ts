@@ -1,7 +1,7 @@
 import fs from "fs";
 const CryptoJS = require("crypto-js");
 import dotenv from "dotenv";
-import { IencryptPrivateKey } from "./interface";
+import { IencryptPrivateKey } from "./interface.js";
 
 dotenv.config();
 

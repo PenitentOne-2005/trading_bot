@@ -1,5 +1,5 @@
-import pool from "../../db";
-import { IgetWalletAddress } from "./interface";
+import pool from "../../db.js";
+import { IgetWalletAddress } from "./interface.js";
 
 const getWalletAddress: IgetWalletAddress = async () => {
   try {

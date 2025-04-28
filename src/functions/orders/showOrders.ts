@@ -1,8 +1,8 @@
-import pool from "../../db";
-import { userOffsets } from "./userOffsets";
-import sendMessage from "../send/sendMessage";
 import { Message } from "node-telegram-bot-api";
-import { ordersMenu } from "./showOrdersKeyBoard";
+import pool from "../../db.js";
+import { userOffsets } from "./userOffsets.js";
+import sendMessage from "../send/sendMessage.js";
+import { ordersMenu } from "./showOrdersKeyBoard.js";
 
 const showOrders = async (msg: Message) => {
   const offset = userOffsets[msg.chat.id] ?? 0;

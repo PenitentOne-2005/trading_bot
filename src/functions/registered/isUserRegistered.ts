@@ -1,5 +1,5 @@
-import pool from "../../db";
-import { IisUserRegistered } from "./interface";
+import pool from "../../db.js";
+import { IisUserRegistered } from "./interface.js";
 
 const isUserRegistered: IisUserRegistered = async (telegramId) => {
   try {

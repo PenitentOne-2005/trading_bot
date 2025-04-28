@@ -1,5 +1,5 @@
 import { SendMessageOptions } from "node-telegram-bot-api";
-import { MenuButton } from "../../interface";
+import { MenuButton } from "../../interface.js";
 
 export const mainMenu: SendMessageOptions = {
   reply_markup: {

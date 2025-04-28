@@ -1,6 +1,6 @@
 import { TronWeb } from "tronweb";
 import dotenv from "dotenv";
-import sendMessage from "./sendMessage";
+import sendMessage from "./sendMessage.js";
 
 dotenv.config();
 
