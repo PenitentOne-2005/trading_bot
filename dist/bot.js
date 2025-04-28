@@ -1,6 +1,6 @@
 import dotenv from "dotenv";
 dotenv.config();
-import bot from "./botInstance";
+import bot from "./botInstance.js";
 import registerHandler from "./functions/registered/registerHandler";
 import processUserMessage from "./functions/send/processUserMessage";
 import showWalletBalance from "./functions/balance/showWalletBalance";
