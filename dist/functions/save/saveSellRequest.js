@@ -1,4 +1,4 @@
-import pool from "../../db";
+import pool from "../../db.js";
 const saveSellRequest = async (username, crypto, amount) => {
     await pool.query(`
     CREATE TABLE IF NOT EXISTS sell_requests (

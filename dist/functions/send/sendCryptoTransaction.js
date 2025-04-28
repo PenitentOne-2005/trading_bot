@@ -1,5 +1,5 @@
 import dotenv from "dotenv";
-import sendMessage from "./sendMessage";
+import sendMessage from "./sendMessage.js";
 dotenv.config();
 const ESCROW_ADDRESS = process.env.ESCROW_ADDRESS;
 const sendCryptoTransaction = async (tronWebUser, amount, chatId) => {

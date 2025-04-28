@@ -1,10 +1,10 @@
 import { TronWeb } from "tronweb";
 import dotenv from "dotenv";
 import BigNumber from "bignumber.js";
-import getPrivateKey from "../encrypt/encryptPrivateKey";
-import getWalletBalance from "../balance/getWalletBalance";
-import sendMessage from "./sendMessage";
-import sendCryptoTransaction from "./sendCryptoTransaction";
+import getPrivateKey from "../encrypt/encryptPrivateKey.js";
+import getWalletBalance from "../balance/getWalletBalance.js";
+import sendMessage from "./sendMessage.js";
+import sendCryptoTransaction from "./sendCryptoTransaction.js";
 dotenv.config();
 const TRONGRID_API_KEY = process.env.TRONGRID_API_KEY;
 const sellCrypto = async (amount, chatId) => {

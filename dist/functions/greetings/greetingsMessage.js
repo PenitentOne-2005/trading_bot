@@ -1,5 +1,5 @@
 import dotenv from "dotenv";
-import sendMessage from "../send/sendMessage";
+import sendMessage from "../send/sendMessage.js";
 dotenv.config();
 const greetings = process.env.GREETINGS;
 if (!greetings) {

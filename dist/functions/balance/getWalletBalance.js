@@ -1,6 +1,6 @@
 import dotenv from "dotenv";
 import axios from "axios";
-import getWalletAddress from "../address/getWalletAddress";
+import getWalletAddress from "../address/getWalletAddress.js";
 dotenv.config();
 const getWalletBalance = async () => {
     try {

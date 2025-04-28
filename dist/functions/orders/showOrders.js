@@ -1,7 +1,7 @@
-import pool from "../../db";
-import { userOffsets } from "./userOffsets";
-import sendMessage from "../send/sendMessage";
-import { ordersMenu } from "./showOrdersKeyBoard";
+import pool from "../../db.js";
+import { userOffsets } from "./userOffsets.js";
+import sendMessage from "../send/sendMessage.js";
+import { ordersMenu } from "./showOrdersKeyBoard.js";
 const showOrders = async (msg) => {
     const offset = userOffsets[msg.chat.id] ?? 0;
     const query = `SELECT * FROM sell_requests ORDER BY created_at ASC LIMIT 1 OFFSET $1`;

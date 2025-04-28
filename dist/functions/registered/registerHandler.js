@@ -1,8 +1,8 @@
-import createWallet from "../create/createWallet";
-import { saveEncryptedPrivateKey } from "../encrypt/encryptPrivateKey";
-import saveUser from "../save/saveUser";
-import sendMessage from "../send/sendMessage";
-import isUserRegistered from "./isUserRegistered";
+import createWallet from "../create/createWallet.js";
+import { saveEncryptedPrivateKey } from "../encrypt/encryptPrivateKey.js";
+import saveUser from "../save/saveUser.js";
+import sendMessage from "../send/sendMessage.js";
+import isUserRegistered from "./isUserRegistered.js";
 const registerHandler = async (msg) => {
     const { chat, from } = msg;
     const username = from?.username || "Неизвестный";

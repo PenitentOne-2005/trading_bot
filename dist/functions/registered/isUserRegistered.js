@@ -1,4 +1,4 @@
-import pool from "../../db";
+import pool from "../../db.js";
 const isUserRegistered = async (telegramId) => {
     try {
         const result = await pool.query(`SELECT wallet_address FROM users WHERE telegram_id = $1`, [telegramId]);

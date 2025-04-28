@@ -1,9 +1,9 @@
-import { userState } from "../../userState";
-import showOrders from "../orders/showOrders";
-import { userOffsets } from "../orders/userOffsets";
-import saveSellRequest from "../save/saveSellRequest";
-import { mainMenu } from "./commandKeyboard";
-import sendMessage from "./sendMessage";
+import { userState } from "../../userState.js";
+import showOrders from "../orders/showOrders.js";
+import { userOffsets } from "../orders/userOffsets.js";
+import saveSellRequest from "../save/saveSellRequest.js";
+import { mainMenu } from "./commandKeyboard.js";
+import sendMessage from "./sendMessage.js";
 const CRYPTOS = ["TRX", "USDT"];
 const processUserMessage = async (msg) => {
     const { chat, text } = msg;

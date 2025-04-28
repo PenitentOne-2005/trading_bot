@@ -1,4 +1,4 @@
-import pool from "../../db";
+import pool from "../../db.js";
 const getWalletAddress = async () => {
     try {
         const res = await pool.query("SELECT wallet_address FROM users LIMIT 1");
