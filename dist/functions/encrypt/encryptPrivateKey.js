@@ -1,5 +1,5 @@
 import fs from "fs";
-const CryptoJS = require("crypto-js");
+import CryptoJS from "crypto-js";
 import dotenv from "dotenv";
 dotenv.config();
 const encryptionKey = process.env.ENCRYPTION_KEY;
