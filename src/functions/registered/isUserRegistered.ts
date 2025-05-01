@@ -7,6 +7,7 @@ const isUserRegistered: IisUserRegistered = async (telegramId) => {
       `SELECT wallet_address FROM users WHERE telegram_id = $1`,
       [telegramId]
     );
+
     return result.rows.length > 0; // Если есть запись, возвращаем true
   } catch (error) {
     console.error("❌ Ошибка при проверке пользователя:", error);

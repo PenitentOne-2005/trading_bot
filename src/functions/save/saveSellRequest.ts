@@ -5,6 +5,7 @@ const saveSellRequest = async (
   crypto: string,
   amount: number
 ) => {
+try {
   await pool.query(`
     CREATE TABLE IF NOT EXISTS sell_requests (
       id SERIAL PRIMARY KEY,
@@ -20,6 +21,9 @@ const saveSellRequest = async (
     `INSERT INTO sell_requests (username, crypto, amount) VALUES ($1, $2, $3)`,
     [username, crypto, amount]
   );
+} catch (error) {
+  console.log("❌ Ошибка при сохранении заявки на продажу:", error);
+}
 };
 
 export default saveSellRequest;
