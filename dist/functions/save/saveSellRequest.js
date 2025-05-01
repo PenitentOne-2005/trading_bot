@@ -1,6 +1,7 @@
 import pool from "../../db.js";
 const saveSellRequest = async (username, crypto, amount) => {
-    await pool.query(`
+    try {
+        await pool.query(`
     CREATE TABLE IF NOT EXISTS sell_requests (
       id SERIAL PRIMARY KEY,
       username TEXT NOT NULL,
@@ -10,6 +11,10 @@ const saveSellRequest = async (username, crypto, amount) => {
       created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     )
   `);
-    await pool.query(`INSERT INTO sell_requests (username, crypto, amount) VALUES ($1, $2, $3)`, [username, crypto, amount]);
+        await pool.query(`INSERT INTO sell_requests (username, crypto, amount) VALUES ($1, $2, $3)`, [username, crypto, amount]);
+    }
+    catch (error) {
+        console.log("❌ Ошибка при сохранении заявки на продажу:", error);
+    }
 };
 export default saveSellRequest;
