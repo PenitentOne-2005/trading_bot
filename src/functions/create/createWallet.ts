@@ -1,9 +1,10 @@
-import { TronWeb } from "tronweb";
 import dotenv from "dotenv";
+
+dotenv.config({ path: "/root/trading_bot/.env" });
+
+import { TronWeb } from "tronweb";
 import crypto from "crypto";
 import { IcreateWallet } from "./interface.js";
-
-dotenv.config();
 
 const privateKey = crypto.randomBytes(32).toString("hex");
 

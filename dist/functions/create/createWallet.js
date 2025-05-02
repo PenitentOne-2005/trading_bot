@@ -1,7 +1,7 @@
-import { TronWeb } from "tronweb";
 import dotenv from "dotenv";
+dotenv.config({ path: "/root/trading_bot/.env" });
+import { TronWeb } from "tronweb";
 import crypto from "crypto";
-dotenv.config();
 const privateKey = crypto.randomBytes(32).toString("hex");
 const tronWeb = new TronWeb({
     fullHost: process.env.QUICKNODE_RPC,

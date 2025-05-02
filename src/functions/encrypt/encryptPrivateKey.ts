@@ -1,9 +1,10 @@
+import dotenv from "dotenv";
+
+dotenv.config({ path: "/root/trading_bot/.env" });
+
 import fs from "fs";
 import CryptoJS from "crypto-js";
-import dotenv from "dotenv";
 import { IencryptPrivateKey } from "./interface.js";
-
-dotenv.config();
 
 const encryptionKey = process.env.ENCRYPTION_KEY;
 if (!encryptionKey) {
