@@ -1,5 +1,6 @@
+import path from "path";
 import dotenv from "dotenv";
-dotenv.config();
+dotenv.config({ path: path.resolve(__dirname, "../.env") });
 import bot from "./botInstance.js";
 import registerHandler from "./functions/registered/registerHandler.js";
 import processUserMessage from "./functions/send/processUserMessage.js";
