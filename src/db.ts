@@ -1,7 +1,8 @@
-import pkg from "pg";
 import dotenv from "dotenv";
 
-dotenv.config();
+dotenv.config({ path: "/root/trading_bot/.env" });
+
+import pkg from "pg";
 
 const { Pool } = pkg;
 
