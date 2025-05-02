@@ -1,9 +1,9 @@
+import dotenv from "dotenv";
+dotenv.config();
+
 import express, { Request, Response } from "express";
 import pkg from "pg";
-import dotenv from "dotenv";
 import cors from "cors";
-
-dotenv.config();
 
 const app = express();
 const port = 3000;
