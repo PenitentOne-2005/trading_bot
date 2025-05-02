@@ -1,7 +1,7 @@
 import TelegramBot from "node-telegram-bot-api";
 import dotenv from "dotenv";
 
-dotenv.config();
+dotenv.config({ path: "/root/trading_bot/.env" });
 
 const token = process.env.BOT_TOKEN;
 if (!token) {

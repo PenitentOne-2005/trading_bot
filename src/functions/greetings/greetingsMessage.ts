@@ -1,8 +1,9 @@
 import dotenv from "dotenv";
+
+dotenv.config({ path: "/root/trading_bot/.env" });
+
 import { IgreetingsMessage } from "./interface.js";
 import sendMessage from "../send/sendMessage.js";
-
-dotenv.config();
 
 const greetings = process.env.GREETINGS;
 if (!greetings) {
