@@ -1,11 +1,5 @@
-import path from "path";
-import { fileURLToPath } from "url";
 import dotenv from "dotenv";
-// Получаем __dirname вручную
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-// Загружаем .env
-dotenv.config({ path: path.resolve(__dirname, "../.env") });
+dotenv.config({ path: "/root/trading_bot/.env" });
 import express from "express";
 import pkg from "pg";
 import cors from "cors";

@@ -1,11 +1,5 @@
-import path from "path";
-import { fileURLToPath } from "url";
 import dotenv from "dotenv";
-// Получаем __filename и __dirname для ESM
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-// Загружаем .env с абсолютным путем
-dotenv.config({ path: path.resolve(__dirname, "../.env") });
+dotenv.config({ path: "/root/trading_bot/.env" });
 import bot from "./botInstance.js";
 import registerHandler from "./functions/registered/registerHandler.js";
 import processUserMessage from "./functions/send/processUserMessage.js";
