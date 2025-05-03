@@ -1,24 +1,30 @@
-const dotenv = require("dotenv");
+import dotenv from "dotenv";
+
 dotenv.config();
 
-const bot = require("./botInstance");
-const registerHandler = require("./functions/registered/registerHandler");
-const processUserMessage = require("./functions/send/processUserMessage");
-const showWalletBalance = require("./functions/balance/showWalletBalance");
-const greetingsMessage = require("./functions/greetings/greetingsMessage");
-const createExchange = require("./functions/create/createExchange");
-const buyCrypto = require("./functions/send/buyCrypto");
-const showOrders = require("./functions/orders/showOrders");
+import bot from "./botInstance.js";
+import registerHandler from "./functions/registered/registerHandler.js";
+import processUserMessage from "./functions/send/processUserMessage.js";
+import showWalletBalance from "./functions/balance/showWalletBalance.js";
+import greetingsMessage from "./functions/greetings/greetingsMessage.js";
+import createExchange from "./functions/create/createExchange.js";
+import buyCrypto from "./functions/send/buyCrypto.js";
+import showOrders from "./functions/orders/showOrders.js";
 
 bot.on("message", processUserMessage);
 
 bot.onText(/\/createWallet/, registerHandler);
+
 bot.onText(/\/showBalance/, showWalletBalance);
+
 bot.onText(/\/createExchange/, createExchange);
+
 bot.onText(/\/buyCrypto/, buyCrypto);
+
 bot.onText(/\/showOrders/, showOrders);
+
 bot.onText(/\/start/, greetingsMessage);
 
-bot.on("polling_error", (error: any) => {
+bot.on("polling_error", (error) => {
   console.error("❌ Ошибка опроса бота:", error);
 });
