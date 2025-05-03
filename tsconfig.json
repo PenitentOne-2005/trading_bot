@@ -8,5 +8,7 @@
     "esModuleInterop": true,
     "skipLibCheck": true,
     "moduleResolution": "node"
-  }
+  },
+  "include": ["src/**/*"], // Включаем все исходные файлы
+  "exclude": ["src/index.ts", "src/bot.ts"] // Исключаем index и bot
 }
