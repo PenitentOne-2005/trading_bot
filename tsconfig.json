@@ -9,5 +9,6 @@
     "skipLibCheck": true,
     "moduleResolution": "node"
   },
-  "include": ["src/**/*"] // Включаем все исходные файлы
+  "include": ["src/**/*"], // Включаем все исходные файлы
+  "exclude": ["node_modules"]
 }
