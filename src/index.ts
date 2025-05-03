@@ -1,6 +1,6 @@
 import dotenv from "dotenv";
 
-dotenv.config({ path: "/root/trading_bot/.env" });
+dotenv.config();
 
 import express, { Request, Response } from "express";
 import pkg from "pg";

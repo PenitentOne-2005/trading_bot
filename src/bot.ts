@@ -1,6 +1,6 @@
 import dotenv from "dotenv";
 
-dotenv.config({ path: "/root/trading_bot/.env" });
+dotenv.config();
 
 import bot from "./botInstance.js";
 import registerHandler from "./functions/registered/registerHandler.js";

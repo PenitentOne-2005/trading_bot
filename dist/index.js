@@ -1,5 +1,5 @@
 import dotenv from "dotenv";
-dotenv.config({ path: "/root/trading_bot/.env" });
+dotenv.config();
 import express from "express";
 import pkg from "pg";
 import cors from "cors";
