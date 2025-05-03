@@ -1,13 +1,11 @@
-import dotenv from "dotenv";
-dotenv.config();
-import express from "express";
-import pkg from "pg";
-import cors from "cors";
+"use strict";
+const express = require("express");
+const { Pool } = require("pg");
+const cors = require("cors");
 const app = express();
 const port = 3000;
 app.use(express.json());
 app.use(cors());
-const { Pool } = pkg;
 const pool = new Pool({
     host: process.env.DB_HOST,
     port: Number(process.env.DB_PORT),
@@ -44,7 +42,7 @@ app.get("/test-db", async (req, res) => {
     }
 });
 app.get("/", (req, res) => {
-    res.send("Hello, Express with TypeScript!");
+    res.send("Hello, Express!");
 });
 app.listen(port, () => {
     console.log(`🚀 Сервер запущен на http://localhost:${port}`);

@@ -1,18 +1,12 @@
-import dotenv from "dotenv";
-
-dotenv.config();
-
-import express, { Request, Response } from "express";
-import pkg from "pg";
-import cors from "cors";
+const express = require("express");
+const { Pool } = require("pg");
+const cors = require("cors");
 
 const app = express();
 const port = 3000;
 
 app.use(express.json());
 app.use(cors());
-
-const { Pool } = pkg;
 
 const pool = new Pool({
   host: process.env.DB_HOST,
@@ -41,7 +35,7 @@ const createUsersTable = async () => {
 
 createUsersTable();
 
-app.get("/test-db", async (req, res) => {
+app.get("/test-db", async (req: any, res: any) => {
   try {
     const result = await pool.query("SELECT NOW()");
     res.json({ message: "База работает!", time: result.rows[0].now });
@@ -51,8 +45,8 @@ app.get("/test-db", async (req, res) => {
   }
 });
 
-app.get("/", (req: Request, res: Response) => {
-  res.send("Hello, Express with TypeScript!");
+app.get("/", (req: any, res: any) => {
+  res.send("Hello, Express!");
 });
 
 app.listen(port, () => {
