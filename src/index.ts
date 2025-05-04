@@ -22,20 +22,31 @@ const pool = new Pool({
   database: process.env.DB_NAME,
 });
 
+const wait = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
+
 const createUsersTable = async () => {
-  try {
-    await pool.query(`
-      CREATE TABLE IF NOT EXISTS users (
-        id SERIAL PRIMARY KEY,
-        telegram_id BIGINT UNIQUE NOT NULL,
-        username TEXT,
-        wallet_address TEXT NOT NULL,
-        private_key TEXT NOT NULL
-      )
-    `);
-    console.log("✅ Таблица users проверена/создана");
-  } catch (error) {
-    console.error("❌ Ошибка при создании таблицы:", error);
+  let retries = 5;
+  while (retries) {
+    try {
+      await pool.query(`
+        CREATE TABLE IF NOT EXISTS users (
+          id SERIAL PRIMARY KEY,
+          telegram_id BIGINT UNIQUE NOT NULL,
+          username TEXT,
+          wallet_address TEXT NOT NULL,
+          private_key TEXT NOT NULL
+        )
+      `);
+      console.log("✅ Таблица users проверена/создана");
+      break;
+    } catch (error) {
+      console.error("❌ Ошибка при создании таблицы:", error);
+      retries--;
+      console.log(
+        `⏳ Повторная попытка через 5 секунд... Осталось: ${retries}`
+      );
+      await wait(5000);
+    }
   }
 };
 
