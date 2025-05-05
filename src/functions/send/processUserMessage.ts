@@ -2,7 +2,7 @@ import { userState } from "../../userState.js";
 import showOrders from "../orders/showOrders.js";
 import { userOffsets } from "../orders/userOffsets.js";
 import saveSellRequest from "../save/saveSellRequest.js";
-import { mainMenu } from "./commandKeyboard.js";
+import { mainMenu } from "../../commandKeyboard.js";
 import { IprocessUserMessage } from "./interface.js";
 import sendMessage from "./sendMessage.js";
 
