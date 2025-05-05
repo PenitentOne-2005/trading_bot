@@ -15,6 +15,7 @@ if (!greetings) {
 }
 
 const greetingsMessage: IgreetingsMessage = (msg) => {
+  console.log(mainMenu);
   sendMessage(msg.chat.id, greetings, mainMenu);
 };
 

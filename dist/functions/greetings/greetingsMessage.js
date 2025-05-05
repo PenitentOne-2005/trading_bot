@@ -8,6 +8,7 @@ if (!greetings) {
     process.exit(1);
 }
 const greetingsMessage = (msg) => {
+    console.log(mainMenu);
     sendMessage(msg.chat.id, greetings, mainMenu);
 };
 export default greetingsMessage;
