@@ -1,16 +1,9 @@
-import dotenv from "dotenv";
-dotenv.config({ path: "/root/trading_bot/.env" });
 import { userState } from "../../userState.js";
 import showOrders from "../orders/showOrders.js";
 import { userOffsets } from "../orders/userOffsets.js";
 import saveSellRequest from "../save/saveSellRequest.js";
 import { mainMenu } from "../../commandKeyboard.js";
 import sendMessage from "./sendMessage.js";
-const greetings = process.env.GREETINGS;
-if (!greetings) {
-    console.error("❌ GREETINGS не найден! Убедитесь, что он задан в .env файле.");
-    process.exit(1);
-}
 const CRYPTOS = ["TRX", "USDT"];
 const processUserMessage = async (msg) => {
     const { chat, text } = msg;
@@ -58,10 +51,6 @@ const processUserMessage = async (msg) => {
         case text === "/next": {
             userOffsets[chatId] = (userOffsets[chatId] ?? 0) + 1;
             return showOrders(msg);
-        }
-        case text === "/start": {
-            userState[chatId] = { step: "idle" };
-            return sendMessage(chatId, greetings, mainMenu);
         }
         case !text.startsWith("/"): {
             return sendMessage(chatId, `Ты написал: ${text}`);
