@@ -21,9 +21,9 @@ bot.onText(/\/createExchange/, createExchange);
 
 bot.onText(/\/buyCrypto/, buyCrypto);
 
-bot.onText(/\/showOrders/, showOrders);
-
 bot.onText(/\/start/, greetingsMessage);
+
+bot.onText(/\/showOrders/, showOrders);
 
 bot.on("polling_error", (error) => {
   console.error("❌ Ошибка опроса бота:", error);

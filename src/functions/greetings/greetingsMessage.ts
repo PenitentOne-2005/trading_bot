@@ -4,7 +4,7 @@ dotenv.config({ path: "/root/trading_bot/.env" });
 
 import { IgreetingsMessage } from "./interface.js";
 import sendMessage from "../send/sendMessage.js";
-import { mainMenu } from "../send/commandKeyboard.js";
+import { mainMenu } from "../send/commandKeyboard";
 
 const greetings = process.env.GREETINGS;
 if (!greetings) {
@@ -15,16 +15,7 @@ if (!greetings) {
 }
 
 const greetingsMessage: IgreetingsMessage = (msg) => {
-  sendMessage(msg.chat.id, greetings, {
-    reply_markup: {
-      keyboard: [
-        [{ text: "/createWallet" }, { text: "/showBalance" }],
-        [{ text: "/createExchange" }],
-      ],
-      resize_keyboard: true,
-      one_time_keyboard: false,
-    },
-  });
+  sendMessage(msg.chat.id, greetings, mainMenu);
 };
 
 export default greetingsMessage;
