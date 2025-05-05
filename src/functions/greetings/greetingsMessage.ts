@@ -15,11 +15,9 @@ if (!greetings) {
 }
 
 const greetingsMessage: IgreetingsMessage = (msg) => {
-  sendMessage(
-    msg.chat.id,
-    "🚀 Добро пожаловать в P2P Exchange Bot! Я позволяю безопасно обменивать криптовалюту без посредников.",
-    mainMenu
-  );
+   const chatId = msg.chat.id;
+
+   sendMessage(chatId, greetings, mainMenu);
 };
 
 export default greetingsMessage;
