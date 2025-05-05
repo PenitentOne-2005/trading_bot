@@ -4,6 +4,7 @@ dotenv.config({ path: "/root/trading_bot/.env" });
 
 import { IgreetingsMessage } from "./interface.js";
 import sendMessage from "../send/sendMessage.js";
+import { mainMenu } from "../send/commandKeyboard.js";
 
 const greetings = process.env.GREETINGS;
 if (!greetings) {
@@ -14,7 +15,7 @@ if (!greetings) {
 }
 
 const greetingsMessage: IgreetingsMessage = (msg) => {
-  sendMessage(msg.chat.id, greetings);
+  sendMessage(msg.chat.id, greetings, mainMenu);
 };
 
 export default greetingsMessage;
