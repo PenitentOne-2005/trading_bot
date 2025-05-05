@@ -8,6 +8,6 @@ export const mainMenu: SendMessageOptions = {
       [{ text: "/createExchange" }] as MenuButton[],
     ],
     resize_keyboard: true,
-    one_time_keyboard: false,
+    one_time_keyboard: true,
   },
 };
