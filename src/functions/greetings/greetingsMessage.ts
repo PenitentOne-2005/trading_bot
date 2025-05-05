@@ -15,7 +15,16 @@ if (!greetings) {
 }
 
 const greetingsMessage: IgreetingsMessage = (msg) => {
-  sendMessage(msg.chat.id, greetings, mainMenu);
+  sendMessage(msg.chat.id, greetings, {
+    reply_markup: {
+      keyboard: [
+        [{ text: "/createWallet" }, { text: "/showBalance" }],
+        [{ text: "/createExchange" }],
+      ],
+      resize_keyboard: true,
+      one_time_keyboard: false,
+    },
+  });
 };
 
 export default greetingsMessage;

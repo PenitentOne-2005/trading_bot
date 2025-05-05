@@ -4,10 +4,10 @@ import { MenuButton } from "../../interface.js";
 export const mainMenu: SendMessageOptions = {
   reply_markup: {
     keyboard: [
-      [{ text: "/createWallet" }, { text: "/showBalance" }] as MenuButton[],
-      [{ text: "/createExchange" }] as MenuButton[],
+      [{ text: "/createWallet" }, { text: "/showBalance" }],
+      [{ text: "/createExchange" }],
     ],
     resize_keyboard: true,
-    one_time_keyboard: true,
+    one_time_keyboard: false,
   },
 };
