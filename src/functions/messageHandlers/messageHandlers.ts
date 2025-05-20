@@ -29,6 +29,9 @@ const createMessageHandlers = (chatId: number) => {
     Start: () =>
       sendMessage(chatId, MESSAGE_TEXT.selectLang, selectLanguageBoard),
 
+    "/start": () =>
+      sendMessage(chatId, MESSAGE_TEXT.selectLang, selectLanguageBoard),
+
     Допомога: () => sendMessage(chatId, MESSAGE_TEXT.help, helpKeyBoard),
 
     "Всі оголошення": async () => {

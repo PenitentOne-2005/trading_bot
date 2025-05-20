@@ -1,4 +1,5 @@
 const VALID_COMMANDS = [
+  "/start",
   "I speak English",
   "Я розмовляю українською",
   "Не погоджуюсь",
