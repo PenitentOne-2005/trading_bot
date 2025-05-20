@@ -18,6 +18,7 @@ const createMessageHandlers = (chatId) => {
         "Не погоджуюсь": () => sendMessage(chatId, MESSAGE_TEXT.selectLang, selectLanguageBoard),
         Погоджуюсь: () => sendMessage(chatId, MESSAGE_TEXT.greetings, mainMenu),
         Start: () => sendMessage(chatId, MESSAGE_TEXT.selectLang, selectLanguageBoard),
+        "/start": () => sendMessage(chatId, MESSAGE_TEXT.selectLang, selectLanguageBoard),
         Допомога: () => sendMessage(chatId, MESSAGE_TEXT.help, helpKeyBoard),
         "Всі оголошення": async () => {
             userOffsets[chatId] = 0;
