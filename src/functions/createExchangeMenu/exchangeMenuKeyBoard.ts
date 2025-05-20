@@ -1,0 +1,13 @@
+import { SendMessageOptions } from "node-telegram-bot-api";
+import { MenuButton } from "../../interface.js";
+
+export const exchangeMenuKeyBoard: SendMessageOptions = {
+  reply_markup: {
+    keyboard: [
+      [{ text: "/sellCrypto" }, { text: "/buyCrypto" }] as MenuButton[],
+      [{ text: "/back" }] as MenuButton[],
+    ],
+    resize_keyboard: true,
+    one_time_keyboard: true,
+  },
+};
