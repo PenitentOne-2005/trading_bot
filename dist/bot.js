@@ -25,7 +25,7 @@ bot.on("my_chat_member", async (msg) => {
     if (status === "member") {
         await sendMessage(chatId, greetings, {
             reply_markup: {
-                keyboard: [[{ text: "Start" }]],
+                keyboard: [[{ text: "Старт" }]],
                 resize_keyboard: true,
                 one_time_keyboard: true,
             },
