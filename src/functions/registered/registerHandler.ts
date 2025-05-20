@@ -1,9 +1,9 @@
 import { Iregister } from "./interface.js";
-import createWallet from "../create/createWallet.js";
+import createWallet from "../createWallet/createWallet.js";
 import { saveEncryptedPrivateKey } from "../encrypt/encryptPrivateKey.js";
-import saveUser from "../save/saveUser.js";
-import sendMessage from "../send/sendMessage.js";
-import isUserRegistered from "./isUserRegistered.js";
+import saveUser from "../saveUser/saveUser.js";
+import sendMessage from "../sendMessage/sendMessage.js";
+import isUserRegistered from "../isUserRegistered/isUserRegistered.js";
 
 const registerHandler: Iregister = async (msg) => {
   const { chat, from } = msg;

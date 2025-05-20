@@ -1,19 +1,19 @@
-import { Message } from "node-telegram-bot-api";
-import { IAddress } from "../../interface.js";
+import { Message, SendMessageOptions } from "node-telegram-bot-api";
+import { UserState } from "../../userState.js";
 
-interface WalletData {
-  privateKey: string;
-  address: IAddress;
+interface IPropsFunc {
+  (props: Props): Promise<Message | undefined>;
 }
 
-export interface IcreateWallet {
-  (): Promise<WalletData | undefined>;
-}
+export type ISellOrder = IPropsFunc;
+export type IBuyOrder = IPropsFunc;
 
-export interface IcreateExchange {
-  (msg: Message): void;
-}
-
-export interface IsellCrypto {
-  (msg: Message): void;
+interface Props {
+  currentState: UserState;
+  CRYPTOS: string[];
+  text: string;
+  chatId: number;
+  userState: Record<number, UserState>;
+  username: string;
+  mainMenu: SendMessageOptions;
 }
