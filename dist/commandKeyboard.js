@@ -5,7 +5,7 @@ export const mainMenu = {
             [{ text: "Всі оголошення" }],
             [{ text: "Мої оголошення" }],
             [{ text: "Створити оголошення" }],
-            [{ text: "Домога" }],
+            [{ text: "Допомога" }],
         ],
         resize_keyboard: true,
         one_time_keyboard: false,
