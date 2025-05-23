@@ -1,11 +1,9 @@
 export const sellMenu = {
     reply_markup: {
-        keyboard: [
-            [{ text: "TRX" }],
-            [{ text: "USDT" }],
-            [{ text: "Назад" }],
+        inline_keyboard: [
+            [{ text: "TRX", callback_data: "sell_trx" }],
+            [{ text: "USDT", callback_data: "sell_usdt" }],
+            [{ text: "Назад", callback_data: "back" }],
         ],
-        resize_keyboard: true,
-        one_time_keyboard: true,
     },
 };

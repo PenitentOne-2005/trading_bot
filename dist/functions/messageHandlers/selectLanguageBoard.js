@@ -1,10 +1,8 @@
 export const selectLanguageBoard = {
     reply_markup: {
-        keyboard: [
-            [{ text: "I speak English" }],
-            [{ text: "Я розмовляю українською" }],
+        inline_keyboard: [
+            [{ text: "I speak English", callback_data: "lang_en" }],
+            [{ text: "Я розмовляю українською", callback_data: "lang_ua" }],
         ],
-        resize_keyboard: true,
-        one_time_keyboard: false,
     },
 };

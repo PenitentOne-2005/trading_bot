@@ -1,7 +1,7 @@
 import { IprocessUserMessage } from "./interface.js";
 import ValidCommand from "./validComand.js";
 import { userState } from "../../userState.js";
-import { mainMenu } from "../../commandKeyboard.js";
+import { mainMenu } from "../../mainMenu.js";
 import CRYPTOS from "../../listCrypto.js";
 import createSellOrder from "../create/createSellOrder.js";
 import createBuyOrder from "../create/createBuyOrder.js";

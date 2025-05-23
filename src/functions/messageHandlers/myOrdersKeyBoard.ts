@@ -1,16 +1,13 @@
 import { SendMessageOptions } from "node-telegram-bot-api";
-import { MenuButton } from "../../interface.js";
 
 export const myOrdersKeyBoard: SendMessageOptions = {
   reply_markup: {
-    keyboard: [
-      [{ text: "Очікують реакції" }] as MenuButton[],
-      [{ text: "Активні оголошення" }] as MenuButton[],
-      [{ text: "Завершені" }] as MenuButton[],
-      [{ text: "Створити оголошення" }] as MenuButton[],
-      [{ text: "Назад" }] as MenuButton[],
+    inline_keyboard: [
+      [{ text: "Очікують реакції", callback_data: "pending_orders" }],
+      [{ text: "Активні оголошення", callback_data: "active_orders" }],
+      [{ text: "Завершені", callback_data: "finished_orders" }],
+      [{ text: "Створити оголошення", callback_data: "create_ad" }],
+      [{ text: "Назад", callback_data: "back" }],
     ],
-    resize_keyboard: true,
-    one_time_keyboard: false,
   },
 };

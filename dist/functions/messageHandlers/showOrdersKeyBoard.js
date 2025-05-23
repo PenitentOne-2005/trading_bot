@@ -1,11 +1,9 @@
 export const showOrdersKeyBoard = {
     reply_markup: {
-        keyboard: [
-            [{ text: "Купити криптовалюту" }],
-            [{ text: "Продати криптовалюту" }],
-            [{ text: "Назад" }],
+        inline_keyboard: [
+            [{ text: "Купити криптовалюту", callback_data: "buy_crypto" }],
+            [{ text: "Продати криптовалюту", callback_data: "sell_crypto" }],
+            [{ text: "Назад", callback_data: "back" }],
         ],
-        resize_keyboard: true,
-        one_time_keyboard: false,
     },
 };

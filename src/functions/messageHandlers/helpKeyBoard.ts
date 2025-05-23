@@ -1,14 +1,11 @@
 import { SendMessageOptions } from "node-telegram-bot-api";
-import { MenuButton } from "../../interface.js";
 
 export const helpKeyBoard: SendMessageOptions = {
   reply_markup: {
-    keyboard: [
-      [{ text: "Всі оголошення" }] as MenuButton[],
-      [{ text: "Гаманець" }] as MenuButton[],
-      [{ text: "Назад" }] as MenuButton[],
+    inline_keyboard: [
+      [{ text: "Всі оголошення", callback_data: "all_ads" }],
+      [{ text: "Гаманець", callback_data: "wallet" }],
+      [{ text: "Назад", callback_data: "back" }],
     ],
-    resize_keyboard: true,
-    one_time_keyboard: false,
   },
 };
