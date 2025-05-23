@@ -12,7 +12,7 @@ import sendMessage from "./functions/sendMessage/sendMessage.js";
 import MESSAGE_TEXT from "./functions/messageHandlers/contentText.js";
 import { selectLanguageBoard } from "./functions/messageHandlers/selectLanguageBoard.js";
 import { agreeKeyBoard } from "./functions/messageHandlers/agreeKeyBoard.js";
-import { mainMenu } from "./mainMenu.js";
+import { mainMenu } from "./functions/messageHandlers/mainMenu.js";
 import { userState } from "./userState.js";
 import { userOffsets } from "./userOffsets.js";
 import { showOrdersKeyBoard } from "./functions/messageHandlers/showOrdersKeyBoard.js";
@@ -21,6 +21,10 @@ import { myOrdersKeyBoard } from "./functions/messageHandlers/myOrdersKeyBoard.j
 import { helpKeyBoard } from "./functions/messageHandlers/helpKeyBoard.js";
 import showBuyMenu from "./functions/showBuyMenu/showBuyMenu.js";
 import showSellMenu from "./functions/showSellMenu/showSellMenu.js";
+import { createOrderMenu } from "./createOrderMenu.js";
+import CRYPTOS from "./listCrypto.js";
+import createBuyOrder from "./functions/create/createBuyOrder.js";
+import createSellOrder from "./functions/create/createSellOrder.js";
 
 const greetings = process.env.GREETINGS;
 if (!greetings) {
@@ -61,9 +65,23 @@ bot.on("my_chat_member", async (msg) => {
 
 bot.on("callback_query", async (callbackQuery) => {
   const chatId = callbackQuery.message?.chat.id;
+  const username = callbackQuery.message?.chat.username;
+  const text = callbackQuery.message?.text;
   const data = callbackQuery.data;
 
   if (!chatId || !data) return;
+
+  const currentState = userState[chatId] ?? { step: "idle" };
+
+  const props = {
+    currentState,
+    CRYPTOS,
+    text,
+    chatId,
+    userState,
+    username,
+    mainMenu,
+  };
 
   switch (data) {
     // 🌐 Выбор языка
@@ -103,7 +121,7 @@ bot.on("callback_query", async (callbackQuery) => {
       break;
     case "createOrder":
       userState[chatId] = { step: "waitingForCrypto" };
-      await bot.sendMessage(chatId, MESSAGE_TEXT.buyText, sellMenu);
+      await bot.sendMessage(chatId, MESSAGE_TEXT.buyText, createOrderMenu);
       break;
     case "help":
       await bot.sendMessage(chatId, MESSAGE_TEXT.help, helpKeyBoard);
@@ -115,6 +133,13 @@ bot.on("callback_query", async (callbackQuery) => {
       break;
     case "sell_crypto":
       showSellMenu(userOffsets, chatId);
+      break;
+
+    case "create_buy_crypto":
+      createBuyOrder(props);
+      break;
+    case "create_sell_crypto":
+      createSellOrder(props);
       break;
 
     // 📋 Замовлення
