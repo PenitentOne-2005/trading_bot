@@ -6,6 +6,8 @@ const createBuyOrder: IBuyOrder = async (props) => {
   const { currentState, CRYPTOS, text, chatId, userState, username, mainMenu } =
     props;
 
+  if (!username || !text) return;
+
   switch (true) {
     case currentState.step === "waitingForCrypto": {
       if (!CRYPTOS.includes(text)) {
