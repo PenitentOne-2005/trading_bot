@@ -1,16 +1,13 @@
 import { SendMessageOptions } from "node-telegram-bot-api";
-import { MenuButton } from "../../interface.js";
 
 export const ordersKeyBoard: SendMessageOptions = {
   reply_markup: {
-    keyboard: [
+    inline_keyboard: [
       [
-        { text: "Купити криптовалюту" },
-        { text: "Продати криптовалюту" },
-      ] as MenuButton[],
-      [{ text: "Назад" }] as MenuButton[],
+        { text: "Купити криптовалюту", callback_data: "buy_crypto" },
+        { text: "Продати криптовалюту", callback_data: "sell_crypto" },
+      ],
+      [{ text: "Назад", callback_data: "back" }],
     ],
-    resize_keyboard: true,
-    one_time_keyboard: false,
   },
 };
