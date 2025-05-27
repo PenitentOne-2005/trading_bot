@@ -91,7 +91,7 @@ bot.on("callback_query", async (callbackQuery) => {
             await bot.sendMessage(chatId, MESSAGE_TEXT.myOrders, myOrdersKeyBoard);
             break;
         case "createOrder":
-            userState[chatId] = { step: "waitingForCrypto" };
+            // userState[chatId] = { step: "waitingForCrypto" };
             await bot.sendMessage(chatId, MESSAGE_TEXT.buyText, createOrderMenu);
             break;
         case "help":
