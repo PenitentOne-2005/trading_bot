@@ -17,39 +17,6 @@ const createBuyOrder = async (props) => {
             userState[chatId] = { step: "waitingForCrypto" };
             break;
         }
-        // case "waitingForCrypto": {
-        //   if (!CRYPTOS.includes(text)) {
-        //     return sendMessage(
-        //       chatId,
-        //       "Виберіть криптовалюту, яку хочете купити:",
-        //       {
-        //         reply_markup: {
-        //           inline_keyboard: [
-        //             [{ text: "USDT (TRC-20)", callback_data: "buy_USDT" }],
-        //             [{ text: "USDC (TRC-20)", callback_data: "buy_USDC" }],
-        //             [{ text: "TUSD (TRC-20)", callback_data: "buy_TUSD" }],
-        //             [{ text: "DAI (TRC-20)", callback_data: "buy_DAI" }],
-        //             [{ text: "Назад", callback_data: "back" }],
-        //           ],
-        //         },
-        //       }
-        //     );
-        //   }
-        //   userState[chatId] = {
-        //     ...userState[chatId],
-        //     step: "waitingForAmount",
-        //     crypto: text,
-        //   };
-        //   return sendMessage(
-        //     chatId,
-        //     `💰 Вкажіть суму в ${text}, яку хочете купити:`,
-        //     {
-        //       reply_markup: {
-        //         inline_keyboard: [[{ text: "Назад", callback_data: "back" }]],
-        //       },
-        //     }
-        //   );
-        // }
         case "waitingForAmount": {
             const amount = parseFloat(text);
             if (isNaN(amount) || amount <= 0) {

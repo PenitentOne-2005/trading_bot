@@ -126,7 +126,7 @@ bot.on("callback_query", async (callbackQuery) => {
             }
             userState[chatId] = {
                 ...userState[chatId],
-                step: "waitingForAmount",
+                step: "waitingForPrice",
                 crypto: text,
             };
             sendMessage(chatId, `💰 Вкажіть суму в ${text}, яку хочете купити:`, {
