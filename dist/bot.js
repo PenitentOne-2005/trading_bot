@@ -22,6 +22,7 @@ import { createOrderMenu } from "./createOrderMenu.js";
 import CRYPTOS from "./listCrypto.js";
 import createBuyOrder from "./functions/create/createBuyOrder.js";
 import createSellOrder from "./functions/create/createSellOrder.js";
+import saveRequest from "./functions/saveRequests/saveRequest.js";
 const greetings = process.env.GREETINGS;
 if (!greetings) {
     console.error("❌ GREETINGS не найден! Убедитесь, что он задан в .env файле.");
@@ -52,7 +53,7 @@ bot.on("callback_query", async (callbackQuery) => {
     const username = callbackQuery.message?.chat.username;
     const text = callbackQuery.message?.text;
     const data = callbackQuery.data;
-    if (!chatId || !data)
+    if (!chatId || !data || !text || !username)
         return;
     const currentState = userState[chatId] ?? { step: "idle" };
     const props = {
@@ -91,7 +92,6 @@ bot.on("callback_query", async (callbackQuery) => {
             await bot.sendMessage(chatId, MESSAGE_TEXT.myOrders, myOrdersKeyBoard);
             break;
         case "createOrder":
-            // userState[chatId] = { step: "waitingForCrypto" };
             await bot.sendMessage(chatId, MESSAGE_TEXT.buyText, createOrderMenu);
             break;
         case "help":
@@ -110,6 +110,72 @@ bot.on("callback_query", async (callbackQuery) => {
         case "create_sell_crypto":
             createSellOrder(props);
             break;
+        case "agree_buy":
+            if (!CRYPTOS.includes(text)) {
+                return sendMessage(chatId, "Виберіть криптовалюту, яку хочете купити:", {
+                    reply_markup: {
+                        inline_keyboard: [
+                            [{ text: "USDT (TRC-20)", callback_data: "buy_USDT" }],
+                            [{ text: "USDC (TRC-20)", callback_data: "buy_USDC" }],
+                            [{ text: "TUSD (TRC-20)", callback_data: "buy_TUSD" }],
+                            [{ text: "DAI (TRC-20)", callback_data: "buy_DAI" }],
+                            [{ text: "Назад", callback_data: "back" }],
+                        ],
+                    },
+                });
+            }
+            userState[chatId] = {
+                ...userState[chatId],
+                step: "waitingForAmount",
+                crypto: text,
+            };
+            sendMessage(chatId, `💰 Вкажіть суму в ${text}, яку хочете купити:`, {
+                reply_markup: {
+                    inline_keyboard: [[{ text: "Назад", callback_data: "back" }]],
+                },
+            });
+            break;
+        case "buy_USDT":
+        case "buy_USDC":
+        case "buy_TUSD":
+        case "buy_DAI": {
+            const crypto = data.replace("buy_", "") + " (TRC-20)";
+            userState[chatId] = {
+                ...userState[chatId],
+                step: "waitingForAmount",
+                crypto,
+            };
+            await bot.sendMessage(chatId, `💰 Вкажіть суму в ${crypto}, яку хочете купити:`, {
+                reply_markup: {
+                    inline_keyboard: [[{ text: "Назад", callback_data: "back" }]],
+                },
+            });
+            break;
+        }
+        case "confirmOrder": {
+            const { crypto, amount, price, paymentMethod } = currentState;
+            if (!crypto || !amount || !price || !paymentMethod) {
+                await sendMessage(chatId, "❌ Помилка. Неповні дані заявки.");
+                break;
+            }
+            await saveRequest("buy", username, crypto, amount, price);
+            userState[chatId] = { step: "idle" };
+            await sendMessage(chatId, `✅ Ваше оголошення успішно створено!\n Оголошення N: 123456 ${amount}\n Криптовалюта: ${crypto}\n Ціна ${price}\n Валюта оплати: UAH\n Спосіб оплати: ${paymentMethod}\n Термін дії: 24 години\n Що далі?`, {
+                reply_markup: {
+                    inline_keyboard: [
+                        [{ text: "Мої оголошення", callback_data: "allOrders" }],
+                        [{ text: "💼 Гаманець", callback_data: "wallet" }],
+                        [
+                            {
+                                text: "Створити ще одно оголошення",
+                                callback_data: "createOrder",
+                            },
+                        ],
+                    ],
+                },
+            });
+            break;
+        }
         // 📋 Замовлення
         case "pending_orders":
             await bot.sendMessage(chatId, "⏳ Очікують реакції:");
