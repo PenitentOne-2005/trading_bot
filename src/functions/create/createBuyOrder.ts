@@ -9,56 +9,56 @@ const createBuyOrder: IBuyOrder = async (props) => {
   if (!username || !text) return;
 
   switch (currentState.step) {
-    case "idle": {
-      await sendMessage(
-        chatId,
-        "ВАЖЛИВА ІНФОРМАЦІЯ\n ! Єдиний офіційний канал підтримки: Telegram Support\n ! Не взаємодійте з особами, які видають себе за підтримку. Це шахраї!\n ! Після підтвердження отримання коштів угода вважається завершеною. Блокчейн не підтримує скасування транзакцій.\n ! Ніколи не передавайте свої приватні ключі та не погоджуйтесь на сторонні перевірки.\n Ви погоджуєтеся з цими умовами?",
-        {
-          reply_markup: {
-            inline_keyboard: [
-              [{ text: "Так, я погоджуюсь", callback_data: "agree_buy" }],
-              [{ text: "Назад", callback_data: "back" }],
-            ],
-          },
-        }
-      );
-      userState[chatId] = { step: "waitingForCrypto" };
-      break;
-    }
+    // case "idle": {
+    //   await sendMessage(
+    //     chatId,
+    //     "ВАЖЛИВА ІНФОРМАЦІЯ\n ! Єдиний офіційний канал підтримки: Telegram Support\n ! Не взаємодійте з особами, які видають себе за підтримку. Це шахраї!\n ! Після підтвердження отримання коштів угода вважається завершеною. Блокчейн не підтримує скасування транзакцій.\n ! Ніколи не передавайте свої приватні ключі та не погоджуйтесь на сторонні перевірки.\n Ви погоджуєтеся з цими умовами?",
+    //     {
+    //       reply_markup: {
+    //         inline_keyboard: [
+    //           [{ text: "Так, я погоджуюсь", callback_data: "agree_buy" }],
+    //           [{ text: "Назад", callback_data: "back" }],
+    //         ],
+    //       },
+    //     }
+    //   );
+    //   userState[chatId] = { step: "waitingForCrypto" };
+    //   break;
+    // }
 
-    case "waitingForCrypto": {
-      if (!CRYPTOS.includes(text)) {
-        return sendMessage(
-          chatId,
-          "Виберіть криптовалюту, яку хочете купити:",
-          {
-            reply_markup: {
-              inline_keyboard: [
-                [{ text: "USDT (TRC-20)", callback_data: "buy_USDT" }],
-                [{ text: "USDC (TRC-20)", callback_data: "buy_USDC" }],
-                [{ text: "TUSD (TRC-20)", callback_data: "buy_TUSD" }],
-                [{ text: "DAI (TRC-20)", callback_data: "buy_DAI" }],
-                [{ text: "Назад", callback_data: "back" }],
-              ],
-            },
-          }
-        );
-      }
-      userState[chatId] = {
-        ...userState[chatId],
-        step: "waitingForAmount",
-        crypto: text,
-      };
-      return sendMessage(
-        chatId,
-        `💰 Вкажіть суму в ${text}, яку хочете купити:`,
-        {
-          reply_markup: {
-            inline_keyboard: [[{ text: "Назад", callback_data: "back" }]],
-          },
-        }
-      );
-    }
+    // case "waitingForCrypto": {
+    //   if (!CRYPTOS.includes(text)) {
+    //     return sendMessage(
+    //       chatId,
+    //       "Виберіть криптовалюту, яку хочете купити:",
+    //       {
+    //         reply_markup: {
+    //           inline_keyboard: [
+    //             [{ text: "USDT (TRC-20)", callback_data: "buy_USDT" }],
+    //             [{ text: "USDC (TRC-20)", callback_data: "buy_USDC" }],
+    //             [{ text: "TUSD (TRC-20)", callback_data: "buy_TUSD" }],
+    //             [{ text: "DAI (TRC-20)", callback_data: "buy_DAI" }],
+    //             [{ text: "Назад", callback_data: "back" }],
+    //           ],
+    //         },
+    //       }
+    //     );
+    //   }
+    //   userState[chatId] = {
+    //     ...userState[chatId],
+    //     step: "waitingForAmount",
+    //     crypto: text,
+    //   };
+    //   return sendMessage(
+    //     chatId,
+    //     `💰 Вкажіть суму в ${text}, яку хочете купити:`,
+    //     {
+    //       reply_markup: {
+    //         inline_keyboard: [[{ text: "Назад", callback_data: "back" }]],
+    //       },
+    //     }
+    //   );
+    // }
 
     case "waitingForAmount": {
       const amount = parseFloat(text);
