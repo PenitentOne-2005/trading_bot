@@ -194,6 +194,93 @@ bot.on("callback_query", async (callbackQuery) => {
       break;
     }
 
+    // 📋 Замовлення
+    case "pending_orders":
+      await bot.sendMessage(chatId, "⏳ Очікують реакції:");
+      break;
+    case "active_orders":
+      await bot.sendMessage(chatId, "✅ Активні оголошення:");
+      break;
+    case "finished_orders":
+      await bot.sendMessage(chatId, "📦 Завершені оголошення:");
+      break;
+
+    // 🔘 Продаж конкретної валюти
+    case "sell_trx":
+      await bot.sendMessage(chatId, "🔄 Ви обрали TRX для продажу.");
+      break;
+    case "sell_usdt":
+      await bot.sendMessage(chatId, "🔄 Ви обрали USDT для продажу.");
+      break;
+
+    // ⬅️ Назад
+    case "back":
+      userState[chatId] = { step: "idle" };
+      await bot.sendMessage(chatId, "🔙 Главное меню:", mainMenu);
+      break;
+
+    default:
+      await bot.sendMessage(chatId, "❓ Невідома команда.");
+      break;
+  }
+
+  switch (currentState.step) {
+    case "waitingForPrice": {
+      const price = parseFloat(text);
+      if (isNaN(price) || price <= 0) {
+        return sendMessage(chatId, "❌ Введіть коректну ціну.");
+      }
+      userState[chatId] = {
+        ...userState[chatId],
+        step: "waitingForPaymentMethod",
+        price,
+      };
+      return sendMessage(chatId, "Виберіть спосіб отримання оплати:", {
+        reply_markup: {
+          inline_keyboard: [
+            [
+              {
+                text: "Збережений платіжний метод",
+                callback_data: "pay_method",
+              },
+            ],
+            [
+              {
+                text: "Додати новий платіжний метод",
+                callback_data: "add_pay",
+              },
+            ],
+            [{ text: "Назад", callback_data: "back" }],
+          ],
+        },
+      });
+    }
+
+    case "showSummary": {
+      const state = userState[chatId];
+      return sendMessage(
+        chatId,
+        `📦 Ви створюєте заявку на покупку:\n\n` +
+          `🔸 Криптовалюта: ${state.crypto}\n` +
+          `🔸 Сума: ${state.amount}\n` +
+          `🔸 Ціна: ${state.price} UAH за 1 ${state.crypto}\n\n` +
+          `✅ Спосіб оплати збережено. Підтвердіть заявку або поверніться назад.`,
+        {
+          reply_markup: {
+            inline_keyboard: [
+              [
+                {
+                  text: "Підтвердити заявку",
+                  callback_data: "confirm_buy_order",
+                },
+              ],
+              [{ text: "Назад", callback_data: "back" }],
+            ],
+          },
+        }
+      );
+    }
+
     case "confirmOrder": {
       const { crypto, amount, price, paymentMethod } = currentState;
 
@@ -226,35 +313,6 @@ bot.on("callback_query", async (callbackQuery) => {
       );
       break;
     }
-
-    // 📋 Замовлення
-    case "pending_orders":
-      await bot.sendMessage(chatId, "⏳ Очікують реакції:");
-      break;
-    case "active_orders":
-      await bot.sendMessage(chatId, "✅ Активні оголошення:");
-      break;
-    case "finished_orders":
-      await bot.sendMessage(chatId, "📦 Завершені оголошення:");
-      break;
-
-    // 🔘 Продаж конкретної валюти
-    case "sell_trx":
-      await bot.sendMessage(chatId, "🔄 Ви обрали TRX для продажу.");
-      break;
-    case "sell_usdt":
-      await bot.sendMessage(chatId, "🔄 Ви обрали USDT для продажу.");
-      break;
-
-    // ⬅️ Назад
-    case "back":
-      userState[chatId] = { step: "idle" };
-      await bot.sendMessage(chatId, "🔙 Главное меню:", mainMenu);
-      break;
-
-    default:
-      await bot.sendMessage(chatId, "❓ Невідома команда.");
-      break;
   }
 
   // Удалить "часики" на кнопке
