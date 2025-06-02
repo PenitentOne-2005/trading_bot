@@ -1,7 +1,7 @@
 import sendMessage from "../sendMessage/sendMessage.js";
 const createBuyOrder = async (props) => {
     const { currentState, CRYPTOS, text, chatId, userState, username, mainMenu } = props;
-    if (!username || !text)
+    if (!username)
         return;
     switch (currentState.step) {
         case "idle": {
@@ -17,6 +17,9 @@ const createBuyOrder = async (props) => {
             break;
         }
         case "waitingForAmount": {
+            if (typeof text !== "string") {
+                return sendMessage(chatId, "❌ Введіть коректну суму.");
+            }
             const amount = parseFloat(text);
             if (isNaN(amount) || amount <= 0) {
                 return sendMessage(chatId, "❌ Введіть коректну суму.");
