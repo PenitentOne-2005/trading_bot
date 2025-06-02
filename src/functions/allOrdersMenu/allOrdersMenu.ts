@@ -1,6 +1,6 @@
 import { IAllOrdersMenu } from "./interface.js";
 import sendMessage from "../sendMessage/sendMessage.js";
-import { showOrdersKeyBoard } from "../messageHandlers/showOrdersKeyBoard.js";
+import { showOrdersKeyBoard } from "../callbackHandlers/showOrdersKeyBoard.js";
 
 const allOrdersMenu: IAllOrdersMenu = async (chatId) => {
   await sendMessage(
