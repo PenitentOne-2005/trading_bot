@@ -19,7 +19,7 @@ const processUserMessage = async (msg) => {
                 }
                 userState[chatId] = {
                     ...currentState,
-                    step: "waitingForPaymentMethod",
+                    step: "showSummary",
                     price,
                 };
                 return sendMessage(chatId, "Виберіть спосіб отримання оплати:", {
@@ -60,6 +60,10 @@ const processUserMessage = async (msg) => {
             }
             case "showSummary": {
                 const state = currentState;
+                userState[chatId] = {
+                    ...currentState,
+                    step: "confirmOrder",
+                };
                 return sendMessage(chatId, `📦 Ви створюєте заявку на покупку:\n\n` +
                     `🔸 Криптовалюта: ${state.crypto}\n` +
                     `🔸 Сума: ${state.amount}\n` +
@@ -69,8 +73,14 @@ const processUserMessage = async (msg) => {
                         inline_keyboard: [
                             [
                                 {
-                                    text: "Підтвердити заявку",
+                                    text: "Так, опублікувати",
                                     callback_data: "confirm_buy_order",
+                                },
+                            ],
+                            [
+                                {
+                                    text: "Скасувати",
+                                    callback_data: "cancel_buy_order",
                                 },
                             ],
                             [{ text: "Назад", callback_data: "back" }],
