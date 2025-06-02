@@ -1,6 +1,6 @@
 import sendMessage from "../sendMessage/sendMessage.js";
 const createBuyOrder = async (props) => {
-    const { currentState, CRYPTOS, text, chatId, userState, username, mainMenu } = props;
+    const { currentState, text, chatId, userState, username } = props;
     if (!username)
         return;
     switch (currentState.step) {
