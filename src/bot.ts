@@ -25,6 +25,7 @@ import { createOrderMenu } from "./createOrderMenu.js";
 import CRYPTOS from "./listCrypto.js";
 import createBuyOrder from "./functions/create/createBuyOrder.js";
 import createSellOrder from "./functions/create/createSellOrder.js";
+import saveRequest from "./functions/saveRequests/saveRequest.js";
 
 const greetings = process.env.GREETINGS;
 if (!greetings) {
@@ -191,6 +192,81 @@ bot.on("callback_query", async (callbackQuery) => {
         }
       );
       break;
+    }
+
+    case "pay_method": {
+      const state = currentState;
+
+      if (state?.step === "showSummary") {
+        userState[chatId] = {
+          ...currentState,
+          step: "confirmOrder",
+        };
+
+        return sendMessage(
+          chatId,
+          `📦 Ви створюєте заявку на покупку:\n\n` +
+            `🔸 Криптовалюта: ${state.crypto}\n` +
+            `🔸 Сума: ${state.amount}\n` +
+            `🔸 Ціна: ${state.price} UAH за 1 ${state.crypto}\n\n` +
+            `✅ Спосіб оплати збережено. Підтвердіть заявку або поверніться назад.`,
+          {
+            reply_markup: {
+              inline_keyboard: [
+                [
+                  {
+                    text: "Так, опублікувати",
+                    callback_data: "confirm_buy_order",
+                  },
+                ],
+                [
+                  {
+                    text: "Скасувати",
+                    callback_data: "cancel_buy_order",
+                  },
+                ],
+                [{ text: "Назад", callback_data: "back" }],
+              ],
+            },
+          }
+        );
+      }
+    }
+
+    case "confirm_buy_order": {
+      const state = currentState;
+
+      if (state?.step === "confirmOrder") {
+        const { crypto, amount, price, paymentMethod } = currentState;
+
+        if (!crypto || !amount || !price || !paymentMethod) {
+          await sendMessage(chatId, "❌ Помилка. Неповні дані заявки.");
+          break;
+        }
+
+        await saveRequest("buy", username, crypto, amount, price);
+
+        userState[chatId] = { step: "idle" };
+
+        sendMessage(
+          chatId,
+          `✅ Ваше оголошення успішно створено!\n Оголошення N: 123456 ${amount}\n Криптовалюта: ${crypto}\n Ціна ${price}\n Валюта оплати: UAH\n Спосіб оплати: ${paymentMethod}\n Термін дії: 24 години\n Що далі?`,
+          {
+            reply_markup: {
+              inline_keyboard: [
+                [{ text: "Мої оголошення", callback_data: "allOrders" }],
+                [{ text: "💼 Гаманець", callback_data: "wallet" }],
+                [
+                  {
+                    text: "Створити ще одно оголошення",
+                    callback_data: "createOrder",
+                  },
+                ],
+              ],
+            },
+          }
+        );
+      }
     }
 
     // 📋 Замовлення
