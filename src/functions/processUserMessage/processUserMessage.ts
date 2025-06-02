@@ -50,6 +50,27 @@ const processUserMessage: IprocessUserMessage = async (msg) => {
         });
       }
 
+      case "waitingForAmount": {
+        const amount = parseFloat(text);
+        if (isNaN(amount) || amount <= 0) {
+          return sendMessage(chatId, "❌ Введіть коректну суму.");
+        }
+        userState[chatId] = {
+          ...userState[chatId],
+          step: "waitingForPrice",
+          amount,
+        };
+        return sendMessage(
+          chatId,
+          `💸 Встановіть ціну в UAH за 1 ${userState[chatId].crypto}:`,
+          {
+            reply_markup: {
+              inline_keyboard: [[{ text: "Назад", callback_data: "back" }]],
+            },
+          }
+        );
+      }
+
       case "showSummary": {
         const state = currentState;
         return sendMessage(
