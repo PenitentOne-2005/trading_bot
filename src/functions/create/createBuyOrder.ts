@@ -2,8 +2,7 @@ import { IBuyOrder } from "./interface.js";
 import sendMessage from "../sendMessage/sendMessage.js";
 
 const createBuyOrder: IBuyOrder = async (props) => {
-  const { currentState, CRYPTOS, text, chatId, userState, username, mainMenu } =
-    props;
+  const { currentState, text, chatId, userState, username } = props;
 
   if (!username) return;
 
