@@ -170,7 +170,7 @@ bot.on("callback_query", async (callbackQuery) => {
           inline_keyboard: [[{ text: "Назад", callback_data: "back" }]],
         },
       });
-      break;
+    break;
 
     case "buy_USDT":
     case "buy_USDC":
