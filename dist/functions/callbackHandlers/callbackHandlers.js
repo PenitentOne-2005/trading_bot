@@ -17,6 +17,7 @@ import { showOrdersKeyBoard } from "./showOrdersKeyBoard.js";
 import { myOrdersKeyBoard } from "./myOrdersKeyBoard.js";
 import { createOrderMenu } from "../../createOrderMenu.js";
 import { helpKeyBoard } from "./helpKeyBoard.js";
+import showOrders from "../showOrders/showOrders.js";
 const callbackHandlers = {
     // 🌐 Выбор языка
     lang_en: ({ chatId }) => sendMessage(chatId, MESSAGE_TEXT.unsuportLang, selectLanguageBoard),
@@ -38,6 +39,24 @@ const callbackHandlers = {
     sell_crypto: ({ chatId }) => showSellMenu(userOffsets, chatId),
     create_buy_crypto: createBuyOrder,
     create_sell_crypto: createSellOrder,
+    buy_crypto_next: ({ chatId }) => {
+        userOffsets[chatId] = (userOffsets[chatId] ?? 0) + 2;
+        showOrders({
+            chatId,
+            dbName: "buy_requests",
+            userOffsets,
+            text: "Список заявок",
+        });
+    },
+    buy_crypto_prev: ({ chatId }) => {
+        userOffsets[chatId] = Math.max((userOffsets[chatId] ?? 0) - 2, 0);
+        showOrders({
+            chatId,
+            dbName: "buy_requests",
+            userOffsets,
+            text: "Список заявок",
+        });
+    },
     agree_buy: ({ chatId, text }) => {
         if (!text)
             return;
