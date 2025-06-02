@@ -1,3 +1,6 @@
+import { SendMessageOptions } from "node-telegram-bot-api";
+import { UserState } from "./userState.js";
+
 export interface IAddress {
   base58: string;
   hex: string;
@@ -6,3 +9,13 @@ export interface IAddress {
 export type MenuButton = {
   text: string;
 };
+
+export interface CallbackProps {
+  chatId: number;
+  username: string;
+  text: string;
+  CRYPTOS: string[];
+  userState: Record<number, UserState>;
+  currentState: UserState;
+  mainMenu: SendMessageOptions;
+}
