@@ -192,8 +192,8 @@ bot.on("callback_query", async (callbackQuery) => {
             const state = currentState;
             if (state?.step === "confirmOrder") {
                 const { crypto, amount, price, paymentMethod } = currentState;
-                if (!crypto || !amount || !price || !paymentMethod) {
-                    await sendMessage(chatId, "❌ Помилка. Неповні дані заявки.");
+                if (!crypto || !amount || !price) {
+                    sendMessage(chatId, "❌ Помилка. Неповні дані заявки.");
                     break;
                 }
                 await saveRequest("buy", username, crypto, amount, price);
