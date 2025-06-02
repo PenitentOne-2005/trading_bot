@@ -203,13 +203,18 @@ bot.on("callback_query", async (callbackQuery) => {
           step: "confirmOrder",
         };
 
+        const { crypto, price, paymentMethod } = currentState;
+
         return sendMessage(
           chatId,
-          `📦 Ви створюєте заявку на покупку:\n\n` +
-            `🔸 Криптовалюта: ${state.crypto}\n` +
-            `🔸 Сума: ${state.amount}\n` +
-            `🔸 Ціна: ${state.price} UAH за 1 ${state.crypto}\n\n` +
-            `✅ Спосіб оплати збережено. Підтвердіть заявку або поверніться назад.`,
+          `📦 Перегляд оголошення\n\n` +
+            `🔸 Оголошення N: 123456` +
+            `🔸 Криптовалюта: ${crypto}\n` +
+            `🔸 Ціна: ${price} UAH за 1 ${crypto}\n\n` +
+            `🔸 Валюта оплати: UAH\n` +
+            `🔸 Спосіб оплати: ${paymentMethod} \n` +
+            `🔸 Термін дії: 24 години \n` +
+            `✅ Все вірно?`,
           {
             reply_markup: {
               inline_keyboard: [
