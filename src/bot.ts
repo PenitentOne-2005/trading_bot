@@ -6,7 +6,6 @@ import bot from "./botInstance.js";
 import registerHandler from "./functions/registered/registerHandler.js";
 import processUserMessage from "./functions/processUserMessage/processUserMessage.js";
 import showWalletBalance from "./functions/showWalletBalance/showWalletBalance.js";
-import createExchange from "./functions/createExchangeMenu/createExchangeMenu.js";
 import buyCrypto from "./functions/buyCryptoMenu/buyCryptoMenu.js";
 import sendMessage from "./functions/sendMessage/sendMessage.js";
 import { mainMenu } from "./functions/callbackHandlers/mainMenu.js";
@@ -27,8 +26,6 @@ bot.on("message", processUserMessage);
 bot.onText(/\/createWallet/, registerHandler);
 
 bot.onText(/\/showBalance/, showWalletBalance);
-
-bot.onText(/\/createExchange/, createExchange);
 
 bot.onText(/\/buyCrypto/, buyCrypto);
 
