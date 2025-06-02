@@ -25,7 +25,7 @@ const processUserMessage: IprocessUserMessage = async (msg) => {
 
         userState[chatId] = {
           ...currentState,
-          step: "waitingForPaymentMethod",
+          step: "showSummary",
           price,
         };
 
@@ -73,6 +73,12 @@ const processUserMessage: IprocessUserMessage = async (msg) => {
 
       case "showSummary": {
         const state = currentState;
+
+        userState[chatId] = {
+          ...currentState,
+          step: "confirmOrder",
+        };
+        
         return sendMessage(
           chatId,
           `📦 Ви створюєте заявку на покупку:\n\n` +
@@ -85,8 +91,14 @@ const processUserMessage: IprocessUserMessage = async (msg) => {
               inline_keyboard: [
                 [
                   {
-                    text: "Підтвердити заявку",
+                    text: "Так, опублікувати",
                     callback_data: "confirm_buy_order",
+                  },
+                ],
+                [
+                  {
+                    text: "Скасувати",
+                    callback_data: "cancel_buy_order",
                   },
                 ],
                 [{ text: "Назад", callback_data: "back" }],
