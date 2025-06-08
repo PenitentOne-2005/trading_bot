@@ -2,7 +2,7 @@ import { ISaveUser } from "./interface.js";
 import pool from "../../db.js";
 
 const saveUser: ISaveUser = async (data) => {
-  const { chat, username, address, encryptedPrivateKey } = data;
+  const { chatId, username, address, encryptedPrivateKey } = data;
 
   try {
     await pool.query(
@@ -12,9 +12,9 @@ const saveUser: ISaveUser = async (data) => {
        SET wallet_address = EXCLUDED.wallet_address, 
            private_key = EXCLUDED.private_key, 
            username = EXCLUDED.username;`,
-      [chat.id, username, address, encryptedPrivateKey]
+      [chatId, username, address, encryptedPrivateKey]
     );
-    console.log(`✅ Пользователь ${chat.id} сохранен`);
+    console.log(`✅ Пользователь ${chatId} сохранен`);
   } catch (error) {
     console.error("❌ Ошибка при сохранении пользователя:", error);
   }
