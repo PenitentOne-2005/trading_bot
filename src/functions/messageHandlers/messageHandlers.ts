@@ -11,8 +11,3 @@ const createMessageHandlers = (chatId: number) => {
 };
 
 export default createMessageHandlers;
-
-// case text === "/next": {
-//     userOffsets[chatId] = (userOffsets[chatId] ?? 0) + 1;
-//     // return showOrders(userOffsets, chatId);
-//   }
