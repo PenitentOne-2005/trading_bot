@@ -34,10 +34,10 @@ const callbackHandlers: Record<
     sendMessage(chatId, MESSAGE_TEXT.lang, agreeKeyBoard),
 
   // ✅ Согласие
-  agree_yes: ({ chatId }) => {
-    isUserRegistered(chatId);
+  agree_yes: async ({ chatId }) => {
+    const isUser = await isUserRegistered(chatId);
 
-    createWallet();
+    isUser ? console.log("Кошелек уже создан") : createWallet();
 
     return sendMessage(chatId, MESSAGE_TEXT.greetings, mainMenu);
   },
