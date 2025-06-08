@@ -1,4 +1,4 @@
-import { IAddress } from "../../interface";
+import { IAddress } from "../../interface.js";
 
 interface WalletData {
   privateKey: string;
