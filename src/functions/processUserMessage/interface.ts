@@ -1,5 +1,20 @@
 import { Message } from "node-telegram-bot-api";
+import { UserState } from "../../userState.js";
 
-export interface IprocessUserMessage {
-  (msg: Message): void;
+interface BaseProps {
+  userState: Record<number, UserState>;
+  chatId: number;
+  text: string;
 }
+
+export interface IWaitingForPriceProps extends BaseProps {
+  currentState: UserState;
+}
+
+export type IWaitingForPrice = (
+  props: IWaitingForPriceProps
+) => Promise<Message>;
+
+export type IWaitingForAmount = (props: BaseProps) => Promise<Message>;
+
+export type IProcessUserMessage = (msg: Message) => void;
