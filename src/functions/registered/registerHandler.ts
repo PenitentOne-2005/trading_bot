@@ -5,12 +5,9 @@ import saveUser from "../saveUser/saveUser.js";
 import sendMessage from "../sendMessage/sendMessage.js";
 import isUserRegistered from "../isUserRegistered/isUserRegistered.js";
 
-const registerHandler: Iregister = async (msg) => {
-  const { chat, from } = msg;
-  const username = from?.username || "Неизвестный";
-
-  if (await isUserRegistered(chat.id)) {
-    return sendMessage(chat.id, "Ты уже зарегистрирован! 🚀");
+const registerHandler: Iregister = async (chatId, username) => {
+  if (await isUserRegistered(chatId)) {
+    return "Кошелек уже создан";
   }
 
   try {
@@ -20,11 +17,10 @@ const registerHandler: Iregister = async (msg) => {
     const { privateKey, address } = result;
     const encryptedPrivateKey = saveEncryptedPrivateKey(privateKey);
 
-    await saveUser({ chat, username, address, encryptedPrivateKey });
-    sendMessage(chat.id, `Твой кошелек был создан: ${address.base58}`);
+    await saveUser({ chatId, username, address, encryptedPrivateKey });
   } catch (error) {
     console.error("❌ Ошибка при создании кошелька:", error);
-    sendMessage(chat.id, "Не удалось создать кошелек. Попробуй позже.");
+    sendMessage(chatId, "Не удалось создать кошелек. Попробуй позже.");
   }
 };
 
