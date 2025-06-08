@@ -1,7 +1,6 @@
 import dotenv from "dotenv";
 dotenv.config();
 import bot from "./botInstance.js";
-import registerHandler from "./functions/registered/registerHandler.js";
 import processUserMessage from "./functions/processUserMessage/processUserMessage.js";
 import showWalletBalance from "./functions/showWalletBalance/showWalletBalance.js";
 import buyCrypto from "./functions/buyCryptoMenu/buyCryptoMenu.js";
@@ -16,7 +15,6 @@ if (!greetings) {
     process.exit(1);
 }
 bot.on("message", processUserMessage);
-bot.onText(/\/createWallet/, registerHandler);
 bot.onText(/\/showBalance/, showWalletBalance);
 bot.onText(/\/buyCrypto/, buyCrypto);
 bot.on("my_chat_member", async (msg) => {

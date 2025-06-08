@@ -19,15 +19,17 @@ import { createOrderMenu } from "../../createOrderMenu.js";
 import { helpKeyBoard } from "./helpKeyBoard.js";
 import showOrders from "../showOrders/showOrders.js";
 import isUserRegistered from "../isUserRegistered/isUserRegistered.js";
-import createWallet from "../createWallet/createWallet.js";
+import registerHandler from "../registered/registerHandler.js";
 const callbackHandlers = {
     // 🌐 Выбор языка
     lang_en: ({ chatId }) => sendMessage(chatId, MESSAGE_TEXT.unsuportLang, selectLanguageBoard),
     lang_ua: ({ chatId }) => sendMessage(chatId, MESSAGE_TEXT.lang, agreeKeyBoard),
     // ✅ Согласие
-    agree_yes: ({ chatId }) => {
-        isUserRegistered(chatId);
-        createWallet();
+    agree_yes: async ({ chatId, username }) => {
+        const isUser = await isUserRegistered(chatId);
+        if (!isUser) {
+            registerHandler(chatId, username);
+        }
         return sendMessage(chatId, MESSAGE_TEXT.greetings, mainMenu);
     },
     agree_no: ({ chatId }) => sendMessage(chatId, MESSAGE_TEXT.selectLang, selectLanguageBoard),
