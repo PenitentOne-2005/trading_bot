@@ -20,6 +20,8 @@ import { createOrderMenu } from "../../createOrderMenu.js";
 import { helpKeyBoard } from "./helpKeyBoard.js";
 import { CallbackProps } from "../../interface.js";
 import showOrders from "../showOrders/showOrders.js";
+import isUserRegistered from "../isUserRegistered/isUserRegistered.js";
+import createWallet from "../createWallet/createWallet.js";
 
 const callbackHandlers: Record<
   string,
@@ -32,8 +34,13 @@ const callbackHandlers: Record<
     sendMessage(chatId, MESSAGE_TEXT.lang, agreeKeyBoard),
 
   // ✅ Согласие
-  agree_yes: ({ chatId }) =>
-    sendMessage(chatId, MESSAGE_TEXT.greetings, mainMenu),
+  agree_yes: ({ chatId }) => {
+    isUserRegistered(chatId);
+
+    createWallet();
+
+    return sendMessage(chatId, MESSAGE_TEXT.greetings, mainMenu);
+  },
   agree_no: ({ chatId }) =>
     sendMessage(chatId, MESSAGE_TEXT.selectLang, selectLanguageBoard),
 
