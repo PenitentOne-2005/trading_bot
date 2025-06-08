@@ -18,12 +18,18 @@ import { myOrdersKeyBoard } from "./myOrdersKeyBoard.js";
 import { createOrderMenu } from "../../createOrderMenu.js";
 import { helpKeyBoard } from "./helpKeyBoard.js";
 import showOrders from "../showOrders/showOrders.js";
+import isUserRegistered from "../isUserRegistered/isUserRegistered.js";
+import createWallet from "../createWallet/createWallet.js";
 const callbackHandlers = {
     // 🌐 Выбор языка
     lang_en: ({ chatId }) => sendMessage(chatId, MESSAGE_TEXT.unsuportLang, selectLanguageBoard),
     lang_ua: ({ chatId }) => sendMessage(chatId, MESSAGE_TEXT.lang, agreeKeyBoard),
     // ✅ Согласие
-    agree_yes: ({ chatId }) => sendMessage(chatId, MESSAGE_TEXT.greetings, mainMenu),
+    agree_yes: ({ chatId }) => {
+        isUserRegistered(chatId);
+        createWallet();
+        return sendMessage(chatId, MESSAGE_TEXT.greetings, mainMenu);
+    },
     agree_no: ({ chatId }) => sendMessage(chatId, MESSAGE_TEXT.selectLang, selectLanguageBoard),
     // 📂 Головне меню
     wallet: ({ chatId }) => sendMessage(chatId, "💼 Ваш гаманець:"),

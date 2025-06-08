@@ -1,6 +1,8 @@
 import createMessageHandlers from "../messageHandlers/messageHandlers.js";
 import sendMessage from "../sendMessage/sendMessage.js";
 import { userState } from "../../userState.js";
+import waitingForPrice from "./waitingForPrice.js";
+import waitingForAmount from "./waitingForAmount.js";
 const processUserMessage = async (msg) => {
     const { chat, text } = msg;
     const chatId = chat.id;
@@ -11,64 +13,32 @@ const processUserMessage = async (msg) => {
     if (currentState?.step) {
         switch (currentState.step) {
             case "waitingForPrice": {
-                const price = parseFloat(text);
-                if (isNaN(price) || price <= 0) {
-                    return sendMessage(chatId, "❌ Введіть коректну ціну.");
-                }
-                userState[chatId] = {
-                    ...currentState,
-                    step: "showSummary",
-                    price,
+                const props = {
+                    userState,
+                    currentState,
+                    chatId,
+                    text,
                 };
-                return sendMessage(chatId, "Виберіть спосіб отримання оплати:", {
-                    reply_markup: {
-                        inline_keyboard: [
-                            [
-                                {
-                                    text: "Збережений платіжний метод",
-                                    callback_data: "pay_method",
-                                },
-                            ],
-                            [
-                                {
-                                    text: "Додати новий платіжний метод",
-                                    callback_data: "add_pay",
-                                },
-                            ],
-                            [{ text: "Назад", callback_data: "back" }],
-                        ],
-                    },
-                });
+                waitingForPrice(props);
             }
             case "waitingForAmount": {
-                const amount = parseFloat(text);
-                if (isNaN(amount) || amount <= 0) {
-                    return sendMessage(chatId, "❌ Введіть коректну суму.");
-                }
-                userState[chatId] = {
-                    ...userState[chatId],
-                    step: "waitingForPrice",
-                    amount,
+                const props = {
+                    userState,
+                    chatId,
+                    text,
                 };
-                return sendMessage(chatId, `💸 Встановіть ціну в UAH за 1 ${userState[chatId].crypto}:`, {
-                    reply_markup: {
-                        inline_keyboard: [[{ text: "Назад", callback_data: "back" }]],
-                    },
-                });
+                waitingForAmount(props);
             }
             default:
-                await sendMessage(chatId, "⚠️ Невідомий крок. Скиньте, будь ласка, команду ще раз.");
+                sendMessage(chatId, "⚠️ Невідомий крок. Скиньте, будь ласка, команду ще раз.");
                 userState[chatId] = { step: "idle" };
                 break;
         }
         return;
     }
     const handlers = createMessageHandlers(chatId);
-    if (text in handlers) {
-        await handlers[text]();
-    }
-    else {
-        await sendMessage(chatId, "Невідома команда.");
-    }
+    text in handlers
+        ? await handlers[text]()
+        : await sendMessage(chatId, "Невідома команда.");
 };
 export default processUserMessage;
