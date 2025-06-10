@@ -11,17 +11,7 @@ if (!encryptionKey) {
   throw new Error("ENCRYPTION_KEY is not defined in .env file!");
 }
 
-const initDB = async () => {
-  await pool.query(`
-    CREATE TABLE IF NOT EXISTS user_keys (
-      user_id BIGINT PRIMARY KEY,
-      encrypted_private_key TEXT NOT NULL,
-      iv TEXT NOT NULL
-    );
-  `);
-};
-
-const encryptPrivateKey = (privateKey: string) => {
+export const encryptPrivateKey = (privateKey: string) => {
   const iv = CryptoJS.lib.WordArray.random(16);
 
   const encrypted = CryptoJS.AES.encrypt(
@@ -55,28 +45,9 @@ const decryptPrivateKey = (encryptedKey: string, ivBase64: string): string => {
   return decrypted.toString(CryptoJS.enc.Utf8);
 };
 
-export const saveEncryptedPrivateKeyToDB = async (
-  userId: number,
-  privateKey: string
-) => {
-  const { encryptedKey, iv } = encryptPrivateKey(privateKey);
-
-  await pool.query(
-    `
-    INSERT INTO user_keys (user_id, encrypted_private_key, iv)
-    VALUES ($1, $2, $3)
-    ON CONFLICT (user_id)
-    DO UPDATE SET encrypted_private_key = EXCLUDED.encrypted_private_key, iv = EXCLUDED.iv
-    `,
-    [userId, encryptedKey, iv]
-  );
-
-  return encryptedKey;
-};
-
 export const getPrivateKeyFromDB: IGetPrivateKeyFromDB = async (userId) => {
   const res = await pool.query(
-    `SELECT encrypted_private_key, iv FROM user_keys WHERE user_id = $1`,
+    `SELECT private_key, iv FROM users WHERE telegram_id = $1`,
     [userId]
   );
 
@@ -85,7 +56,3 @@ export const getPrivateKeyFromDB: IGetPrivateKeyFromDB = async (userId) => {
   const { encrypted_private_key, iv } = res.rows[0];
   return decryptPrivateKey(encrypted_private_key, iv);
 };
-
-initDB()
-  .then(() => console.log("Таблица user_keys готова"))
-  .catch(console.error);
