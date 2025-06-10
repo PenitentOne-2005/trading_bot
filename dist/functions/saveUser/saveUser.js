@@ -5,7 +5,7 @@ const saveUser = async (data) => {
         await pool.query(`
       CREATE TABLE IF NOT EXISTS users (
         id SERIAL PRIMARY KEY,
-        telegram_id BIGINT KEY,
+        telegram_id BIGINT,
         username TEXT,
         wallet_address TEXT,
         private_key TEXT,
