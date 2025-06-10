@@ -3,13 +3,8 @@ import createWallet from "../createWallet/createWallet.js";
 import { encryptPrivateKey } from "../encrypt/encryptPrivateKey.js";
 import saveUser from "../saveUser/saveUser.js";
 import sendMessage from "../sendMessage/sendMessage.js";
-import isUserRegistered from "../isUserRegistered/isUserRegistered.js";
 
 const registerHandler: Iregister = async (chatId, username) => {
-  if (await isUserRegistered(chatId)) {
-    return "Кошелек уже создан";
-  }
-
   try {
     const result = await createWallet();
     if (!result) throw new Error("Ошибка создания кошелька.");
