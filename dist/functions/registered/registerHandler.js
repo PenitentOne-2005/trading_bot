@@ -1,5 +1,5 @@
 import createWallet from "../createWallet/createWallet.js";
-import { saveEncryptedPrivateKey } from "../encrypt/encryptPrivateKey.js";
+import { saveEncryptedPrivateKeyToDB } from "../encrypt/encryptPrivateKey.js";
 import saveUser from "../saveUser/saveUser.js";
 import sendMessage from "../sendMessage/sendMessage.js";
 import isUserRegistered from "../isUserRegistered/isUserRegistered.js";
@@ -12,7 +12,7 @@ const registerHandler = async (chatId, username) => {
         if (!result)
             throw new Error("Ошибка создания кошелька.");
         const { privateKey, address } = result;
-        const encryptedPrivateKey = saveEncryptedPrivateKey(privateKey);
+        const encryptedPrivateKey = saveEncryptedPrivateKeyToDB(chatId, privateKey);
         await saveUser({ chatId, username, address, encryptedPrivateKey });
     }
     catch (error) {

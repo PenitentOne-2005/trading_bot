@@ -20,11 +20,12 @@ import { helpKeyBoard } from "./helpKeyBoard.js";
 import showOrders from "../showOrders/showOrders.js";
 import isUserRegistered from "../isUserRegistered/isUserRegistered.js";
 import registerHandler from "../registered/registerHandler.js";
+import showWallet from "../showWallet/showWallet.js";
+import promptPrivateKeyConfirmation from "../promptPrivateKeyConfirmation/promptPrivateKeyConfirmation.js";
+import sendPrivateKeyWithWarning from "../sendPrivateKeyWithWarning/sendPrivateKeyWithWarning.js";
 const callbackHandlers = {
-    // 🌐 Выбор языка
     lang_en: ({ chatId }) => sendMessage(chatId, MESSAGE_TEXT.unsuportLang, selectLanguageBoard),
     lang_ua: ({ chatId }) => sendMessage(chatId, MESSAGE_TEXT.lang, agreeKeyBoard),
-    // ✅ Согласие
     agree_yes: async ({ chatId, username }) => {
         const isUser = await isUserRegistered(chatId);
         if (!isUser) {
@@ -33,8 +34,7 @@ const callbackHandlers = {
         return sendMessage(chatId, MESSAGE_TEXT.greetings, mainMenu);
     },
     agree_no: ({ chatId }) => sendMessage(chatId, MESSAGE_TEXT.selectLang, selectLanguageBoard),
-    // 📂 Головне меню
-    wallet: ({ chatId }) => sendMessage(chatId, "💼 Ваш гаманець:"),
+    wallet: async ({ chatId }) => await showWallet(chatId),
     allOrders: ({ chatId }) => {
         userOffsets[chatId] = 0;
         sendMessage(chatId, MESSAGE_TEXT.allOrders, showOrdersKeyBoard);
@@ -42,7 +42,8 @@ const callbackHandlers = {
     myOrders: ({ chatId }) => sendMessage(chatId, MESSAGE_TEXT.myOrders, myOrdersKeyBoard),
     createOrder: ({ chatId }) => sendMessage(chatId, MESSAGE_TEXT.buyText, createOrderMenu),
     help: ({ chatId }) => sendMessage(chatId, MESSAGE_TEXT.help, helpKeyBoard),
-    // 💰 Покупка / Продажа
+    getPrivateKey: ({ chatId }) => promptPrivateKeyConfirmation(chatId),
+    private_key: async ({ chatId }) => sendPrivateKeyWithWarning(chatId),
     buy_crypto: ({ chatId }) => showBuyMenu(userOffsets, chatId),
     sell_crypto: ({ chatId }) => showSellMenu(userOffsets, chatId),
     create_buy_crypto: createBuyOrder,
