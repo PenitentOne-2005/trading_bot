@@ -1,7 +1,7 @@
 import { TronWeb } from "tronweb";
 import dotenv from "dotenv";
 import BigNumber from "bignumber.js";
-import getPrivateKey from "../encrypt/encryptPrivateKey.js";
+import { getPrivateKeyFromDB } from "../encrypt/encryptPrivateKey.js";
 import getWalletBalance from "../balance/getWalletBalance.js";
 import sendMessage from "../sendMessage/sendMessage.js";
 import sendCryptoTransaction from "../sendCryptoTransaction/sendCryptoTransaction.js";
@@ -12,7 +12,7 @@ const TRONGRID_API_KEY = process.env.TRONGRID_API_KEY!;
 
 const sendCrypto = async (amount: number, chatId: number) => {
   try {
-    const privateKey = getPrivateKey();
+    const privateKey = await getPrivateKeyFromDB(chatId);
     if (!privateKey) {
       return sendMessage(chatId, "❌ Приватный ключ не найден");
     }
@@ -26,7 +26,7 @@ const sendCrypto = async (amount: number, chatId: number) => {
     const balanceRaw = await getWalletBalance();
     if (balanceRaw == null) return;
 
-    const balanceInSun = new BigNumber(tronWebUser.toSun(balanceRaw));
+    const balanceInSun = new BigNumber(tronWebUser.toSun(balanceRaw.trx));
     if (balanceInSun.isLessThan(new BigNumber(tronWebUser.toSun(amount)))) {
       return sendMessage(chatId, "❌ Недостаточно средств на кошельке.");
     }

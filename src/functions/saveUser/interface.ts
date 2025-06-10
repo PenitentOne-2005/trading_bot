@@ -4,7 +4,7 @@ interface IData {
   chatId: number;
   username: string;
   address: IAddress;
-  encryptedPrivateKey: string;
+  encryptedPrivateKey: Promise<string>;
 }
 
 export interface ISaveUser {

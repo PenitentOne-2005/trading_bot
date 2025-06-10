@@ -1,3 +1,3 @@
-export interface IencryptPrivateKey {
-  (privateKey: string): string;
+export interface IGetPrivateKeyFromDB {
+  (userId: number): Promise<string | null>;
 }

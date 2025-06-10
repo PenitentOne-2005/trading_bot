@@ -1,3 +1,6 @@
 export interface IgetWalletBalance {
-  (): Promise<number | undefined>;
+  (): Promise<{
+    trx: number;
+    usdt: number;
+} | null>
 }

@@ -22,18 +22,19 @@ import { CallbackProps } from "../../interface.js";
 import showOrders from "../showOrders/showOrders.js";
 import isUserRegistered from "../isUserRegistered/isUserRegistered.js";
 import registerHandler from "../registered/registerHandler.js";
+import showWallet from "../showWallet/showWallet.js";
+import promptPrivateKeyConfirmation from "../promptPrivateKeyConfirmation/promptPrivateKeyConfirmation.js";
+import sendPrivateKeyWithWarning from "../sendPrivateKeyWithWarning/sendPrivateKeyWithWarning.js";
 
 const callbackHandlers: Record<
   string,
   (props: CallbackProps) => void | Promise<Message | void>
 > = {
-  // 🌐 Выбор языка
   lang_en: ({ chatId }) =>
     sendMessage(chatId, MESSAGE_TEXT.unsuportLang, selectLanguageBoard),
   lang_ua: ({ chatId }) =>
     sendMessage(chatId, MESSAGE_TEXT.lang, agreeKeyBoard),
 
-  // ✅ Согласие
   agree_yes: async ({ chatId, username }) => {
     const isUser = await isUserRegistered(chatId);
 
@@ -46,8 +47,7 @@ const callbackHandlers: Record<
   agree_no: ({ chatId }) =>
     sendMessage(chatId, MESSAGE_TEXT.selectLang, selectLanguageBoard),
 
-  // 📂 Головне меню
-  wallet: ({ chatId }) => sendMessage(chatId, "💼 Ваш гаманець:"),
+  wallet: async ({ chatId }) => await showWallet(chatId),
   allOrders: ({ chatId }) => {
     userOffsets[chatId] = 0;
     sendMessage(chatId, MESSAGE_TEXT.allOrders, showOrdersKeyBoard);
@@ -58,7 +58,10 @@ const callbackHandlers: Record<
     sendMessage(chatId, MESSAGE_TEXT.buyText, createOrderMenu),
   help: ({ chatId }) => sendMessage(chatId, MESSAGE_TEXT.help, helpKeyBoard),
 
-  // 💰 Покупка / Продажа
+  getPrivateKey: ({ chatId }) => promptPrivateKeyConfirmation(chatId),
+
+  private_key: async ({ chatId }) => sendPrivateKeyWithWarning(chatId),
+
   buy_crypto: ({ chatId }) => showBuyMenu(userOffsets, chatId),
   sell_crypto: ({ chatId }) => showSellMenu(userOffsets, chatId),
   create_buy_crypto: createBuyOrder,
