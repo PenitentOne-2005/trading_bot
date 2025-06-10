@@ -6,7 +6,7 @@ import sendMessage from "../sendMessage/sendMessage.js";
 
 const showWallet: IShowWallet = async (chatId) => {
   const balance = await getWalletBalance();
-  const wallet = getWalletAddress();
+  const wallet = await getWalletAddress();
 
   return sendMessage(
     chatId,
