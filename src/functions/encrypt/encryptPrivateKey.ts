@@ -53,6 +53,6 @@ export const getPrivateKeyFromDB: IGetPrivateKeyFromDB = async (userId) => {
 
   if (res.rowCount === 0) return null;
 
-  const { encrypted_private_key, iv } = res.rows[0];
-  return decryptPrivateKey(encrypted_private_key, iv);
+  const { private_key, iv } = res.rows[0];
+  return decryptPrivateKey(private_key, iv);
 };
