@@ -31,6 +31,6 @@ export const getPrivateKeyFromDB = async (userId) => {
     const res = await pool.query(`SELECT private_key, iv FROM users WHERE telegram_id = $1`, [userId]);
     if (res.rowCount === 0)
         return null;
-    const { encrypted_private_key, iv } = res.rows[0];
-    return decryptPrivateKey(encrypted_private_key, iv);
+    const { private_key, iv } = res.rows[0];
+    return decryptPrivateKey(private_key, iv);
 };
