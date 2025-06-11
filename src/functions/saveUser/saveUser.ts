@@ -1,5 +1,6 @@
 import { ISaveUser } from "./interface.js";
 import pool from "../../db.js";
+import sendMessage from "../sendMessage/sendMessage.js";
 
 const saveUser: ISaveUser = async (data) => {
   const { chatId, username, address, encryptedKey, iv } = data;
@@ -30,6 +31,7 @@ const saveUser: ISaveUser = async (data) => {
     console.log(`✅ Пользователь ${chatId} сохранен`);
   } catch (error) {
     console.error("❌ Ошибка при сохранении пользователя:", error);
+    sendMessage(chatId, "❌ Ошибка при сохранении пользователя");
   }
 };
 

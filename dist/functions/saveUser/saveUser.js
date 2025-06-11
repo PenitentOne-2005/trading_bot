@@ -1,4 +1,5 @@
 import pool from "../../db.js";
+import sendMessage from "../sendMessage/sendMessage.js";
 const saveUser = async (data) => {
     const { chatId, username, address, encryptedKey, iv } = data;
     try {
@@ -23,6 +24,7 @@ const saveUser = async (data) => {
     }
     catch (error) {
         console.error("❌ Ошибка при сохранении пользователя:", error);
+        sendMessage(chatId, "❌ Ошибка при сохранении пользователя");
     }
 };
 export default saveUser;
