@@ -2,7 +2,7 @@ import { Message, SendMessageOptions } from "node-telegram-bot-api";
 import { UserState } from "../../userState.js";
 
 interface IPropsFunc {
-  (props: Props): Promise<Message | undefined>;
+  (props: Props): Promise<void | undefined>;
 }
 
 export type ISellOrder = IPropsFunc;
