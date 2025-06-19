@@ -1,6 +1,6 @@
 import sendMessage from "../sendMessage/sendMessage.js";
 const createBuyOrder = async (props) => {
-    const { currentState, text, chatId, userState, username } = props;
+    const { currentState, chatId, userState, username } = props;
     if (!username)
         return;
     switch (currentState.step) {
@@ -15,25 +15,6 @@ const createBuyOrder = async (props) => {
             });
             userState[chatId] = { step: "waitingForCrypto" };
             break;
-        }
-        case "waitingForAmount": {
-            if (typeof text !== "string") {
-                return sendMessage(chatId, "❌ Введіть коректну суму.");
-            }
-            const amount = parseFloat(text);
-            if (isNaN(amount) || amount <= 0) {
-                return sendMessage(chatId, "❌ Введіть коректну суму.");
-            }
-            userState[chatId] = {
-                ...userState[chatId],
-                step: "waitingForPrice",
-                amount,
-            };
-            return sendMessage(chatId, `💸 Встановіть ціну в UAH за 1 ${userState[chatId].crypto}:`, {
-                reply_markup: {
-                    inline_keyboard: [[{ text: "Назад", callback_data: "back" }]],
-                },
-            });
         }
         default:
             break;
