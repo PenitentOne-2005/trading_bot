@@ -1,58 +1,52 @@
 import { ISellOrder } from "./interface.js";
 import sendMessage from "../sendMessage/sendMessage.js";
-import saveRequest from "../saveRequests/saveRequest.js";
 
 const createSellOrder: ISellOrder = async (props) => {
-  const { currentState, CRYPTOS, text, chatId, userState, username, mainMenu } =
-    props;
+  const { currentState, text, chatId, userState, username } = props;
 
-  if (!username || !text) return;
+  if (!username) return;
 
-  switch (true) {
-    case currentState.step === "waitingForCrypto": {
-      if (!CRYPTOS.includes(text)) {
-        return sendMessage(
-          chatId,
-          "❌ Пожалуйста, выбери криптовалюту кнопкой."
-        );
-      }
-
-      userState[chatId] = { step: "waitingForAmount", crypto: text };
-      return sendMessage(
-        chatId,
-        `💰 Введи сумму ${text}, которую хочешь продать:`
-      );
-    }
-
-    case currentState.step === "waitingForAmount": {
-      const amount = parseFloat(text);
-      if (isNaN(amount) || amount <= 0) {
-        return sendMessage(chatId, "❌ Введи корректную сумму.");
-      }
-
-      return sendMessage(chatId, `💸 Введи цену за 1 ${currentState.crypto}:`);
-    }
-
-    case currentState.step === "waitingForPrice": {
-      const price = parseFloat(text);
-      if (isNaN(price) || price <= 0) {
-        return sendMessage(chatId, "❌ Введи корректную цену.");
-      }
-
-      await saveRequest(
-        "sell",
-        username,
-        currentState.crypto!,
-        currentState.amount!,
-        price
-      );
+  switch (currentState.step) {
+    case "idle": {
       await sendMessage(
         chatId,
-        `✅ Заявка на продажу ${currentState.amount} ${currentState.crypto} создана!\nКак только заявка будет обработана, ты получишь уведомление!`
+        "ВАЖЛИВА ІНФОРМАЦІЯ\n ! Єдиний офіційний канал підтримки: Telegram Support\n ! Не взаємодійте з особами, які видають себе за підтримку. Це шахраї!\n ! Після підтвердження отримання коштів угода вважається завершеною. Блокчейн не підтримує скасування транзакцій.\n ! Ніколи не передавайте свої приватні ключі та не погоджуйтесь на сторонні перевірки.\n Ви погоджуєтеся з цими умовами?",
+        {
+          reply_markup: {
+            inline_keyboard: [
+              [{ text: "Так, я погоджуюсь", callback_data: "agree_buy" }],
+              [{ text: "Назад", callback_data: "back" }],
+            ],
+          },
+        }
       );
+      userState[chatId] = { step: "waitingForCrypto" };
+      break;
+    }
 
-      userState[chatId] = { step: "idle" };
-      return sendMessage(chatId, "🔙 Главное меню:", mainMenu);
+    case "waitingForAmount": {
+      if (typeof text !== "string") {
+        return sendMessage(chatId, "❌ Введіть коректну суму.");
+      }
+
+      const amount = parseFloat(text);
+      if (isNaN(amount) || amount <= 0) {
+        return sendMessage(chatId, "❌ Введіть коректну суму.");
+      }
+      userState[chatId] = {
+        ...userState[chatId],
+        step: "waitingForPrice",
+        amount,
+      };
+      return sendMessage(
+        chatId,
+        `💸 Встановіть ціну в UAH за 1 ${userState[chatId].crypto}:`,
+        {
+          reply_markup: {
+            inline_keyboard: [[{ text: "Назад", callback_data: "back" }]],
+          },
+        }
+      );
     }
 
     default:
