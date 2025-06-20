@@ -19,7 +19,7 @@ const processUserMessage = async (msg) => {
                     chatId,
                     text,
                 };
-                waitingForPrice(props);
+                return waitingForPrice(props);
             }
             case "waitingForAmount": {
                 const props = {
@@ -27,7 +27,7 @@ const processUserMessage = async (msg) => {
                     chatId,
                     text,
                 };
-                waitingForAmount(props);
+                return waitingForAmount(props);
             }
             default:
                 sendMessage(chatId, "⚠️ Невідомий крок. Скиньте, будь ласка, команду ще раз.");
