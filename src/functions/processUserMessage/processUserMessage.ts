@@ -25,7 +25,7 @@ const processUserMessage: IProcessUserMessage = async (msg) => {
           text,
         };
 
-        waitingForPrice(props);
+        return waitingForPrice(props);
       }
 
       case "waitingForAmount": {
@@ -35,7 +35,7 @@ const processUserMessage: IProcessUserMessage = async (msg) => {
           text,
         };
 
-        waitingForAmount(props);
+        return waitingForAmount(props);
       }
 
       default:
