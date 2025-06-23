@@ -1,4 +1,4 @@
-import { Message, SendMessageOptions } from "node-telegram-bot-api";
+import { SendMessageOptions } from "node-telegram-bot-api";
 import { UserState } from "../../userState.js";
 
 interface IPropsFunc {
