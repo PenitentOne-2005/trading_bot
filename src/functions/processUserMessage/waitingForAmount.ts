@@ -2,14 +2,14 @@ import sendMessage from "../sendMessage/sendMessage.js";
 import { IWaitingForAmount } from "./interface.js";
 
 const waitingForAmount: IWaitingForAmount = (props) => {
-  const { userState, chatId, text } = props;
+  const { userState, currentState, chatId, text } = props;
 
   const amount = parseFloat(text);
   if (isNaN(amount) || amount <= 0) {
     return sendMessage(chatId, "❌ Введіть коректну суму.");
   }
   userState[chatId] = {
-    ...userState[chatId],
+    ...currentState,
     step: "waitingForPrice",
     amount,
   };
