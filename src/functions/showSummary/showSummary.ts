@@ -3,12 +3,15 @@ import { IshowSummary } from "./interface.js";
 import menu from "./menu.js";
 
 const showSummary: IshowSummary = async (chatId, userState) => {
-  userState[chatId] = {
-    ...userState[chatId],
-    step: "confirmOrder",
-  };
+  const currentState = userState[chatId];
 
-  const { crypto, price, paymentMethod } = userState[chatId];
+  if (!currentState) return;
+
+  const { crypto, price, paymentMethod } = currentState;
+
+  if (!crypto || !price || !paymentMethod) {
+    return sendMessage(chatId, "❌ Дані неповні для перегляду оголошення.");
+  }
 
   return sendMessage(
     chatId,
