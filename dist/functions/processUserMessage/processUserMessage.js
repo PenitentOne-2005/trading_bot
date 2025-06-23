@@ -5,6 +5,11 @@ import waitingForPrice from "./waitingForPrice.js";
 import waitingForAmount from "./waitingForAmount.js";
 import savePayments from "./savePayments.js";
 import showSummary from "../showSummary/showSummary.js";
+const greetings = process.env.GREETINGS;
+if (!greetings) {
+    console.error("❌ GREETINGS не найден! Убедитесь, что он задан в .env файле.");
+    process.exit(1);
+}
 const processUserMessage = async (msg) => {
     const { chat, text } = msg;
     const chatId = chat.id;
@@ -115,6 +120,17 @@ const processUserMessage = async (msg) => {
                 return sendMessage(chatId, "⚠️ Невідомий крок. Скиньте, будь ласка, команду ще раз.");
             }
         }
+    }
+    if (text === "/start") {
+        await sendMessage(chatId, greetings, {
+            reply_markup: {
+                keyboard: [[{ text: "Старт" }]],
+                resize_keyboard: true,
+                one_time_keyboard: true,
+            },
+        });
+        userState[chatId] = { step: "idle" };
+        return;
     }
     const handlers = createMessageHandlers(chatId);
     return text in handlers
