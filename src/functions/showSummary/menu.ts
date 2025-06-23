@@ -1,4 +1,6 @@
-const menu = {
+import { SendMessageOptions } from "node-telegram-bot-api";
+
+const menu: SendMessageOptions = {
   reply_markup: {
     inline_keyboard: [
       [
