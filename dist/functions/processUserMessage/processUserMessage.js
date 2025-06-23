@@ -5,6 +5,8 @@ import waitingForPrice from "./waitingForPrice.js";
 import waitingForAmount from "./waitingForAmount.js";
 import savePayments from "./savePayments.js";
 import showSummary from "../showSummary/showSummary.js";
+import { selectLanguageBoard } from "../../selectLanguageBoard.js";
+import MESSAGE_TEXT from "../../contentText.js";
 const greetings = process.env.GREETINGS;
 if (!greetings) {
     console.error("❌ GREETINGS не найден! Убедитесь, что он задан в .env файле.");
@@ -122,13 +124,7 @@ const processUserMessage = async (msg) => {
         }
     }
     if (text === "/start") {
-        await sendMessage(chatId, greetings, {
-            reply_markup: {
-                keyboard: [[{ text: "Старт" }]],
-                resize_keyboard: true,
-                one_time_keyboard: true,
-            },
-        });
+        await sendMessage(chatId, MESSAGE_TEXT.selectLang, selectLanguageBoard);
         userState[chatId] = { step: "idle" };
         return;
     }
