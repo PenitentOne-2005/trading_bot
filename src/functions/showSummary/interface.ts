@@ -5,6 +5,5 @@ export interface IshowSummary {
   (
     chatId: number,
     userState: Record<number, UserState>,
-    currentState: UserState
   ): Promise<Message | undefined>;
 }
