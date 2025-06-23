@@ -32,7 +32,7 @@ const processUserMessage = async (msg) => {
                 if (/^\d{16}$/.test(text)) {
                     const obj = JSON.stringify({ text });
                     await savePayments(chatId, obj);
-                    return await showSummary(chatId, userState, currentState);
+                    return await showSummary(chatId, userState, userState[chatId]);
                 }
                 else {
                     return sendMessage(chatId, "❌ Помилка! Невірний номер картки.\nНомер банківської картки повинен містити рівно 16 цифр без пробілів або символів.\nБудь ласка, введіть коректний номер карти:", {
