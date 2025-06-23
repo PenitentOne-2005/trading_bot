@@ -1,12 +1,12 @@
 import sendMessage from "../sendMessage/sendMessage.js";
 const waitingForPrice = (props) => {
-    const { userState, currentState, chatId, text } = props;
+    const { userState, chatId, text } = props;
     const price = parseFloat(text);
     if (isNaN(price) || price <= 0) {
         return sendMessage(chatId, "❌ Введіть коректну ціну.");
     }
     userState[chatId] = {
-        ...currentState,
+        ...userState[chatId],
         step: "showSummary",
         price,
     };
