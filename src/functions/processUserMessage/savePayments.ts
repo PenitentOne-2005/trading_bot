@@ -10,8 +10,10 @@ const savePayments = async (chatId: number, metadata: any) => {
           );
         `);
     await pool.query(
-      `INSERT INTO users (telegram_id, metadata)
+      `INSERT INTO payments (telegram_id, metadata)
            VALUES ($1, $2)
+           ON CONFLICT (telegram_id) DO UPDATE
+           SET metadata = EXCLUDED.metadata
           `,
       [chatId, metadata]
     );
