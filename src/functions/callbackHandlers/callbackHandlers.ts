@@ -112,6 +112,11 @@ const callbackHandlers: Record<
   card: async ({ chatId }) => {
     userState[chatId] = { step: "waitingForCard" };
 
+    userState[chatId] = {
+      ...userState[chatId],
+      paymentMethod: "Картка",
+    };
+
     sendMessage(chatId, "Введіть номер вашої картки (16 цифр):", {
       reply_markup: {
         inline_keyboard: [
@@ -124,6 +129,11 @@ const callbackHandlers: Record<
 
   IBAN: async ({ chatId }) => {
     userState[chatId] = { step: "waitingForIBAN" };
+
+    userState[chatId] = {
+      ...userState[chatId],
+      paymentMethod: "IBAN",
+    };
 
     sendMessage(chatId, "Введiть номер IBAN:", {
       reply_markup: {
