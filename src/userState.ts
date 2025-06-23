@@ -5,7 +5,17 @@ export type UserStep =
   | "waitingForPrice"
   | "waitingForPaymentMethod"
   | "showSummary"
-  | "confirmOrder";
+  | "confirmOrder"
+  | "waitingForCard"
+  | "waitingForIBAN"
+  | "waitingForIPN"
+  | "waitingForName";
+
+export interface IBANData {
+  IBAN?: string;
+  IPN?: string;
+  name?: string;
+}
 
 export interface UserState {
   step: UserStep;
@@ -14,7 +24,11 @@ export interface UserState {
   method?: string;
   price?: number;
   paymentMethod?: string;
+
+  // 👇 Добавь это:
+  IBANdata?: IBANData;
 }
+  
 
 // chatId -> состояние
 export const userState: Record<number, UserState> = {};
