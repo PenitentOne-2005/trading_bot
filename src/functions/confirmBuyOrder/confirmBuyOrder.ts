@@ -4,12 +4,12 @@ import saveRequest from "../saveRequests/saveRequest.js";
 import sendMessage from "../sendMessage/sendMessage.js";
 
 const confirmBuyOrder: IconfirmByOrder = async (obj) => {
-  const { currentState, userState, chatId, username } = obj;
+  const { userState, chatId, username } = obj;
 
-  const state = currentState;
+  const state = userState[chatId];
 
   if (state?.step === "confirmOrder") {
-    const { crypto, amount, price, paymentMethod } = currentState;
+    const { crypto, amount, price, paymentMethod } = state;
 
     if (!crypto || !amount || !price) {
       return sendMessage(chatId, "❌ Помилка. Неповні дані заявки.");

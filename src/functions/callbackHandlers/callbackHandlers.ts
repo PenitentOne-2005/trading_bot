@@ -139,8 +139,7 @@ const callbackHandlers: Record<
   confirm_buy_order: ({ chatId, username }) => {
     if (!username) return;
 
-    const currentState = userState[chatId];
-    confirmBuyOrder({ chatId, username, currentState, userState });
+    confirmBuyOrder({ chatId, username, userState });
   },
 
   back: async ({ chatId }) => {

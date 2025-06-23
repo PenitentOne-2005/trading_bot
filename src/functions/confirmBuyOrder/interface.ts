@@ -6,7 +6,6 @@ export interface IconfirmByOrder {
 }
 
 interface Props {
-  currentState: UserState;
   userState: Record<number, UserState>;
   chatId: number;
   username: string;
