@@ -32,7 +32,7 @@ const processUserMessage = async (msg) => {
                 if (/^\d{16}$/.test(text)) {
                     const obj = JSON.stringify({ text });
                     await savePayments(chatId, obj);
-                    return await showSummary(chatId, userState, userState[chatId]);
+                    return await showSummary(chatId, userState);
                 }
                 else {
                     return sendMessage(chatId, "❌ Помилка! Невірний номер картки.\nНомер банківської картки повинен містити рівно 16 цифр без пробілів або символів.\nБудь ласка, введіть коректний номер карти:", {
@@ -107,7 +107,7 @@ const processUserMessage = async (msg) => {
                         IBANdata,
                     };
                     await savePayments(chatId, JSON.stringify(IBANdata));
-                    return showSummary(chatId, userState, currentState);
+                    return showSummary(chatId, userState);
                 }
                 else {
                     return sendMessage(chatId, "❌ Помилка! Невірний формат ПІБ.\nПрізвище, ім'я та по батькові повинні містити тільки літери українського або латинського алфавіту.\nПриклад: Іваненко Іван Іванович", {

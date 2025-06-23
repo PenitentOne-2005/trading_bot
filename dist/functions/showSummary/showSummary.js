@@ -1,11 +1,11 @@
 import sendMessage from "../sendMessage/sendMessage.js";
 import menu from "./menu.js";
-const showSummary = async (chatId, userState, currentState) => {
+const showSummary = async (chatId, userState) => {
     userState[chatId] = {
-        ...currentState,
+        ...userState[chatId],
         step: "confirmOrder",
     };
-    const { crypto, price, paymentMethod } = currentState;
+    const { crypto, price, paymentMethod } = userState[chatId];
     return sendMessage(chatId, `📦 Перегляд оголошення\n\n` +
         `🔸 Оголошення N: 123456\n` +
         `🔸 Криптовалюта: ${crypto}\n` +

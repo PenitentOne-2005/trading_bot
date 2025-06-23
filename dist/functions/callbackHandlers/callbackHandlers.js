@@ -72,8 +72,7 @@ const callbackHandlers = {
         handleCryptoSelection({ chatId, text, CRYPTOS, userState });
     },
     pay_method: ({ chatId }) => {
-        const currentState = userState[chatId];
-        showSummary(chatId, userState, currentState);
+        showSummary(chatId, userState);
     },
     add_pay: ({ chatId }) => {
         sendMessage(chatId, "Додати новий платіжний метод:", {
