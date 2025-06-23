@@ -8,6 +8,14 @@ import waitingForAmount from "./waitingForAmount.js";
 import savePayments from "./savePayments.js";
 import showSummary from "../showSummary/showSummary.js";
 
+const greetings = process.env.GREETINGS;
+if (!greetings) {
+  console.error(
+    "❌ GREETINGS не найден! Убедитесь, что он задан в .env файле."
+  );
+  process.exit(1);
+}
+
 const processUserMessage: IProcessUserMessage = async (msg) => {
   const { chat, text } = msg;
   const chatId = chat.id;
@@ -158,6 +166,19 @@ const processUserMessage: IProcessUserMessage = async (msg) => {
         );
       }
     }
+  }
+
+  if (text === "/start") {
+    await sendMessage(chatId, greetings, {
+      reply_markup: {
+        keyboard: [[{ text: "Старт" }]],
+        resize_keyboard: true,
+        one_time_keyboard: true,
+      },
+    });
+
+    userState[chatId] = { step: "idle" };
+    return;
   }
 
   const handlers = createMessageHandlers(chatId);
