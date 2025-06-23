@@ -75,6 +75,39 @@ const callbackHandlers = {
         const currentState = userState[chatId];
         showSummary(chatId, userState, currentState);
     },
+    add_pay: ({ chatId }) => {
+        sendMessage(chatId, "Додати новий платіжний метод:", {
+            reply_markup: {
+                inline_keyboard: [
+                    [{ text: "Банківська карта", callback_data: "card" }],
+                    [{ text: "Банківський рахунок (IBAN)", callback_data: "IBAN" }],
+                    [{ text: "Назад", callback_data: "back" }],
+                ],
+            },
+        });
+    },
+    card: async ({ chatId }) => {
+        userState[chatId] = { step: "waitingForCard" };
+        sendMessage(chatId, "Введіть номер вашої картки (16 цифр):", {
+            reply_markup: {
+                inline_keyboard: [
+                    [{ text: "Назад", callback_data: "back" }],
+                    [{ text: "Скасувати", callback_data: "back" }],
+                ],
+            },
+        });
+    },
+    IBAN: async ({ chatId }) => {
+        userState[chatId] = { step: "waitingForIBAN" };
+        sendMessage(chatId, "Введiть номер IBAN:", {
+            reply_markup: {
+                inline_keyboard: [
+                    [{ text: "Назад", callback_data: "back" }],
+                    [{ text: "Скасувати", callback_data: "back" }],
+                ],
+            },
+        });
+    },
     confirm_buy_order: ({ chatId, username }) => {
         if (!username)
             return;
