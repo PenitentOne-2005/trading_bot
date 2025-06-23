@@ -21,11 +21,11 @@ const processUserMessage = async (msg) => {
     if (currentState?.step) {
         switch (currentState.step) {
             case "waitingForPrice": {
-                const props = { userState, chatId, text };
+                const props = { userState, currentState, chatId, text };
                 return waitingForPrice(props);
             }
             case "waitingForAmount": {
-                const props = { userState, chatId, text };
+                const props = { userState, currentState, chatId, text };
                 return waitingForAmount(props);
             }
             case "waitingForCard": {
