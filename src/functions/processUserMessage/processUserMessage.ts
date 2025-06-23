@@ -42,6 +42,11 @@ const processUserMessage: IProcessUserMessage = async (msg) => {
         if (/^\d{16}$/.test(text)) {
           const obj = JSON.stringify({ text });
 
+          userState[chatId] = {
+            ...userState[chatId],
+            step: "confirmOrder",
+          };
+
           await savePayments(chatId, obj);
           return await showSummary(chatId, userState);
         } else {
