@@ -1,4 +1,4 @@
-import pool from "../../db";
+import pool from "../../db.js";
 
 const savePayments = async (chatId: number, metadata: any) => {
   try {
