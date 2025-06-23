@@ -1,11 +1,13 @@
 import sendMessage from "../sendMessage/sendMessage.js";
 import menu from "./menu.js";
 const showSummary = async (chatId, userState) => {
-    userState[chatId] = {
-        ...userState[chatId],
-        step: "confirmOrder",
-    };
-    const { crypto, price, paymentMethod } = userState[chatId];
+    const currentState = userState[chatId];
+    if (!currentState)
+        return;
+    const { crypto, price, paymentMethod } = currentState;
+    if (!crypto || !price || !paymentMethod) {
+        return sendMessage(chatId, "❌ Дані неповні для перегляду оголошення.");
+    }
     return sendMessage(chatId, `📦 Перегляд оголошення\n\n` +
         `🔸 Оголошення N: 123456\n` +
         `🔸 Криптовалюта: ${crypto}\n` +
