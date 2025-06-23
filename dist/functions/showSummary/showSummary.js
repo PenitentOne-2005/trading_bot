@@ -4,8 +4,9 @@ const showSummary = async (chatId, userState) => {
     const currentState = userState[chatId];
     if (!currentState)
         return;
-    const { crypto, price, paymentMethod } = currentState;
-    if (!crypto || !price || !paymentMethod) {
+    const { crypto, price } = currentState;
+    const paymentMethod = "";
+    if (!crypto || !price) {
         return sendMessage(chatId, "❌ Дані неповні для перегляду оголошення.");
     }
     return sendMessage(chatId, `📦 Перегляд оголошення\n\n` +
