@@ -29,7 +29,7 @@ const processUserMessage: IProcessUserMessage = async (msg) => {
   if (currentState?.step) {
     switch (currentState.step) {
       case "waitingForPrice": {
-        const props = { userState, currentState, chatId, text };
+        const props = { userState, chatId, text };
         return waitingForPrice(props);
       }
 

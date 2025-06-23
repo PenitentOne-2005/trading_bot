@@ -7,13 +7,7 @@ interface BaseProps {
   text: string;
 }
 
-export interface IWaitingForPriceProps extends BaseProps {
-  currentState: UserState;
-}
-
-export type IWaitingForPrice = (
-  props: IWaitingForPriceProps
-) => Promise<Message>;
+export type IWaitingForPrice = (props: BaseProps) => Promise<Message>;
 
 export type IWaitingForAmount = (props: BaseProps) => Promise<Message>;
 
