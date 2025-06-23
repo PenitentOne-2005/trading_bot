@@ -94,8 +94,7 @@ const callbackHandlers: Record<
   },
 
   pay_method: ({ chatId }) => {
-    const currentState = userState[chatId];
-    showSummary(chatId, userState, currentState);
+    showSummary(chatId, userState);
   },
 
   add_pay: ({ chatId }) => {

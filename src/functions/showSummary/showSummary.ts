@@ -2,13 +2,13 @@ import sendMessage from "../sendMessage/sendMessage.js";
 import { IshowSummary } from "./interface.js";
 import menu from "./menu.js";
 
-const showSummary: IshowSummary = async (chatId, userState, currentState) => {
+const showSummary: IshowSummary = async (chatId, userState) => {
   userState[chatId] = {
-    ...currentState,
+    ...userState[chatId],
     step: "confirmOrder",
   };
 
-  const { crypto, price, paymentMethod } = currentState;
+  const { crypto, price, paymentMethod } = userState[chatId];
 
   return sendMessage(
     chatId,

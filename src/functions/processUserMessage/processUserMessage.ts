@@ -43,7 +43,7 @@ const processUserMessage: IProcessUserMessage = async (msg) => {
           const obj = JSON.stringify({ text });
 
           await savePayments(chatId, obj);
-          return await showSummary(chatId, userState, userState[chatId]);
+          return await showSummary(chatId, userState);
         } else {
           return sendMessage(
             chatId,
@@ -146,7 +146,7 @@ const processUserMessage: IProcessUserMessage = async (msg) => {
           };
 
           await savePayments(chatId, JSON.stringify(IBANdata));
-          return showSummary(chatId, userState, currentState);
+          return showSummary(chatId, userState);
         } else {
           return sendMessage(
             chatId,
