@@ -80,6 +80,7 @@ const processUserMessage = async (msg) => {
                     userState[chatId] = {
                         ...userState[chatId],
                         step: "waitingForName",
+                        paymentMethod: "IBAN",
                         IBANdata: {
                             ...(userState[chatId]?.IBANdata || {}),
                             IPN: text,
@@ -110,6 +111,7 @@ const processUserMessage = async (msg) => {
                     };
                     userState[chatId] = {
                         ...userState[chatId],
+                        paymentMethod: "IBAN",
                         IBANdata,
                     };
                     await savePayments(chatId, JSON.stringify(IBANdata));
