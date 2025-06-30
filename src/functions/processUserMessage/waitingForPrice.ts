@@ -2,7 +2,7 @@ import sendMessage from "../sendMessage/sendMessage.js";
 import { IWaitingForPrice } from "./interface.js";
 
 const waitingForPrice: IWaitingForPrice = (props) => {
-  const { userState, currentState, chatId, text } = props;
+  const { userState, chatId, text } = props;
 
   const price = parseFloat(text);
   if (isNaN(price) || price <= 0) {
@@ -11,7 +11,7 @@ const waitingForPrice: IWaitingForPrice = (props) => {
 
   userState[chatId] = {
     ...userState[chatId],
-    step: "showSummary",
+    step: "waitingForPaymentMethod",
     price,
   };
 
