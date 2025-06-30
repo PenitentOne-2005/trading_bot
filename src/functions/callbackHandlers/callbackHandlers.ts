@@ -132,10 +132,9 @@ const callbackHandlers: Record<
   },
 
   IBAN: async ({ chatId }) => {
-    userState[chatId] = { step: "waitingForIBAN" };
-
     userState[chatId] = {
       ...userState[chatId],
+      step: "waitingForIBAN",
       paymentMethod: "IBAN",
     };
 
