@@ -23,6 +23,7 @@ import registerHandler from "../registered/registerHandler.js";
 import showWallet from "../showWallet/showWallet.js";
 import promptPrivateKeyConfirmation from "../promptPrivateKeyConfirmation/promptPrivateKeyConfirmation.js";
 import sendPrivateKeyWithWarning from "../sendPrivateKeyWithWarning/sendPrivateKeyWithWarning.js";
+import getPaymentFromDB from "../getPaymentFromDB/getPaymentFromDB.js";
 const callbackHandlers = {
     lang_en: ({ chatId }) => sendMessage(chatId, MESSAGE_TEXT.unsuportLang, selectLanguageBoard),
     lang_ua: ({ chatId }) => sendMessage(chatId, MESSAGE_TEXT.lang, agreeKeyBoard),
@@ -71,8 +72,30 @@ const callbackHandlers = {
             return;
         handleCryptoSelection({ chatId, text, CRYPTOS, userState });
     },
-    pay_method: ({ chatId }) => {
-        showSummary(chatId, userState);
+    pay_method: async ({ chatId }) => {
+        const savedPayment = await getPaymentFromDB(chatId);
+        if (savedPayment) {
+            userState[chatId] = {
+                ...userState[chatId],
+                paymentMethod: savedPayment,
+            };
+            return showSummary(chatId, userState);
+        }
+        else {
+            userState[chatId] = {
+                ...userState[chatId],
+                step: "waitingForPaymentMethod",
+            };
+            return sendMessage(chatId, "У вас ще не збережено платіжний метод. Будь ласка, додайте:", {
+                reply_markup: {
+                    inline_keyboard: [
+                        [{ text: "Банківська карта", callback_data: "card" }],
+                        [{ text: "Банківський рахунок (IBAN)", callback_data: "IBAN" }],
+                        [{ text: "Назад", callback_data: "back" }],
+                    ],
+                },
+            });
+        }
     },
     add_pay: ({ chatId }) => {
         userState[chatId] = {
