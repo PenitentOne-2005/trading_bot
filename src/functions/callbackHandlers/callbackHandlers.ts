@@ -53,6 +53,7 @@ const callbackHandlers: Record<
     userOffsets[chatId] = 0;
     sendMessage(chatId, MESSAGE_TEXT.allOrders, showOrdersKeyBoard);
   },
+
   myOrders: ({ chatId }) =>
     sendMessage(chatId, MESSAGE_TEXT.myOrders, myOrdersKeyBoard),
   createOrder: ({ chatId }) =>
@@ -65,6 +66,7 @@ const callbackHandlers: Record<
 
   buy_crypto: ({ chatId }) => showBuyMenu(userOffsets, chatId),
   sell_crypto: ({ chatId }) => showSellMenu(userOffsets, chatId),
+
   create_buy_crypto: createBuyOrder,
   create_sell_crypto: createSellOrder,
 
