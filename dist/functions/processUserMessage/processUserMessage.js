@@ -49,12 +49,13 @@ const processUserMessage = async (msg) => {
             }
             case "waitingForIBAN": {
                 if (/^UA\d{2}\d{6}\d{19}$/.test(text)) {
+                    const prevState = userState[chatId];
                     userState[chatId] = {
-                        ...userState[chatId],
+                        ...prevState,
                         step: "waitingForIPN",
                         paymentMethod: "IBAN",
                         IBANdata: {
-                            ...(userState[chatId]?.IBANdata || {}),
+                            ...(prevState?.IBANdata || {}),
                             IBAN: text,
                         },
                     };
@@ -77,12 +78,12 @@ const processUserMessage = async (msg) => {
             }
             case "waitingForIPN": {
                 if (/^[1-9]\d{9}$/.test(text)) {
+                    const prevState = userState[chatId];
                     userState[chatId] = {
-                        ...userState[chatId],
+                        ...prevState,
                         step: "waitingForName",
-                        paymentMethod: "IBAN",
                         IBANdata: {
-                            ...(userState[chatId]?.IBANdata || {}),
+                            ...(prevState?.IBANdata || {}),
                             IPN: text,
                         },
                     };
@@ -105,13 +106,13 @@ const processUserMessage = async (msg) => {
             }
             case "waitingForName": {
                 if (/^(?:[A-ZА-ЯІЇЄҐ][a-zа-яіїєґ']+ ){2}[A-ZА-ЯІЇЄҐ][a-zа-яіїєґ']+$/.test(text)) {
+                    const prevState = userState[chatId];
                     const IBANdata = {
-                        ...(userState[chatId]?.IBANdata || {}),
+                        ...(prevState?.IBANdata || {}),
                         name: text,
                     };
                     userState[chatId] = {
-                        ...userState[chatId],
-                        paymentMethod: "IBAN",
+                        ...prevState,
                         IBANdata,
                     };
                     await savePayments(chatId, JSON.stringify(IBANdata));
