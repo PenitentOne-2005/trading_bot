@@ -93,7 +93,7 @@ const callbackHandlers = {
         userState[chatId] = {
             ...userState[chatId],
             step: "waitingForCard",
-            paymentMethod: "Картка", // обязательно тут!
+            paymentMethod: "Картка",
         };
         sendMessage(chatId, "Введіть номер вашої картки (16 цифр):", {
             reply_markup: {
