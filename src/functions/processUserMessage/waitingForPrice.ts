@@ -10,7 +10,7 @@ const waitingForPrice: IWaitingForPrice = (props) => {
   }
 
   userState[chatId] = {
-    ...currentState,
+    ...userState[chatId],
     step: "showSummary",
     price,
   };
