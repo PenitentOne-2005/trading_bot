@@ -6,7 +6,7 @@ const waitingForPrice = (props) => {
         return sendMessage(chatId, "❌ Введіть коректну ціну.");
     }
     userState[chatId] = {
-        ...currentState,
+        ...userState[chatId],
         step: "showSummary",
         price,
     };
