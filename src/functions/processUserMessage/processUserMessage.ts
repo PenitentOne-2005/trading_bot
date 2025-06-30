@@ -155,6 +155,7 @@ const processUserMessage: IProcessUserMessage = async (msg) => {
 
           userState[chatId] = {
             ...prevState,
+            step: "confirmOrder",
             IBANdata,
           };
 
