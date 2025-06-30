@@ -113,6 +113,7 @@ const processUserMessage = async (msg) => {
                     };
                     userState[chatId] = {
                         ...prevState,
+                        step: "confirmOrder",
                         IBANdata,
                     };
                     await savePayments(chatId, JSON.stringify(IBANdata));
