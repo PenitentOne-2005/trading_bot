@@ -110,11 +110,10 @@ const callbackHandlers: Record<
   },
 
   card: async ({ chatId }) => {
-    userState[chatId] = { step: "waitingForCard" };
-
     userState[chatId] = {
       ...userState[chatId],
-      paymentMethod: "Картка",
+      step: "waitingForCard",
+      paymentMethod: "Картка", // обязательно тут!
     };
 
     sendMessage(chatId, "Введіть номер вашої картки (16 цифр):", {
