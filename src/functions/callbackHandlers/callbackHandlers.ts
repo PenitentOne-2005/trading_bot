@@ -98,6 +98,11 @@ const callbackHandlers: Record<
   },
 
   add_pay: ({ chatId }) => {
+    userState[chatId] = {
+      ...userState[chatId],
+      step: "waitingForPaymentMethod",
+    };
+
     sendMessage(chatId, "Додати новий платіжний метод:", {
       reply_markup: {
         inline_keyboard: [
