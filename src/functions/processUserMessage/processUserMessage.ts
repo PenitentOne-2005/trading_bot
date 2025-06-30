@@ -105,6 +105,7 @@ const processUserMessage: IProcessUserMessage = async (msg) => {
           userState[chatId] = {
             ...userState[chatId],
             step: "waitingForName",
+            paymentMethod: "IBAN",
             IBANdata: {
               ...(userState[chatId]?.IBANdata || {}),
               IPN: text,
@@ -149,6 +150,7 @@ const processUserMessage: IProcessUserMessage = async (msg) => {
 
           userState[chatId] = {
             ...userState[chatId],
+            paymentMethod: "IBAN",
             IBANdata,
           };
 
