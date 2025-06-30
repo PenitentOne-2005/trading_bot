@@ -105,9 +105,9 @@ const callbackHandlers = {
         });
     },
     IBAN: async ({ chatId }) => {
-        userState[chatId] = { step: "waitingForIBAN" };
         userState[chatId] = {
             ...userState[chatId],
+            step: "waitingForIBAN",
             paymentMethod: "IBAN",
         };
         sendMessage(chatId, "Введiть номер IBAN:", {
