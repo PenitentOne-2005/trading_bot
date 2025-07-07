@@ -24,11 +24,7 @@ export interface UserState {
   method?: string;
   price?: number;
   paymentMethod?: string;
-
-  // 👇 Добавь это:
   IBANdata?: IBANData;
 }
-  
 
-// chatId -> состояние
 export const userState: Record<number, UserState> = {};
