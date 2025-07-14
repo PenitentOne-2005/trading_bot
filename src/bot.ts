@@ -10,6 +10,7 @@ import { mainMenu } from "./functions/callbackHandlers/mainMenu.js";
 import { userState } from "./userState.js";
 import CRYPTOS from "./listCrypto.js";
 import handleCallbackQuery from "./functions/handleCallbackQuery/handleCallbackQuery.js";
+import sendMessage from "./functions/sendMessage/sendMessage.js";
 
 const greetings = process.env.GREETINGS;
 if (!greetings) {
@@ -46,6 +47,12 @@ bot.on("callback_query", async (callbackQuery) => {
   };
 
   await handleCallbackQuery(data, props);
+
+  if (data.startsWith("select_order_")) {
+    const orderId = data.replace("select_order_", "");
+
+    await sendMessage(chatId, `📝 Ви обрали оголошення #${orderId}`);
+  }
 
   // Удалить "часики" на кнопке
   await bot.answerCallbackQuery(callbackQuery.id);
