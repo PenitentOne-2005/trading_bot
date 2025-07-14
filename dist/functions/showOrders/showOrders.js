@@ -1,5 +1,6 @@
 import pool from "../../db.js";
 import sendMessage from "../sendMessage/sendMessage.js";
+import { userState } from "../../userState.js";
 const showOrders = async (params) => {
     try {
         const { userOffsets, chatId, dbName, text } = params;
@@ -9,7 +10,7 @@ const showOrders = async (params) => {
         if (response.rows.length === 0) {
             return sendMessage(chatId, "📭 Пока нет заявок.");
         }
-        let messageText = `📄 ${text}:\n\n`;
+        let messageText = `📄 ${text}\n\n`;
         const inline_keyboard = [];
         response.rows.forEach((order, index) => {
             const { id, username, crypto, amount, price, status } = order;
@@ -29,6 +30,10 @@ const showOrders = async (params) => {
             reply_markup: { inline_keyboard },
         });
         userOffsets[chatId] = offset + response.rows.length;
+        userState[chatId] = {
+            ...userState[chatId],
+            currentDb: dbName,
+        };
     }
     catch (error) {
         console.log("❌ Помилка при отриманні заявок:", error);

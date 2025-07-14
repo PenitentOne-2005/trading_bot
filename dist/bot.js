@@ -37,7 +37,11 @@ bot.on("callback_query", async (callbackQuery) => {
     await handleCallbackQuery(data, props);
     if (data.startsWith("select_order_")) {
         const orderId = data.replace("select_order_", "");
-        await sendMessage(chatId, `📝 Ви обрали оголошення #${orderId}`);
+        const action = userState[chatId]?.currentDb;
+        const actionText = action === "buy"
+            ? "🟢 Ви обрали заявку на купівлю"
+            : "🔴 Ви обрали заявку на продаж";
+        await sendMessage(chatId, `📝 ${actionText} #${orderId}`);
     }
     // Удалить "часики" на кнопке
     await bot.answerCallbackQuery(callbackQuery.id);
