@@ -2,6 +2,7 @@ import pool from "../../db.js";
 import { IShowOrders } from "./interface.js";
 import { ordersKeyBoard } from "./ordersKeyBoard.js";
 import sendMessage from "../sendMessage/sendMessage.js";
+import { userState } from "../../userState.js";
 
 const showOrders: IShowOrders = async (params) => {
   try {
@@ -15,7 +16,7 @@ const showOrders: IShowOrders = async (params) => {
       return sendMessage(chatId, "📭 Пока нет заявок.");
     }
 
-    let messageText = `📄 ${text}:\n\n`;
+    let messageText = `📄 ${text}\n\n`;
 
     const inline_keyboard = [];
 
@@ -44,6 +45,10 @@ const showOrders: IShowOrders = async (params) => {
     });
 
     userOffsets[chatId] = offset + response.rows.length;
+    userState[chatId] = {
+      ...userState[chatId],
+      currentDb: dbName,
+    };
   } catch (error) {
     console.log("❌ Помилка при отриманні заявок:", error);
   }
