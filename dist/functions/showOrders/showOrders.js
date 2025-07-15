@@ -12,9 +12,9 @@ const showOrders = async (params) => {
         }
         let messageText = `📄 ${text}:\n\n`;
         const inline_keyboard = [];
-        response.rows.forEach((order, index) => {
+        response.rows.forEach((order) => {
             const { id, username, crypto, amount, price, status } = order;
-            messageText += `#${offset + index + 1}\n Оголошення #${id}\n👤 @${username}\n💱 Крипта: ${crypto}\n💰 Сума: ${amount}\n💵 Ціна: ${price}\n📌 Статус: ${status}\n\n`;
+            messageText += `Оголошення #${id}\n👤 @${username}\n💱 Крипта: ${crypto}\n💰 Сума: ${amount}\n💵 Ціна: ${price}\n📌 Статус: ${status}\n\n`;
             inline_keyboard.push([
                 {
                     text: `Вибрати оголошення #${id}`,
@@ -29,7 +29,6 @@ const showOrders = async (params) => {
         sendMessage(chatId, messageText, {
             reply_markup: { inline_keyboard },
         });
-        userOffsets[chatId] = offset + response.rows.length;
         userState[chatId] = {
             ...userState[chatId],
             currentDb: dbName,

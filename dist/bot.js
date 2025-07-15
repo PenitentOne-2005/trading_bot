@@ -2,20 +2,17 @@ import dotenv from "dotenv";
 dotenv.config();
 import bot from "./botInstance.js";
 import processUserMessage from "./functions/processUserMessage/processUserMessage.js";
-import showWalletBalance from "./functions/showWalletBalance/showWalletBalance.js";
 import buyCrypto from "./functions/buyCryptoMenu/buyCryptoMenu.js";
 import { mainMenu } from "./functions/callbackHandlers/mainMenu.js";
 import { userState } from "./userState.js";
 import CRYPTOS from "./listCrypto.js";
 import handleCallbackQuery from "./functions/handleCallbackQuery/handleCallbackQuery.js";
-import sendMessage from "./functions/sendMessage/sendMessage.js";
 const greetings = process.env.GREETINGS;
 if (!greetings) {
     console.error("❌ GREETINGS не найден! Убедитесь, что он задан в .env файле.");
     process.exit(1);
 }
 bot.on("message", processUserMessage);
-bot.onText(/\/showBalance/, showWalletBalance);
 bot.onText(/\/buyCrypto/, buyCrypto);
 bot.on("callback_query", async (callbackQuery) => {
     const chatId = callbackQuery.message?.chat.id;
@@ -35,14 +32,6 @@ bot.on("callback_query", async (callbackQuery) => {
         mainMenu,
     };
     await handleCallbackQuery(data, props);
-    if (data.startsWith("select_order_")) {
-        const orderId = data.replace("select_order_", "");
-        const action = userState[chatId]?.currentDb;
-        const actionText = action === "buy_requests"
-            ? "🟢 Ви обрали заявку на купівлю"
-            : "🔴 Ви обрали заявку на продаж";
-        await sendMessage(chatId, `📝 ${actionText} #${orderId}`);
-    }
     // Удалить "часики" на кнопке
     await bot.answerCallbackQuery(callbackQuery.id);
 });
