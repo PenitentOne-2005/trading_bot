@@ -38,7 +38,7 @@ bot.on("callback_query", async (callbackQuery) => {
     if (data.startsWith("select_order_")) {
         const orderId = data.replace("select_order_", "");
         const action = userState[chatId]?.currentDb;
-        const actionText = action === "buy"
+        const actionText = action === "buy_requests"
             ? "🟢 Ви обрали заявку на купівлю"
             : "🔴 Ви обрали заявку на продаж";
         await sendMessage(chatId, `📝 ${actionText} #${orderId}`);

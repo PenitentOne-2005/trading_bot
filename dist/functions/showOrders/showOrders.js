@@ -10,7 +10,7 @@ const showOrders = async (params) => {
         if (response.rows.length === 0) {
             return sendMessage(chatId, "📭 Пока нет заявок.");
         }
-        let messageText = `📄 ${text}\n\n`;
+        let messageText = `📄 ${text}:\n\n`;
         const inline_keyboard = [];
         response.rows.forEach((order, index) => {
             const { id, username, crypto, amount, price, status } = order;
