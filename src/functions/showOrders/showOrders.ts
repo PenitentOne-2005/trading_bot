@@ -1,6 +1,5 @@
 import pool from "../../db.js";
 import { IShowOrders } from "./interface.js";
-import { ordersKeyBoard } from "./ordersKeyBoard.js";
 import sendMessage from "../sendMessage/sendMessage.js";
 import { userState } from "../../userState.js";
 
@@ -20,12 +19,10 @@ const showOrders: IShowOrders = async (params) => {
 
     const inline_keyboard = [];
 
-    response.rows.forEach((order, index) => {
+    response.rows.forEach((order) => {
       const { id, username, crypto, amount, price, status } = order;
 
-      messageText += `#${
-        offset + index + 1
-      }\n Оголошення #${id}\n👤 @${username}\n💱 Крипта: ${crypto}\n💰 Сума: ${amount}\n💵 Ціна: ${price}\n📌 Статус: ${status}\n\n`;
+      messageText += `Оголошення #${id}\n👤 @${username}\n💱 Крипта: ${crypto}\n💰 Сума: ${amount}\n💵 Ціна: ${price}\n📌 Статус: ${status}\n\n`;
 
       inline_keyboard.push([
         {
@@ -44,7 +41,6 @@ const showOrders: IShowOrders = async (params) => {
       reply_markup: { inline_keyboard },
     });
 
-    userOffsets[chatId] = offset + response.rows.length;
     userState[chatId] = {
       ...userState[chatId],
       currentDb: dbName,
