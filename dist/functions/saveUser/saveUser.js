@@ -3,16 +3,6 @@ import sendMessage from "../sendMessage/sendMessage.js";
 const saveUser = async (data) => {
     const { chatId, username, address, encryptedKey, iv } = data;
     try {
-        await pool.query(`
-      CREATE TABLE IF NOT EXISTS users (
-        id SERIAL PRIMARY KEY,
-        telegram_id BIGINT UNIQUE,
-        username TEXT,
-        wallet_address TEXT,
-        private_key TEXT,
-        iv TEXT
-      );
-    `);
         await pool.query(`INSERT INTO users (telegram_id, username, wallet_address, private_key, iv)
        VALUES ($1, $2, $3, $4, $5)
        ON CONFLICT (telegram_id) DO UPDATE 
