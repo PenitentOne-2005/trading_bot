@@ -53,7 +53,7 @@ bot.on("callback_query", async (callbackQuery) => {
     const action = userState[chatId]?.currentDb;
 
     const actionText =
-      action === "buy"
+      action === "buy_requests"
         ? "🟢 Ви обрали заявку на купівлю"
         : "🔴 Ви обрали заявку на продаж";
 

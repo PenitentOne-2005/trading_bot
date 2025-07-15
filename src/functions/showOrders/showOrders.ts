@@ -16,7 +16,7 @@ const showOrders: IShowOrders = async (params) => {
       return sendMessage(chatId, "📭 Пока нет заявок.");
     }
 
-    let messageText = `📄 ${text}\n\n`;
+    let messageText = `📄 ${text}:\n\n`;
 
     const inline_keyboard = [];
 
