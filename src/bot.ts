@@ -4,7 +4,6 @@ dotenv.config();
 
 import bot from "./botInstance.js";
 import processUserMessage from "./functions/processUserMessage/processUserMessage.js";
-import showWalletBalance from "./functions/showWalletBalance/showWalletBalance.js";
 import buyCrypto from "./functions/buyCryptoMenu/buyCryptoMenu.js";
 import { mainMenu } from "./functions/callbackHandlers/mainMenu.js";
 import { userState } from "./userState.js";
