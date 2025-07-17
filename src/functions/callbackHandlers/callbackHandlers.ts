@@ -156,6 +156,11 @@ const callbackHandlers: Record<
   },
 
   confirm_buy_order: ({ chatId, username }) => {
+    userState[chatId] = {
+      ...userState[chatId],
+      step: "confirmOrder",
+    };
+
     if (!username) return;
 
     confirmBuyOrder({ chatId, username, userState });
