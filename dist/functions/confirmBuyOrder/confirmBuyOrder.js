@@ -4,9 +4,6 @@ import sendMessage from "../sendMessage/sendMessage.js";
 const confirmBuyOrder = async (obj) => {
     const { userState, chatId, username } = obj;
     const state = userState[chatId];
-    // if (state?.step !== "confirmOrder") {
-    //   return sendMessage(chatId, "⚠️ Неочікуваний стан. Спробуйте ще раз.");
-    // }
     const { crypto, amount, price, paymentMethod, orderType } = state;
     if (!crypto || !amount || !price) {
         return sendMessage(chatId, "❌ Помилка. Неповні дані заявки.");

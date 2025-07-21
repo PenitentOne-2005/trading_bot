@@ -8,10 +8,6 @@ const confirmBuyOrder: IconfirmByOrder = async (obj) => {
 
   const state = userState[chatId];
 
-  // if (state?.step !== "confirmOrder") {
-  //   return sendMessage(chatId, "⚠️ Неочікуваний стан. Спробуйте ще раз.");
-  // }
-
   const { crypto, amount, price, paymentMethod, orderType } = state;
 
   if (!crypto || !amount || !price) {
