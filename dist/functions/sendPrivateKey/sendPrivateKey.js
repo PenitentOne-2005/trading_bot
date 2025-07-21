@@ -1,0 +1,11 @@
+import { getPrivateKeyFromDB } from "../encrypt/encryptPrivateKey.js";
+import sendMessage from "../sendMessage/sendMessage.js";
+import { menu } from "./menu.js";
+const sendPrivateKey = async (chatId) => {
+    const privateKey = await getPrivateKeyFromDB(chatId);
+    if (!privateKey) {
+        return sendMessage(chatId, "❌ Ключ не найден.");
+    }
+    return sendMessage(chatId, `Надання приватного ключа\n Ваш приватний ключ: ${privateKey}\n Збережіть цей ключ у надійному місці!\n Телеграм бот не є сховищем ключів та не відповідає за їх зберігання.\n Що далі?`, menu);
+};
+export default sendPrivateKey;
