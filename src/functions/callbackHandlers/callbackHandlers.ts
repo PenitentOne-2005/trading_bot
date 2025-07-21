@@ -15,7 +15,7 @@ const callbackHandlers: Record<
 > = {
   lang_en: ({ chatId }) =>
     sendMessage(chatId, MESSAGE_TEXT.unsuportLang, selectLanguageBoard),
-  
+
   lang_ua: async ({ chatId }) => {
     const { agreeKeyBoard } = await import("./agreeKeyBoard.js");
 
@@ -124,21 +124,27 @@ const callbackHandlers: Record<
     return createOrder(props);
   },
 
-  buy_crypto_next: ({ chatId }) => {
+  show_crypto_next: ({ chatId }) => {
     userOffsets[chatId] = (userOffsets[chatId] ?? 0) + 2;
+
+    const { currentDb } = userState[chatId] ?? {};
+
     showOrders({
       chatId,
-      dbName: "buy_requests",
+      dbName: currentDb || "",
       userOffsets,
       text: "Список заявок",
     });
   },
 
-  buy_crypto_prev: ({ chatId }) => {
+  show_crypto_prev: ({ chatId }) => {
     userOffsets[chatId] = Math.max((userOffsets[chatId] ?? 0) - 2, 0);
+
+    const { currentDb } = userState[chatId] ?? {};
+
     showOrders({
       chatId,
-      dbName: "buy_requests",
+      dbName: currentDb || "",
       userOffsets,
       text: "Список заявок",
     });
