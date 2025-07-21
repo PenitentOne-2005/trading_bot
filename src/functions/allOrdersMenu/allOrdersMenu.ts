@@ -1,9 +1,9 @@
 import { IAllOrdersMenu } from "./interface.js";
-import sendMessage from "../sendMessage/sendMessage.js";
 import { showOrdersKeyBoard } from "../callbackHandlers/showOrdersKeyBoard.js";
+import sendMessage from "../sendMessage/sendMessage.js";
 
-const allOrdersMenu: IAllOrdersMenu = async (chatId) => {
-  await sendMessage(
+const allOrdersMenu: IAllOrdersMenu = (chatId) => {
+  return sendMessage(
     chatId,
     "Оберіть тип оголошень, які хочете переглянути:",
     showOrdersKeyBoard

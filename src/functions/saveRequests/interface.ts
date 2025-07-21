@@ -1,4 +1,4 @@
-type RequestType = "buy" | "sell";
+type RequestType = "buy" | "sell" | undefined;
 
 export interface ISaveRequest {
   (

@@ -8,23 +8,25 @@ const confirmBuyOrder: IconfirmByOrder = async (obj) => {
 
   const state = userState[chatId];
 
-  if (state?.step === "confirmOrder") {
-    const { crypto, amount, price, paymentMethod } = state;
+  // if (state?.step !== "confirmOrder") {
+  //   return sendMessage(chatId, "⚠️ Неочікуваний стан. Спробуйте ще раз.");
+  // }
 
-    if (!crypto || !amount || !price) {
-      return sendMessage(chatId, "❌ Помилка. Неповні дані заявки.");
-    }
+  const { crypto, amount, price, paymentMethod, orderType } = state;
 
-    await saveRequest("buy", username, crypto, amount, price);
-
-    userState[chatId] = { step: "idle" };
-
-    return sendMessage(
-      chatId,
-      `✅ Ваше оголошення успішно створено!\n\n Оголошення N: 123456 ${amount}\n Криптовалюта: ${crypto}\n Ціна ${price}\n Валюта оплати: UAH\n Спосіб оплати: ${paymentMethod}\n Термін дії: 24 години\n Що далі?`,
-      menu
-    );
+  if (!crypto || !amount || !price) {
+    return sendMessage(chatId, "❌ Помилка. Неповні дані заявки.");
   }
+
+  await saveRequest(orderType, username, crypto, amount, price);
+
+  userState[chatId] = { step: "idle" };
+
+  return sendMessage(
+    chatId,
+    `✅ Ваше оголошення успішно створено!\n\n Оголошення N: 123456 ${amount}\n Криптовалюта: ${crypto}\n Ціна ${price}\n Валюта оплати: UAH\n Спосіб оплати: ${paymentMethod}\n Термін дії: 24 години\n Що далі?`,
+    menu
+  );
 };
 
 export default confirmBuyOrder;

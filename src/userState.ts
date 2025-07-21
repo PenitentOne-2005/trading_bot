@@ -26,6 +26,7 @@ export interface UserState {
   paymentMethod?: string;
   IBANdata?: IBANData;
   currentDb?: string;
+  orderType?: "buy" | "sell";
 }
 
 export const userState: Record<number, UserState> = {};

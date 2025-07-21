@@ -10,11 +10,15 @@ const processBuyCryptoSelection: Props = (data, chatId, userState) => {
     crypto,
   };
 
-  sendMessage(chatId, `💰 Вкажіть суму в ${crypto}, яку хочете купити:`, {
-    reply_markup: {
-      inline_keyboard: [[{ text: "Назад", callback_data: "back" }]],
-    },
-  });
+  return sendMessage(
+    chatId,
+    `💰 Вкажіть суму в ${crypto}, яку хочете купити:`,
+    {
+      reply_markup: {
+        inline_keyboard: [[{ text: "Назад", callback_data: "back" }]],
+      },
+    }
+  );
 };
 
 export default processBuyCryptoSelection;
