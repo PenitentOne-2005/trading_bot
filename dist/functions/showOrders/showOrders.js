@@ -23,8 +23,8 @@ const showOrders = async (params) => {
             ]);
         });
         inline_keyboard.push([
-            { text: "⬅️ Попередня сторінка", callback_data: "buy_crypto_prev" },
-            { text: "➡️ Наступна сторінка", callback_data: "buy_crypto_next" },
+            { text: "⬅️ Попередня сторінка", callback_data: "show_crypto_prev" },
+            { text: "➡️ Наступна сторінка", callback_data: "show_crypto_next" },
         ]);
         sendMessage(chatId, messageText, {
             reply_markup: { inline_keyboard },
