@@ -6,6 +6,7 @@ import { selectLanguageBoard } from "../../selectLanguageBoard.js";
 import { mainMenu } from "./mainMenu.js";
 import showOrders from "../showOrders/showOrders.js";
 import createOrder from "../create/createOrder.js";
+import pool from "../../db.js";
 const callbackHandlers = {
     lang_en: ({ chatId }) => sendMessage(chatId, MESSAGE_TEXT.unsuportLang, selectLanguageBoard),
     lang_ua: async ({ chatId }) => {
@@ -112,6 +113,15 @@ const callbackHandlers = {
         const props = { chatId, savedPayment, userState };
         payMethod(props);
     },
+    show_payment_buy_info: async ({ chatId }) => {
+        const { orderId, amount, sumToPay } = userState[chatId] ?? {};
+        const query = `SELECT * FROM payments; WHERE id = $1`;
+        const result = await pool.query(query, [orderId]);
+        if (result.rows.length != 0) {
+            return sendMessage(chatId, `Заявка: ${result.rows[0]}`);
+        }
+    },
+    show_payment_sell_info: () => { },
     add_pay: ({ chatId }) => {
         userState[chatId] = {
             ...userState[chatId],
