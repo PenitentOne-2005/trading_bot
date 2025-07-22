@@ -182,7 +182,7 @@ const callbackHandlers: Record<
     const result = await pool.query(query, [orderId]);
 
     if (result.rows.length != 0) {
-      return sendMessage(chatId, `Заявка: ${result.rows[0]}`);
+      return sendMessage(chatId, `Заявка: ${result.rows[0].metadata}`);
     }
   },
 
