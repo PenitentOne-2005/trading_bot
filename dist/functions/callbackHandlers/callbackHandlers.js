@@ -120,8 +120,8 @@ const callbackHandlers = {
         if (result.rows.length === 0) {
             console.error("Payment not found");
         }
-        const { metadata } = result.rows[0];
-        const text = `Надiшлiть ${sumToPay} UAH продавцю за наступними реквiзитами:\n\n Сума ${amount} USDT переведена в ескроу контракт, що очiкує пiдтвердження отримання оплати вiд продавця.\n Спосiб оплати: IBAN\n Номер IBAN: ${metadata.IBAN}\n Отримувач: ${metadata.name}\n Термiн дiï: 30хв\n Пiдтверждуєте, що надiслали кошти?`;
+        const data = result.rows[0];
+        // const text = `Надiшлiть ${sumToPay} UAH продавцю за наступними реквiзитами:\n\n Сума ${amount} USDT переведена в ескроу контракт, що очiкує пiдтвердження отримання оплати вiд продавця.\n Спосiб оплати: IBAN\n Номер IBAN: ${metadata.IBAN}\n Отримувач: ${metadata.name}\n Термiн дiï: 30хв\n Пiдтверждуєте, що надiслали кошти?`;
         const menu = {
             reply_markup: {
                 inline_keyboard: [
@@ -130,7 +130,7 @@ const callbackHandlers = {
                 ],
             },
         };
-        return sendMessage(chatId, text, menu);
+        return sendMessage(chatId, `text: ${data}`, menu);
     },
     show_payment_sell_info: () => { },
     add_pay: ({ chatId }) => {
