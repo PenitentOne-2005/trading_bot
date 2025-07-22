@@ -185,9 +185,9 @@ const callbackHandlers: Record<
       console.error("Payment not found");
     }
 
-    const { metadata } = result.rows[0];
+    const data = result.rows[0];
 
-    const text = `Надiшлiть ${sumToPay} UAH продавцю за наступними реквiзитами:\n\n Сума ${amount} USDT переведена в ескроу контракт, що очiкує пiдтвердження отримання оплати вiд продавця.\n Спосiб оплати: IBAN\n Номер IBAN: ${metadata.IBAN}\n Отримувач: ${metadata.name}\n Термiн дiï: 30хв\n Пiдтверждуєте, що надiслали кошти?`;
+    // const text = `Надiшлiть ${sumToPay} UAH продавцю за наступними реквiзитами:\n\n Сума ${amount} USDT переведена в ескроу контракт, що очiкує пiдтвердження отримання оплати вiд продавця.\n Спосiб оплати: IBAN\n Номер IBAN: ${metadata.IBAN}\n Отримувач: ${metadata.name}\n Термiн дiï: 30хв\n Пiдтверждуєте, що надiслали кошти?`;
 
     const menu = {
       reply_markup: {
@@ -198,7 +198,7 @@ const callbackHandlers: Record<
       },
     };
 
-    return sendMessage(chatId, text, menu);
+    return sendMessage(chatId, `text: ${data}`, menu);
   },
 
   show_payment_sell_info: () => {},
