@@ -181,7 +181,7 @@ const callbackHandlers: Record<
     const query = `SELECT * FROM payments WHERE id = $1`;
     const result = await pool.query(query, [orderId]);
 
-    const metadata = JSON.parse(result.rows[0].metadata);
+    const metadata = JSON.parse(result.rows[0]);
 
     // const text = `Надiшлiть ${sumToPay} UAH продавцю за наступними реквiзитами:\n\n Сума ${amount} USDT переведена в ескроу контракт, що очiкує пiдтвердження отримання оплати вiд продавця.\n Спосiб оплати: IBAN\n Номер IBAN: ${metadata.IBAN}\n Отримувач: ${metadata.name}\n Термiн дiï: 30хв\n Пiдтверждуєте, що надiслали кошти?`;
 
