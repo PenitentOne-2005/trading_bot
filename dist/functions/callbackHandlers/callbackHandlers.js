@@ -119,7 +119,7 @@ const callbackHandlers = {
         const result = await pool.query(query, [orderId]);
         const metadataRaw = result.rows[0].metadata;
         const metadata = JSON.parse(metadataRaw);
-        // const text = `Надiшлiть ${sumToPay} UAH продавцю за наступними реквiзитами:\n\n Сума ${amount} USDT переведена в ескроу контракт, що очiкує пiдтвердження отримання оплати вiд продавця.\n Спосiб оплати: IBAN\n Номер IBAN: ${metadata.IBAN}\n Отримувач: ${metadata.name}\n Термiн дiï: 30хв\n Пiдтверждуєте, що надiслали кошти?`;
+        const text = `Надiшлiть ${sumToPay} UAH продавцю за наступними реквiзитами:\n\n Сума ${amount} USDT переведена в ескроу контракт, що очiкує пiдтвердження отримання оплати вiд продавця.\n Спосiб оплати: IBAN\n Номер IBAN: ${metadata.IBAN}\n Отримувач: ${metadata.name}\n Термiн дiï: 30хв\n Пiдтверждуєте, що надiслали кошти?`;
         const menu = {
             reply_markup: {
                 inline_keyboard: [
@@ -128,7 +128,7 @@ const callbackHandlers = {
                 ],
             },
         };
-        return sendMessage(chatId, `text: ${metadata}`, menu);
+        return sendMessage(chatId, `text: ${text}`, menu);
     },
     show_payment_sell_info: () => { },
     add_pay: ({ chatId }) => {
