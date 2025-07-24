@@ -128,7 +128,7 @@ const callbackHandlers = {
                 ],
             },
         };
-        return sendMessage(chatId, `text: ${text}`, menu);
+        return sendMessage(chatId, text, menu);
     },
     show_payment_sell_info: () => { },
     add_pay: ({ chatId }) => {
