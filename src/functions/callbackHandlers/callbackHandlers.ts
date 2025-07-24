@@ -23,9 +23,9 @@ const callbackHandlers: Record<
   },
 
   agree_sent: ({ chatId }) => {
-    const { orderId, amount, IBANdata } = userState[chatId] ?? {};
+    const { orderId, amount, IBAN, Name } = userState[chatId] ?? {};
 
-    const text = `Ваше пiдтвердження вiдправки отримано. Очiкуйте на пiдтвердження вiд продавця!\n Оголошення #${orderId}}\n Сума: ${amount} USDT\n Спосiб оплати: ${IBANdata?.IBAN}\n Отримувач: ${IBANdata?.name}\n Статус: Очiкує пiдтвердження вiд продавця\n Продавач отримав повiдомлення про оплату та має пiдтвердити її отримання.\n Що далi? `;
+    const text = `Ваше пiдтвердження вiдправки отримано. Очiкуйте на пiдтвердження вiд продавця!\n Оголошення #${orderId}\n Сума: ${amount} USDT\n Спосiб оплати: ${IBAN}\n Отримувач: ${Name}\n Статус: Очiкує пiдтвердження вiд продавця\n Продавач отримав повiдомлення про оплату та має пiдтвердити її отримання.\n Що далi? `;
 
     const menu = {
       reply_markup: {

@@ -29,6 +29,8 @@ export interface UserState {
   orderType?: "buy" | "sell";
   orderId?: string;
   sumToPay?: number;
+  IBAN?: string;
+  Name?: string;
 }
 
 export const userState: Record<number, UserState> = {};

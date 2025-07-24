@@ -21,6 +21,13 @@ const showPaymentInfo: showPaymentInfoProps = async (userState, chatId) => {
     },
   };
 
+
+    userState[chatId] = {
+      ...userState[chatId],
+      IBAN: metadata.IBAN,
+      Name: metadata.name,
+    };
+
   return sendMessage(chatId, text, menu);
 };
 
