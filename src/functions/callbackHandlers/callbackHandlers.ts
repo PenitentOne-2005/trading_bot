@@ -195,7 +195,7 @@ const callbackHandlers: Record<
       },
     };
 
-    return sendMessage(chatId, `text: ${text}`, menu);
+    return sendMessage(chatId, text, menu);
   },
 
   show_payment_sell_info: () => {},
