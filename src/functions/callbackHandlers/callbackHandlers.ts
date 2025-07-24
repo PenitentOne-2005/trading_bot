@@ -8,7 +8,6 @@ import { mainMenu } from "./mainMenu.js";
 import { CallbackProps } from "../../interface.js";
 import showOrders from "../showOrders/showOrders.js";
 import createOrder from "../create/createOrder.js";
-import pool from "../../db.js";
 
 const callbackHandlers: Record<
   string,
@@ -21,6 +20,23 @@ const callbackHandlers: Record<
     const { agreeKeyBoard } = await import("./agreeKeyBoard.js");
 
     return sendMessage(chatId, MESSAGE_TEXT.lang, agreeKeyBoard);
+  },
+
+  agree_sent: ({ chatId }) => {
+    const { orderId, amount, IBANdata } = userState[chatId] ?? {};
+
+    const text = `Ваше пiдтвердження вiдправки отримано. Очiкуйте на пiдтвердження вiд продавця!\n Оголошення #${orderId}}\n Сума: ${amount} USDT\n Спосiб оплати: ${IBANdata?.IBAN}\n Отримувач: ${IBANdata?.name}\n Статус: Очiкує пiдтвердження вiд продавця\n Продавач отримав повiдомлення про оплату та має пiдтвердити її отримання.\n Що далi? `;
+
+    const menu = {
+      reply_markup: {
+        inline_keyboard: [
+          [{ text: "📌 Мої оголошення", callback_data: "myOrders" }],
+          [{ text: "💼 Гаманець", callback_data: "wallet" }],
+        ],
+      },
+    };
+
+    return sendMessage(chatId, text, menu);
   },
 
   agree_yes: async ({ chatId, username }) => {
@@ -176,25 +192,9 @@ const callbackHandlers: Record<
   },
 
   show_payment_buy_info: async ({ chatId }) => {
-    const { orderId, amount, sumToPay } = userState[chatId] ?? {};
+    const showPaymentInfo = (await import("./showPaymentInfo.js")).default;
 
-    const query = `SELECT * FROM payments WHERE id = $1`;
-    const result = await pool.query(query, [orderId]);
-
-    const metadata = JSON.parse(result.rows[0].metadata);
-
-    const text = `Надiшлiть ${sumToPay} UAH продавцю за наступними реквiзитами:\n\n Сума ${amount} USDT переведена в ескроу контракт, що очiкує пiдтвердження отримання оплати вiд продавця.\n Спосiб оплати: IBAN\n Номер IBAN: ${metadata.IBAN}\n Отримувач: ${metadata.name}\n Термiн дiï: 30хв\n Пiдтверждуєте, що надiслали кошти?`;
-
-    const menu = {
-      reply_markup: {
-        inline_keyboard: [
-          [{ text: "Так, я надiслав(ла) оплату", callback_data: "agree_sent" }],
-          [{ text: "Скасувати", callback_data: "cancel" }],
-        ],
-      },
-    };
-
-    return sendMessage(chatId, text, menu);
+    await showPaymentInfo(userState, chatId);
   },
 
   show_payment_sell_info: () => {},

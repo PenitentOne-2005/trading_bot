@@ -10,3 +10,9 @@ interface Props {
 export interface payMethodProps {
   (props: Props): Promise<Message | undefined>;
 }
+
+export interface showPaymentInfoProps {
+  (userState: Record<number, UserState>, chatId: number): Promise<
+    Message | undefined
+  >;
+}
