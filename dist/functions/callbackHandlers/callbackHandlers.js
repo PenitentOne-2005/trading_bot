@@ -135,7 +135,10 @@ const callbackHandlers = {
         payMethod(props);
     },
     show_payment_buy_info: async ({ chatId }) => {
+        const moveRequestToWaiting = (await import("./moveRequestToWaiting.js"))
+            .default;
         const showPaymentInfo = (await import("./showPaymentInfo.js")).default;
+        await moveRequestToWaiting(userState, chatId);
         await showPaymentInfo(userState, chatId);
     },
     show_payment_sell_info: () => { },
@@ -193,6 +196,15 @@ const callbackHandlers = {
         if (!username)
             return;
         confirmBuyOrder({ chatId, username, userState });
+    },
+    cancel: async ({ chatId }) => {
+        const cancelPaymentProcess = (await import("./cancelPaymentProcess.js"))
+            .default;
+        const orderId = userState[chatId]?.orderId;
+        if (!orderId) {
+            return sendMessage(chatId, "❗ Заявка не знайдена або вже оброблена.");
+        }
+        await cancelPaymentProcess(chatId, orderId, userState);
     },
     back: ({ chatId }) => {
         userState[chatId] = { step: "idle" };

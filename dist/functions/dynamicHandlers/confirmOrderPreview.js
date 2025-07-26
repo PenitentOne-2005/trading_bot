@@ -48,6 +48,7 @@ const confirmOrderPreview = async (action, chatId, orderId) => {
         orderId: orderId,
         amount: amount,
         sumToPay: sumToPay,
+        crypto: crypto,
     };
     return sendMessage(chatId, `📝 ${actionText}`, menu);
 };
