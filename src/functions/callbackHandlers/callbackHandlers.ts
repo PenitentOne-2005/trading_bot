@@ -201,11 +201,11 @@ const callbackHandlers: Record<
   },
 
   show_payment_buy_info: async ({ chatId }) => {
-    const moveRequestToWaiting = (await import("./moveRequestToWaiting.js"))
+    const updateStatusToWaiting = (await import("./updateStatusToWaiting.js"))
       .default;
     const showPaymentInfo = (await import("./showPaymentInfo.js")).default;
 
-    await moveRequestToWaiting(userState, chatId);
+    await updateStatusToWaiting(userState, chatId);
     await showPaymentInfo(userState, chatId);
   },
 
