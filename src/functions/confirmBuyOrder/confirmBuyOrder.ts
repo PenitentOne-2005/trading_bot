@@ -14,7 +14,7 @@ const confirmBuyOrder: IconfirmByOrder = async (obj) => {
     return sendMessage(chatId, "❌ Помилка. Неповні дані заявки.");
   }
 
-  await saveRequest(orderType, username, crypto, amount, price);
+  await saveRequest(orderType, username, chatId, crypto, amount, price);
 
   userState[chatId] = { step: "idle" };
 

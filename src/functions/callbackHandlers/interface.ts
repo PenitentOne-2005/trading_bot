@@ -11,8 +11,16 @@ export interface payMethodProps {
   (props: Props): Promise<Message | undefined>;
 }
 
-export interface showPaymentInfoProps {
+export interface FuncInfoProps {
   (userState: Record<number, UserState>, chatId: number): Promise<
     Message | undefined
   >;
+}
+
+export interface CancelProps {
+  (
+    chatId: number,
+    orderId: string,
+    userState: Record<number, UserState>
+  ): Promise<Message>;
 }

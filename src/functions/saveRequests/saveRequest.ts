@@ -4,6 +4,7 @@ import { ISaveRequest } from "./interface.js";
 const saveRequest: ISaveRequest = async (
   type,
   username,
+  chatId,
   crypto,
   amount,
   price
@@ -14,18 +15,20 @@ const saveRequest: ISaveRequest = async (
     await pool.query(`
       CREATE TABLE IF NOT EXISTS ${tableName} (
         id SERIAL PRIMARY KEY,
+        chat_id BIGINT NOT NULL,
+        buyer_chat_id BIGINT,
         username TEXT NOT NULL,
         crypto TEXT NOT NULL,
         amount NUMERIC NOT NULL,
         price DECIMAL(20,8) NOT NULL,
-        status TEXT DEFAULT 'pending',
+        status TEXT NOT NULL DEFAULT 'active',
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
       )
     `);
 
     await pool.query(
-      `INSERT INTO ${tableName} (username, crypto, amount, price) VALUES ($1, $2, $3, $4)`,
-      [username, crypto, amount, price]
+      `INSERT INTO ${tableName} (username, chat_id, crypto, amount, price) VALUES ($1, $2, $3, $4, $5)`,
+      [username, chatId, crypto, amount, price]
     );
   } catch (error) {
     console.error(

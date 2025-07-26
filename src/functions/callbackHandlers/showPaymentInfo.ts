@@ -1,8 +1,8 @@
-import { showPaymentInfoProps } from "./interface.js";
+import { FuncInfoProps } from "./interface.js";
 import pool from "../../db.js";
 import sendMessage from "../sendMessage/sendMessage.js";
 
-const showPaymentInfo: showPaymentInfoProps = async (userState, chatId) => {
+const showPaymentInfo: FuncInfoProps = async (userState, chatId) => {
   const { orderId, amount, sumToPay } = userState[chatId] ?? {};
 
   const query = `SELECT * FROM payments WHERE id = $1`;
@@ -21,12 +21,11 @@ const showPaymentInfo: showPaymentInfoProps = async (userState, chatId) => {
     },
   };
 
-
-    userState[chatId] = {
-      ...userState[chatId],
-      IBAN: metadata.IBAN,
-      Name: metadata.name,
-    };
+  userState[chatId] = {
+    ...userState[chatId],
+    IBAN: metadata.IBAN,
+    Name: metadata.name,
+  };
 
   return sendMessage(chatId, text, menu);
 };
