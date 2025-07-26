@@ -17,7 +17,10 @@ const createOrder = (props) => {
                 ],
             },
         });
-        userState[chatId] = { step: "waitingForCrypto" };
+        userState[chatId] = {
+            ...userState[chatId],
+            step: "waitingForCrypto",
+        };
     }
 };
 export default createOrder;
