@@ -25,7 +25,10 @@ const createOrder: IPropsFunc = (props) => {
       }
     );
 
-    userState[chatId] = { step: "waitingForCrypto" };
+    userState[chatId] = {
+      ...userState[chatId],
+      step: "waitingForCrypto",
+    };
   }
 };
 
