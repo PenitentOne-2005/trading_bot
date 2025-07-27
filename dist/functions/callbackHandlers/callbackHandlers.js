@@ -3,36 +3,16 @@ import MESSAGE_TEXT from "../../contentText.js";
 import { userOffsets } from "../../userOffsets.js";
 import { userState } from "../../userState.js";
 import { selectLanguageBoard } from "../../selectLanguageBoard.js";
-import { mainMenu } from "./mainMenu.js";
 import showOrders from "../showOrders/showOrders.js";
 import createOrder from "../create/createOrder.js";
+import setPaymentMethod from "./setPaymentMethod.js";
+import { agreeKeyBoard, helpKeyBoard, mainMenu, myOrdersKeyBoard, showOrdersKeyBoard, } from "./menu.js";
 const callbackHandlers = {
     lang_en: ({ chatId }) => sendMessage(chatId, MESSAGE_TEXT.unsuportLang, selectLanguageBoard),
-    lang_ua: async ({ chatId }) => {
-        const { agreeKeyBoard } = await import("./agreeKeyBoard.js");
-        return sendMessage(chatId, MESSAGE_TEXT.lang, agreeKeyBoard);
-    },
-    agree_sent: ({ chatId }) => {
-        const { orderId, amount, IBAN, Name } = userState[chatId] ?? {};
-        const text = `
-    Ваше пiдтвердження вiдправки отримано. Очiкуйте на пiдтвердження вiд продавця!
-    
-    Оголошення #${orderId}
-    Сума: ${amount} USDT
-    Спосiб оплати: ${IBAN}
-    Отримувач: ${Name}
-    Статус: Очiкує пiдтвердження вiд продавця
-    Продавач отримав повiдомлення про оплату та має пiдтвердити її отримання.
-    Що далi? `;
-        const menu = {
-            reply_markup: {
-                inline_keyboard: [
-                    [{ text: "📌 Мої оголошення", callback_data: "myOrders" }],
-                    [{ text: "💼 Гаманець", callback_data: "wallet" }],
-                ],
-            },
-        };
-        return sendMessage(chatId, text, menu);
+    lang_ua: ({ chatId }) => sendMessage(chatId, MESSAGE_TEXT.lang, agreeKeyBoard),
+    agree_sent: async ({ chatId }) => {
+        const confirmPaymentNotification = (await import("./confirmPaymentNotification.js")).default;
+        return confirmPaymentNotification(userState, chatId);
     },
     agree_yes: async ({ chatId, username }) => {
         const isUserRegistered = (await import("../isUserRegistered/isUserRegistered.js")).default;
@@ -50,22 +30,15 @@ const callbackHandlers = {
         return await showWallet(chatId);
     },
     allOrders: async ({ chatId }) => {
-        const { showOrdersKeyBoard } = await import("./showOrdersKeyBoard.js");
         userOffsets[chatId] = 0;
         return sendMessage(chatId, MESSAGE_TEXT.allOrders, showOrdersKeyBoard);
     },
-    myOrders: async ({ chatId }) => {
-        const { myOrdersKeyBoard } = await import("./myOrdersKeyBoard.js");
-        return sendMessage(chatId, MESSAGE_TEXT.myOrders, myOrdersKeyBoard);
-    },
+    myOrders: async ({ chatId }) => sendMessage(chatId, MESSAGE_TEXT.myOrders, myOrdersKeyBoard),
     createOrder: async ({ chatId }) => {
         const { createOrderMenu } = await import("../../createOrderMenu.js");
         return sendMessage(chatId, MESSAGE_TEXT.buyText, createOrderMenu);
     },
-    help: async ({ chatId }) => {
-        const { helpKeyBoard } = await import("./helpKeyBoard.js");
-        return sendMessage(chatId, MESSAGE_TEXT.help, helpKeyBoard);
-    },
+    help: async ({ chatId }) => sendMessage(chatId, MESSAGE_TEXT.help, helpKeyBoard),
     getPrivateKey: async ({ chatId }) => {
         const promptPrivateKeyConfirmation = (await import("../promptPrivateKeyConfirmation/promptPrivateKeyConfirmation.js")).default;
         return promptPrivateKeyConfirmation(chatId);
@@ -142,51 +115,16 @@ const callbackHandlers = {
         await showPaymentInfo(userState, chatId);
     },
     show_payment_sell_info: () => { },
-    add_pay: ({ chatId }) => {
+    add_pay: async ({ chatId }) => {
+        const { paymentMethodKeyBoard } = await import("./menu.js");
         userState[chatId] = {
             ...userState[chatId],
             step: "waitingForPaymentMethod",
         };
-        sendMessage(chatId, "Додати новий платіжний метод:", {
-            reply_markup: {
-                inline_keyboard: [
-                    [{ text: "Банківська карта", callback_data: "card" }],
-                    [{ text: "Банківський рахунок (IBAN)", callback_data: "IBAN" }],
-                    [{ text: "Назад", callback_data: "back" }],
-                ],
-            },
-        });
+        sendMessage(chatId, "Додати новий платіжний метод:", paymentMethodKeyBoard);
     },
-    card: ({ chatId }) => {
-        userState[chatId] = {
-            ...userState[chatId],
-            step: "waitingForCard",
-            paymentMethod: "Картка",
-        };
-        sendMessage(chatId, "Введіть номер вашої картки (16 цифр):", {
-            reply_markup: {
-                inline_keyboard: [
-                    [{ text: "Назад", callback_data: "back" }],
-                    [{ text: "Скасувати", callback_data: "back" }],
-                ],
-            },
-        });
-    },
-    IBAN: ({ chatId }) => {
-        userState[chatId] = {
-            ...userState[chatId],
-            step: "waitingForIBAN",
-            paymentMethod: "IBAN",
-        };
-        sendMessage(chatId, "Введiть номер IBAN:", {
-            reply_markup: {
-                inline_keyboard: [
-                    [{ text: "Назад", callback_data: "back" }],
-                    [{ text: "Скасувати", callback_data: "back" }],
-                ],
-            },
-        });
-    },
+    card: ({ chatId }) => setPaymentMethod(chatId, "card", "Введіть номер вашої картки (16 цифр):"),
+    IBAN: ({ chatId }) => setPaymentMethod(chatId, "IBAN", "Введiть номер IBAN:"),
     confirm_buy_order: async ({ chatId, username }) => {
         const confirmBuyOrder = (await import("../confirmBuyOrder/confirmBuyOrder.js")).default;
         userState[chatId] = {
@@ -204,7 +142,7 @@ const callbackHandlers = {
         if (!orderId) {
             return sendMessage(chatId, "❗ Заявка не знайдена або вже оброблена.");
         }
-        await cancelPaymentProcess(chatId, orderId, userState);
+        await cancelPaymentProcess(userState, chatId, orderId);
     },
     back: ({ chatId }) => {
         userState[chatId] = { step: "idle" };
