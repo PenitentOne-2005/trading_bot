@@ -12,15 +12,13 @@ export interface payMethodProps {
 }
 
 export interface FuncInfoProps {
-  (userState: Record<number, UserState>, chatId: number): Promise<
-    Message | undefined
-  >;
+  (
+    userState: Record<number, UserState>,
+    chatId: number,
+    orderId?: string
+  ): Promise<Message | undefined>;
 }
 
-export interface CancelProps {
-  (
-    chatId: number,
-    orderId: string,
-    userState: Record<number, UserState>
-  ): Promise<Message>;
+export interface SetPaymentMethod {
+  (chatId: number, method: string, text: string): void;
 }

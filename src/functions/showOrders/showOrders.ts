@@ -1,14 +1,21 @@
 import pool from "../../db.js";
 import { IShowOrders } from "./interface.js";
-import sendMessage from "../sendMessage/sendMessage.js";
 import { userState } from "../../userState.js";
+import sendMessage from "../sendMessage/sendMessage.js";
 
 const showOrders: IShowOrders = async (params) => {
   try {
     const { userOffsets, chatId, dbName, text } = params;
 
     const offset = userOffsets[chatId] ?? 0;
-    const query = `SELECT * FROM ${dbName} ORDER BY created_at ASC LIMIT 2 OFFSET $1`;
+
+    const query = `
+      SELECT * FROM ${dbName}
+      WHERE chat_id != $2
+      ORDER BY created_at ASC
+      LIMIT 2 OFFSET $1
+    `;
+
     const response = await pool.query(query, [offset]);
 
     if (response.rows.length === 0) {
