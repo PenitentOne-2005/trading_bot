@@ -11,7 +11,7 @@ const showOrders = async (params) => {
       ORDER BY created_at ASC
       LIMIT 2 OFFSET $1
     `;
-        const response = await pool.query(query, [offset]);
+        const response = await pool.query(query, [offset, chatId]);
         if (response.rows.length === 0) {
             return sendMessage(chatId, "📭 Пока нет заявок.");
         }
