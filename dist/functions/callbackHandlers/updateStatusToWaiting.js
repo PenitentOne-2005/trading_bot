@@ -6,13 +6,13 @@ const updateStatusToWaiting = async (userState, chatId) => {
         if (!orderId) {
             return sendMessage(chatId, "❗ Заявка не знайдена або вже оброблена.");
         }
-        const selectQuery = `SELECT * FROM buy_requests WHERE id = $1`;
+        const selectQuery = `SELECT * FROM sell_requests; WHERE id = $1`;
         const result = await pool.query(selectQuery, [orderId]);
         if (result.rows.length === 0) {
             return sendMessage(chatId, "❌ Заявка не знайдена.");
         }
         const updateQuery = `
-      UPDATE buy_requests
+      UPDATE sell_requests;
       SET status = 'waiting', buyer_chat_id = $1
       WHERE id = $2
     `;
