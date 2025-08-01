@@ -7,6 +7,7 @@ import showOrders from "../showOrders/showOrders.js";
 import createOrder from "../create/createOrder.js";
 import setPaymentMethod from "./setPaymentMethod.js";
 import { agreeKeyBoard, helpKeyBoard, mainMenu, myOrdersKeyBoard, showOrdersKeyBoard, } from "./menu.js";
+import pool from "../../db.js";
 const callbackHandlers = {
     lang_en: ({ chatId }) => sendMessage(chatId, MESSAGE_TEXT.unsuportLang, selectLanguageBoard),
     lang_ua: ({ chatId }) => sendMessage(chatId, MESSAGE_TEXT.lang, agreeKeyBoard),
@@ -37,6 +38,15 @@ const callbackHandlers = {
     createOrder: async ({ chatId }) => {
         const { createOrderMenu } = await import("../../createOrderMenu.js");
         return sendMessage(chatId, MESSAGE_TEXT.buyText, createOrderMenu);
+    },
+    pending_orders: ({ chatId }) => { },
+    active_orders: async ({ chatId }) => {
+        const buyQuery = `
+    SELECT * FROM buy_requests WHERE chat_id = $1 AND status = 'active'`;
+        const buyResult = await pool.query(buyQuery, [chatId]);
+        const sellQuery = `SELECT * FROM sell_requests WHERE chat_id = $1 AND status = 'active'`;
+        const sellResult = await pool.query(sellQuery, [chatId]);
+        const allRequests = [...buyResult.rows, ...sellResult.rows];
     },
     help: async ({ chatId }) => sendMessage(chatId, MESSAGE_TEXT.help, helpKeyBoard),
     getPrivateKey: async ({ chatId }) => {
