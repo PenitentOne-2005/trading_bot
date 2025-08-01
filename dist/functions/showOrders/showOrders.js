@@ -8,6 +8,7 @@ const showOrders = async (params) => {
         const query = `
       SELECT * FROM ${dbName}
       WHERE chat_id != $2
+        AND status = 'active'
       ORDER BY created_at ASC
       LIMIT 2 OFFSET $1
     `;
