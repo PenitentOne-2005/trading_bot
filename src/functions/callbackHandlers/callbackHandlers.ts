@@ -15,6 +15,7 @@ import {
   myOrdersKeyBoard,
   showOrdersKeyBoard,
 } from "./menu.js";
+import pool from "../../db.js";
 
 const callbackHandlers: Record<
   string,
@@ -72,6 +73,19 @@ const callbackHandlers: Record<
     const { createOrderMenu } = await import("../../createOrderMenu.js");
 
     return sendMessage(chatId, MESSAGE_TEXT.buyText, createOrderMenu);
+  },
+
+  pending_orders: ({ chatId }) => {},
+
+  active_orders: async ({ chatId }) => {
+    const buyQuery = `
+    SELECT * FROM buy_requests WHERE chat_id = $1 AND status = 'active'`;
+    const buyResult = await pool.query(buyQuery, [chatId]);
+
+    const sellQuery = `SELECT * FROM sell_requests WHERE chat_id = $1 AND status = 'active'`;
+    const sellResult = await pool.query(sellQuery, [chatId]);
+
+    const allRequests = [...buyResult.rows, ...sellResult.rows];
   },
 
   help: async ({ chatId }) =>
