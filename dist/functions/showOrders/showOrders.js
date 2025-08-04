@@ -7,10 +7,12 @@ const showOrders = async (params) => {
         const offset = userOffsets[chatId] ?? 0;
         const query = `
       SELECT * FROM ${dbName}
+      WHERE chat_id != $2
+        AND status = 'active'
       ORDER BY created_at ASC
       LIMIT 2 OFFSET $1
     `;
-        const response = await pool.query(query, [offset]);
+        const response = await pool.query(query, [offset, chatId]);
         if (response.rows.length === 0) {
             return sendMessage(chatId, "📭 Пока нет заявок.");
         }
