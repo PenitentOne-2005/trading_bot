@@ -1,4 +1,5 @@
-import { Message } from "node-telegram-bot-api";
+import { Message, SendMessageOptions } from "node-telegram-bot-api";
+import pool from "../../db.js";
 import sendMessage from "../sendMessage/sendMessage.js";
 import MESSAGE_TEXT from "../../contentText.js";
 import { userOffsets } from "../../userOffsets.js";
@@ -8,6 +9,7 @@ import { CallbackProps } from "../../interface.js";
 import showOrders from "../showOrders/showOrders.js";
 import createOrder from "../create/createOrder.js";
 import setPaymentMethod from "./setPaymentMethod.js";
+import updateStatusToWaiting from "./updateStatusToWaiting.js";
 import {
   agreeKeyBoard,
   helpKeyBoard,
@@ -15,7 +17,6 @@ import {
   myOrdersKeyBoard,
   showOrdersKeyBoard,
 } from "./menu.js";
-import pool from "../../db.js";
 
 const callbackHandlers: Record<
   string,
@@ -33,6 +34,39 @@ const callbackHandlers: Record<
     ).default;
 
     return confirmPaymentNotification(userState, chatId);
+  },
+
+  agree_get: ({ chatId }) => {
+    const { amount, crypto, sumToPay } = userState[chatId] ?? {};
+
+    const menu: SendMessageOptions = {
+      reply_markup: {
+        inline_keyboard: [
+          [
+            {
+              text: "📃 Всi оголошення",
+              callback_data: "allOrders",
+            },
+          ],
+          [{ text: "ℹ️ Моï замовлення", callback_data: "myOrders" }],
+          [{ text: "Гаманец", callback_data: "wallet" }],
+        ],
+      },
+    };
+
+    sendMessage(
+      chatId,
+      `Успiшно! Ескроу-контракт вiдправив криптовалюту покупцевi.
+      
+      Оголошення #1001
+      Продано: ${amount} ${crypto}
+      Сума: ${sumToPay}
+      Комiсiя за послугу: 1 ${crypto} (0.5%)
+      Статус: Завершено
+      Що далi?
+      `,
+      menu
+    );
   },
 
   agree_yes: async ({ chatId, username }) => {
@@ -194,15 +228,26 @@ const callbackHandlers: Record<
   },
 
   show_payment_buy_info: async ({ chatId }) => {
-    const updateStatusToWaiting = (await import("./updateStatusToWaiting.js"))
-      .default;
     const showPaymentInfo = (await import("./showPaymentInfo.js")).default;
 
-    await updateStatusToWaiting(userState, chatId);
+    await updateStatusToWaiting(userState, chatId, "sell_requests");
     await showPaymentInfo(userState, chatId);
   },
 
-  show_payment_sell_info: () => {},
+  show_payment_sell_info: async ({ chatId }) => {
+    const sendCryptoTransaction = (
+      await import("../sendCryptoTransaction/sendCryptoTransaction.js")
+    ).default;
+
+    const { amount } = userState[chatId] ?? {};
+
+    if (!amount) {
+      return console.log("❌ Сумма не указана.");
+    }
+
+    await updateStatusToWaiting(userState, chatId, "buy_requests");
+    await sendCryptoTransaction(chatId);
+  },
 
   add_pay: async ({ chatId }) => {
     const { paymentMethodKeyBoard } = await import("./menu.js");
