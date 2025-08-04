@@ -11,6 +11,7 @@ import createOrder from "../create/createOrder.js";
 import setPaymentMethod from "./setPaymentMethod.js";
 import updateStatusToWaiting from "./updateStatusToWaiting.js";
 import {
+  agreeGetKeyBoard,
   agreeKeyBoard,
   helpKeyBoard,
   mainMenu,
@@ -39,21 +40,6 @@ const callbackHandlers: Record<
   agree_get: ({ chatId }) => {
     const { amount, crypto, sumToPay } = userState[chatId] ?? {};
 
-    const menu: SendMessageOptions = {
-      reply_markup: {
-        inline_keyboard: [
-          [
-            {
-              text: "📃 Всi оголошення",
-              callback_data: "allOrders",
-            },
-          ],
-          [{ text: "ℹ️ Моï замовлення", callback_data: "myOrders" }],
-          [{ text: "Гаманец", callback_data: "wallet" }],
-        ],
-      },
-    };
-
     sendMessage(
       chatId,
       `Успiшно! Ескроу-контракт вiдправив криптовалюту покупцевi.
@@ -65,7 +51,7 @@ const callbackHandlers: Record<
       Статус: Завершено
       Що далi?
       `,
-      menu
+      agreeGetKeyBoard
     );
   },
 
