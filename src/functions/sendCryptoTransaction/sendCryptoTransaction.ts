@@ -51,7 +51,9 @@ const sendCryptoTransaction = async (chatId: number) => {
     const toLowerCrypto = crypto?.toLowerCase();
 
     if (!toLowerCrypto || !allowedKeys.includes(toLowerCrypto as CryptoKey)) {
-      throw new Error("❌ Неверная или неуказанная криптовалюта.");
+      throw new Error(
+        `❌ Неверная или неуказанная криптовалюта. ${crypto}, ${amount} ${sumToPay}`
+      );
     }
 
     if (!amount || isNaN(amount) || amount <= 0) {
