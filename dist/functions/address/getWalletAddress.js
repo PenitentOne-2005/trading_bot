@@ -1,7 +1,7 @@
 import pool from "../../db.js";
-const getWalletAddress = async () => {
+const getWalletAddress = async (chatId) => {
     try {
-        const res = await pool.query("SELECT wallet_address FROM users LIMIT 1");
+        const res = await pool.query("SELECT wallet_address FROM users WHERE telegram_id = $1", [chatId]);
         if (res.rows.length > 0) {
             const wallet = JSON.parse(res.rows[0].wallet_address);
             return wallet.base58;
