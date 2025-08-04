@@ -1,4 +1,4 @@
-import { Message, SendMessageOptions } from "node-telegram-bot-api";
+import { Message } from "node-telegram-bot-api";
 import pool from "../../db.js";
 import sendMessage from "../sendMessage/sendMessage.js";
 import MESSAGE_TEXT from "../../contentText.js";
