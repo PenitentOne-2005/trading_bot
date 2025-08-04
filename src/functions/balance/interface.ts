@@ -1,6 +1,9 @@
 export interface IgetWalletBalance {
-  (): Promise<{
+  (chatId: number): Promise<{
     trx: number;
     usdt: number;
+    usdc: number;
+    tusd: number;
+    dai: number;
 } | null>
 }

@@ -1,3 +1,3 @@
 export interface IgetWalletAddress {
-  (): Promise<string | undefined>;
+  (chatId: number): Promise<string | undefined>;
 }
