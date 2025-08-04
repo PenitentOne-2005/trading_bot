@@ -7,7 +7,7 @@ const validateUserState = (chatId: number) => {
   const toLowerCrypto = crypto?.toLowerCase();
   if (!toLowerCrypto || !allowedKeys.includes(toLowerCrypto as CryptoKey)) {
     throw new Error(
-      `❌ Неверная или неуказанная криптовалюта. ${crypto}, ${amount} ${sumToPay}`
+      `❌ Неверная или неуказанная криптовалюта. ${toLowerCrypto}, ${amount} ${sumToPay}`
     );
   }
 
