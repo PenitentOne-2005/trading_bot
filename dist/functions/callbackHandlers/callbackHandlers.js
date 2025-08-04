@@ -8,7 +8,7 @@ import showOrders from "../showOrders/showOrders.js";
 import createOrder from "../create/createOrder.js";
 import setPaymentMethod from "./setPaymentMethod.js";
 import updateStatusToWaiting from "./updateStatusToWaiting.js";
-import { agreeKeyBoard, helpKeyBoard, mainMenu, myOrdersKeyBoard, showOrdersKeyBoard, } from "./menu.js";
+import { agreeGetKeyBoard, agreeKeyBoard, helpKeyBoard, mainMenu, myOrdersKeyBoard, showOrdersKeyBoard, } from "./menu.js";
 const callbackHandlers = {
     lang_en: ({ chatId }) => sendMessage(chatId, MESSAGE_TEXT.unsuportLang, selectLanguageBoard),
     lang_ua: ({ chatId }) => sendMessage(chatId, MESSAGE_TEXT.lang, agreeKeyBoard),
@@ -18,20 +18,6 @@ const callbackHandlers = {
     },
     agree_get: ({ chatId }) => {
         const { amount, crypto, sumToPay } = userState[chatId] ?? {};
-        const menu = {
-            reply_markup: {
-                inline_keyboard: [
-                    [
-                        {
-                            text: "📃 Всi оголошення",
-                            callback_data: "allOrders",
-                        },
-                    ],
-                    [{ text: "ℹ️ Моï замовлення", callback_data: "myOrders" }],
-                    [{ text: "Гаманец", callback_data: "wallet" }],
-                ],
-            },
-        };
         sendMessage(chatId, `Успiшно! Ескроу-контракт вiдправив криптовалюту покупцевi.
       
       Оголошення #1001
@@ -40,7 +26,7 @@ const callbackHandlers = {
       Комiсiя за послугу: 1 ${crypto} (0.5%)
       Статус: Завершено
       Що далi?
-      `, menu);
+      `, agreeGetKeyBoard);
     },
     agree_yes: async ({ chatId, username }) => {
         const isUserRegistered = (await import("../isUserRegistered/isUserRegistered.js")).default;

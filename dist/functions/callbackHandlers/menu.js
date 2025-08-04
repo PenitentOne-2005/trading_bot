@@ -93,3 +93,17 @@ export const setPaymentMethodKeyBoard = {
         ],
     },
 };
+export const agreeGetKeyBoard = {
+    reply_markup: {
+        inline_keyboard: [
+            [
+                {
+                    text: "📃 Всi оголошення",
+                    callback_data: "allOrders",
+                },
+            ],
+            [{ text: "ℹ️ Моï замовлення", callback_data: "myOrders" }],
+            [{ text: "Гаманец", callback_data: "wallet" }],
+        ],
+    },
+};
