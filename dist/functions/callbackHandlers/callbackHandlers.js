@@ -8,6 +8,7 @@ import showOrders from "../showOrders/showOrders.js";
 import createOrder from "../create/createOrder.js";
 import setPaymentMethod from "./setPaymentMethod.js";
 import updateStatusToWaiting from "./updateStatusToWaiting.js";
+import cancelPaymentProcess from "./cancelPaymentProcess.js";
 import { agreeGetKeyBoard, agreeKeyBoard, helpKeyBoard, mainMenu, myOrdersKeyBoard, showOrdersKeyBoard, } from "./menu.js";
 const callbackHandlers = {
     lang_en: ({ chatId }) => sendMessage(chatId, MESSAGE_TEXT.unsuportLang, selectLanguageBoard),
@@ -167,7 +168,7 @@ const callbackHandlers = {
         const sellerResult = await pool.query(sellerQuery, [orderId]);
         if (sellerResult.rows.length > 0) {
             const { chat_id, amount } = sellerResult.rows[0];
-            await sendMessage(chat_id, `✅ Успiшно! Криптовалюта перемещiна в ескроу. Очiкує підтвердження вiд покупця про вiдправку коштiв.
+            sendMessage(chat_id, `✅ Успiшно! Криптовалюта перемещiна в ескроу. Очiкує підтвердження вiд покупця про вiдправку коштiв.
 
         Оголошення #${orderId}
         Продали: ${amount}
@@ -216,16 +217,19 @@ const callbackHandlers = {
         confirmBuyOrder({ chatId, username, userState });
     },
     cancel: async ({ chatId }) => {
-        const cancelPaymentProcess = (await import("./cancelPaymentProcess.js"))
-            .default;
         const orderId = userState[chatId]?.orderId;
         if (!orderId) {
             return sendMessage(chatId, "❗ Заявка не знайдена або вже оброблена.");
         }
         await cancelPaymentProcess(userState, chatId, orderId);
     },
-    back: ({ chatId }) => {
+    back: async ({ chatId }) => {
+        const orderId = userState[chatId]?.orderId;
         userState[chatId] = { step: "idle" };
+        if (!orderId) {
+            return sendMessage(chatId, "❗ Заявка не знайдена або вже оброблена.");
+        }
+        await cancelPaymentProcess(userState, chatId, orderId);
         sendMessage(chatId, "🔙 Главное меню:", mainMenu);
     },
 };
