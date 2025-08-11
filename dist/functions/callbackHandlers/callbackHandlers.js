@@ -12,6 +12,13 @@ import { agreeGetKeyBoard, agreeKeyBoard, helpKeyBoard, mainMenu, myOrdersKeyBoa
 const callbackHandlers = {
     lang_en: ({ chatId }) => sendMessage(chatId, MESSAGE_TEXT.unsuportLang, selectLanguageBoard),
     lang_ua: ({ chatId }) => sendMessage(chatId, MESSAGE_TEXT.lang, agreeKeyBoard),
+    agree_buy: async ({ chatId, text }) => {
+        const handleCryptoSelection = (await import("../handleCryptoSelection/handleCryptoSelection.js")).default;
+        const CRYPTOS = (await import("../../listCrypto.js")).default;
+        if (!text)
+            return;
+        return handleCryptoSelection({ chatId, text, CRYPTOS, userState });
+    },
     agree_sent: async ({ chatId }) => {
         const confirmPaymentNotification = (await import("./confirmPaymentNotification.js")).default;
         return confirmPaymentNotification(userState, chatId);
@@ -116,13 +123,6 @@ const callbackHandlers = {
             text: "Список заявок",
         });
     },
-    agree_buy: async ({ chatId, text }) => {
-        const handleCryptoSelection = (await import("../handleCryptoSelection/handleCryptoSelection.js")).default;
-        const CRYPTOS = (await import("../../listCrypto.js")).default;
-        if (!text)
-            return;
-        return handleCryptoSelection({ chatId, text, CRYPTOS, userState });
-    },
     pay_method: async ({ chatId }) => {
         const getPaymentFromDB = (await import("../getPaymentFromDB/getPaymentFromDB.js")).default;
         const payMethod = (await import("./payMethod.js")).default;
@@ -137,11 +137,38 @@ const callbackHandlers = {
     },
     show_payment_sell_info: async ({ chatId }) => {
         const sendCryptoTransaction = (await import("../sendCryptoTransaction/sendCryptoTransaction.js")).default;
-        const { amount } = userState[chatId] ?? {};
-        if (!amount) {
-            return console.log("❌ Сумма не указана.");
+        const { orderId } = userState[chatId] ?? {};
+        if (!orderId) {
+            return console.log("❌ orderId не указан.");
         }
         await updateStatusToWaiting(userState, chatId, "buy_requests");
+        const sellerQuery = `SELECT buyer_chat_id, amount, price FROM sell_requests WHERE id = $1`;
+        const sellerResult = await pool.query(sellerQuery, [orderId]);
+        if (sellerResult.rows.length > 0) {
+            const { buyer_chat_id, amount, price } = sellerResult.rows[0];
+            const sumToPay = amount * price;
+            await sendMessage(buyer_chat_id, `✅ Успiшно! Криптовалюта перемещiна в ескроу. Очiкує підтвердження вiд покупця про вiдправку коштiв.
+
+        Оголошення #${orderId}
+        Продали: ${amount}
+        Сума: ${sumToPay}
+        Статус: Виконується
+        Реквiзити для оплати переданi покупцевi.
+        Термін дiï: 30хв
+        ! На цьому етапi угоду скасувати неможливо, вона проходить через блокчейн.`, {
+                reply_markup: {
+                    inline_keyboard: [
+                        [
+                            {
+                                text: "📃 Пiдтвердити отримання грошей",
+                                callback_data: "agree_get",
+                            },
+                        ],
+                        [{ text: "ℹ️ Моï замовлення", callback_data: "myOrders" }],
+                    ],
+                },
+            });
+        }
         await sendCryptoTransaction(chatId);
     },
     add_pay: async ({ chatId }) => {
