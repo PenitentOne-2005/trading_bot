@@ -4,7 +4,7 @@ import { cancelPaymentProcessKeyBoard } from "./menu.js";
 const cancelPaymentProcess = async (userState, chatId, orderId) => {
     try {
         const updateQuery = `
-        UPDATE buy_requests
+        UPDATE sell_requests
         SET status = 'active',
             buyer_chat_id = NULL
         WHERE id = $1 AND buyer_chat_id = $2

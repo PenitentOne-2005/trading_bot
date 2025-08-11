@@ -23,8 +23,34 @@ const callbackHandlers = {
         const confirmPaymentNotification = (await import("./confirmPaymentNotification.js")).default;
         return confirmPaymentNotification(userState, chatId);
     },
-    agree_get: ({ chatId }) => {
+    agree_get: async ({ chatId }) => {
         const { amount, crypto, sumToPay } = userState[chatId] ?? {};
+        const { orderId } = userState[chatId] ?? {};
+        if (!orderId) {
+            return console.log("❌ orderId не указан.");
+        }
+        const sellerQuery = `SELECT chat_id, amount, price FROM buy_requests WHERE id = $1`;
+        const sellerResult = await pool.query(sellerQuery, [orderId]);
+        if (sellerResult.rows.length > 0) {
+            const { chat_id, amount } = sellerResult.rows[0];
+            await sendMessage(chat_id, `✅ Успiшно! Криптовалюта перемещiна в ескроу. Очiкує підтвердження вiд покупця про вiдправку коштiв.
+
+        Оголошення #${orderId}
+        Куплено: ${amount}
+        Сума: ${sumToPay}
+        Комісія за послугу: 1 ${crypto} (0.5%)
+        Статус: Завершено
+        Кошти успiшно переведенi на ваш гаманець!
+        Що далi?`, {
+                reply_markup: {
+                    inline_keyboard: [
+                        [{ text: "📃 Всі оголошення", callback_data: "allOrders" }],
+                        [{ text: "📌 Мої оголошення", callback_data: "myOrders" }],
+                        [{ text: "💼 Гаманець", callback_data: "wallet" }],
+                    ],
+                },
+            });
+        }
         sendMessage(chatId, `Успiшно! Ескроу-контракт вiдправив криптовалюту покупцевi.
       
       Оголошення #1001
@@ -132,22 +158,16 @@ const callbackHandlers = {
     },
     show_payment_buy_info: async ({ chatId }) => {
         const showPaymentInfo = (await import("./showPaymentInfo.js")).default;
-        await updateStatusToWaiting(userState, chatId, "sell_requests");
-        await showPaymentInfo(userState, chatId);
-    },
-    show_payment_sell_info: async ({ chatId }) => {
-        const sendCryptoTransaction = (await import("../sendCryptoTransaction/sendCryptoTransaction.js")).default;
-        const { orderId } = userState[chatId] ?? {};
+        const { orderId, sumToPay } = userState[chatId] ?? {};
         if (!orderId) {
             return console.log("❌ orderId не указан.");
         }
-        await updateStatusToWaiting(userState, chatId, "buy_requests");
-        const sellerQuery = `SELECT buyer_chat_id, amount, price FROM sell_requests WHERE id = $1`;
+        await updateStatusToWaiting(userState, chatId, "sell_requests");
+        const sellerQuery = `SELECT chat_id, amount FROM sell_requests WHERE id = $1`;
         const sellerResult = await pool.query(sellerQuery, [orderId]);
         if (sellerResult.rows.length > 0) {
-            const { buyer_chat_id, amount, price } = sellerResult.rows[0];
-            const sumToPay = amount * price;
-            await sendMessage(buyer_chat_id, `✅ Успiшно! Криптовалюта перемещiна в ескроу. Очiкує підтвердження вiд покупця про вiдправку коштiв.
+            const { chat_id, amount } = sellerResult.rows[0];
+            await sendMessage(chat_id, `✅ Успiшно! Криптовалюта перемещiна в ескроу. Очiкує підтвердження вiд покупця про вiдправку коштiв.
 
         Оголошення #${orderId}
         Продали: ${amount}
@@ -169,6 +189,10 @@ const callbackHandlers = {
                 },
             });
         }
+        await showPaymentInfo(userState, chatId);
+    },
+    show_payment_sell_info: async ({ chatId }) => {
+        const sendCryptoTransaction = (await import("../sendCryptoTransaction/sendCryptoTransaction.js")).default;
         await sendCryptoTransaction(chatId);
     },
     add_pay: async ({ chatId }) => {
