@@ -23,3 +23,11 @@ interface SendTRC20Props {
   sumToPay: number | undefined;
   chatId: number;
 }
+
+export interface ValidateUserState {
+  (chatId: number): { crypto: string; amount: number; sumToPay?: number };
+}
+
+export interface NormalizeCrypto {
+  (cryptoRaw?: string): string | undefined;
+}
