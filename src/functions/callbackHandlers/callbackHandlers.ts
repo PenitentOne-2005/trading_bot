@@ -10,6 +10,7 @@ import showOrders from "../showOrders/showOrders.js";
 import createOrder from "../create/createOrder.js";
 import setPaymentMethod from "./setPaymentMethod.js";
 import updateStatusToWaiting from "./updateStatusToWaiting.js";
+import cancelPaymentProcess from "./cancelPaymentProcess.js";
 import {
   agreeGetKeyBoard,
   agreeKeyBoard,
@@ -265,7 +266,7 @@ const callbackHandlers: Record<
     if (sellerResult.rows.length > 0) {
       const { chat_id, amount } = sellerResult.rows[0];
 
-      await sendMessage(
+      sendMessage(
         chat_id,
         `✅ Успiшно! Криптовалюта перемещiна в ескроу. Очiкує підтвердження вiд покупця про вiдправку коштiв.
 
@@ -335,8 +336,6 @@ const callbackHandlers: Record<
   },
 
   cancel: async ({ chatId }) => {
-    const cancelPaymentProcess = (await import("./cancelPaymentProcess.js"))
-      .default;
     const orderId = userState[chatId]?.orderId;
 
     if (!orderId) {
@@ -346,8 +345,15 @@ const callbackHandlers: Record<
     await cancelPaymentProcess(userState, chatId, orderId);
   },
 
-  back: ({ chatId }) => {
+  back: async ({ chatId }) => {
+    const orderId = userState[chatId]?.orderId;
     userState[chatId] = { step: "idle" };
+
+    if (!orderId) {
+      return sendMessage(chatId, "❗ Заявка не знайдена або вже оброблена.");
+    }
+
+    await cancelPaymentProcess(userState, chatId, orderId);
     sendMessage(chatId, "🔙 Главное меню:", mainMenu);
   },
 };
