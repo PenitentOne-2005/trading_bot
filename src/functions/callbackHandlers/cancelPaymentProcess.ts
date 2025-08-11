@@ -10,7 +10,7 @@ const cancelPaymentProcess: FuncInfoProps = async (
 ) => {
   try {
     const updateQuery = `
-        UPDATE buy_requests
+        UPDATE sell_requests
         SET status = 'active',
             buyer_chat_id = NULL
         WHERE id = $1 AND buyer_chat_id = $2
