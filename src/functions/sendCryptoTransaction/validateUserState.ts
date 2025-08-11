@@ -1,11 +1,16 @@
-import { allowedKeys, CryptoKey } from "./interface.js";
+import {
+  allowedKeys,
+  CryptoKey,
+  NormalizeCrypto,
+  ValidateUserState,
+} from "./interface.js";
 import { userState } from "../../userState.js";
 
-const normalizeCrypto = (cryptoRaw?: string): string | undefined => {
+const normalizeCrypto: NormalizeCrypto = (cryptoRaw) => {
   return cryptoRaw?.toLowerCase().split(" ")[0].trim();
 };
 
-const validateUserState = (chatId: number) => {
+const validateUserState: ValidateUserState = (chatId) => {
   const { crypto, amount, sumToPay } = userState[chatId] ?? {};
   const toLowerCrypto = normalizeCrypto(crypto);
 
