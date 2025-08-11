@@ -4,10 +4,10 @@ import pool from "../../db.js";
 import sendMessage from "../sendMessage/sendMessage.js";
 
 const showPaymentInfo: FuncInfoProps = async (userState, chatId) => {
-  const { orderId, amount, sumToPay } = userState[chatId] ?? {};
+  const { amount, sumToPay } = userState[chatId] ?? {};
 
-  const query = `SELECT * FROM payments WHERE id = $1`;
-  const result = await pool.query(query, [orderId]);
+  const query = `SELECT * FROM payments WHERE telegram_id = $1`;
+  const result = await pool.query(query, [chatId]);
 
   const metadata = JSON.parse(result.rows[0].metadata);
 
