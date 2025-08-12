@@ -253,7 +253,7 @@ const callbackHandlers: Record<
     const { orderId, sumToPay } = userState[chatId] ?? {};
 
     if (!orderId) {
-      return console.log("❌ orderId не указан.");
+      return sendMessage(chatId, "❗ orderId не указан.");
     }
 
     await updateStatusToWaiting(userState, chatId, "sell_requests");
@@ -281,7 +281,7 @@ const callbackHandlers: Record<
               [
                 {
                   text: "📃 Пiдтвердити отримання грошей",
-                  callback_data: "agree_get",
+                  callback_data: `agree_get_${orderId}`,
                 },
               ],
               [{ text: "ℹ️ Моï замовлення", callback_data: "myOrders" }],
