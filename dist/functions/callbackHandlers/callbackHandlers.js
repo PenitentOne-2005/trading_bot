@@ -160,7 +160,7 @@ const callbackHandlers = {
         const showPaymentInfo = (await import("./showPaymentInfo.js")).default;
         const { orderId, sumToPay } = userState[chatId] ?? {};
         if (!orderId) {
-            return console.log("❌ orderId не указан.");
+            return sendMessage(chatId, "❗ orderId не указан.");
         }
         await updateStatusToWaiting(userState, chatId, "sell_requests");
         const sellerQuery = `SELECT chat_id, amount FROM sell_requests WHERE id = $1`;
@@ -181,7 +181,7 @@ const callbackHandlers = {
                         [
                             {
                                 text: "📃 Пiдтвердити отримання грошей",
-                                callback_data: "agree_get",
+                                callback_data: `agree_get_${orderId}`,
                             },
                         ],
                         [{ text: "ℹ️ Моï замовлення", callback_data: "myOrders" }],
