@@ -22,3 +22,10 @@ export interface FuncInfoProps {
 export interface SetPaymentMethod {
   (chatId: number, method: string, text: string): void;
 }
+
+export interface NotifySeller {
+  (
+    userState: Record<number, UserState>,
+    chatId: number
+  ): Promise<Message | void>;
+}
