@@ -51,12 +51,10 @@ const callbackHandlers: Record<
   },
 
   agree_get: async ({ chatId }) => {
-    const { amount, crypto, sumToPay } = userState[chatId] ?? {};
-
-    const { orderId } = userState[chatId] ?? {};
+    const { amount, crypto, sumToPay, orderId } = userState[chatId] ?? {};
 
     if (!orderId) {
-      return console.log("❌ orderId не указан.");
+      return sendMessage(chatId, "❗ orderId не указан.");
     }
 
     const sellerQuery = `SELECT buyer_chat_id, amount, price FROM sell_requests WHERE id = $1`;
