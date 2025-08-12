@@ -9,7 +9,7 @@ import createOrder from "../create/createOrder.js";
 import setPaymentMethod from "./setPaymentMethod.js";
 import updateStatusToWaiting from "./updateStatusToWaiting.js";
 import cancelPaymentProcess from "./cancelPaymentProcess.js";
-import { agreeGetKeyBoard, agreeKeyBoard, helpKeyBoard, mainMenu, myOrdersKeyBoard, showOrdersKeyBoard, } from "./menu.js";
+import { agreeKeyBoard, helpKeyBoard, mainMenu, myOrdersKeyBoard, showOrdersKeyBoard, } from "./menu.js";
 const callbackHandlers = {
     lang_en: ({ chatId }) => sendMessage(chatId, MESSAGE_TEXT.unsuportLang, selectLanguageBoard),
     lang_ua: ({ chatId }) => sendMessage(chatId, MESSAGE_TEXT.lang, agreeKeyBoard),
@@ -23,43 +23,6 @@ const callbackHandlers = {
     agree_sent: async ({ chatId }) => {
         const confirmPaymentNotification = (await import("./confirmPaymentNotification.js")).default;
         return confirmPaymentNotification(userState, chatId);
-    },
-    agree_get: async ({ chatId }) => {
-        const { amount, crypto, sumToPay, orderId } = userState[chatId] ?? {};
-        if (!orderId) {
-            return sendMessage(chatId, "❗ orderId не указан.");
-        }
-        const sellerQuery = `SELECT buyer_chat_id, amount, price FROM sell_requests WHERE id = $1`;
-        const sellerResult = await pool.query(sellerQuery, [orderId]);
-        if (sellerResult.rows.length > 0) {
-            const { buyer_chat_id, amount } = sellerResult.rows[0];
-            await sendMessage(buyer_chat_id, `✅ Успiшно! Продавец пiдтвердив отримання фiатного платежу.
-
-        Оголошення #${orderId}
-        Куплено: ${amount}
-        Сума: ${sumToPay}
-        Комісія за послугу: 1 ${crypto} (0.5%)
-        Статус: Завершено
-        Кошти успiшно переведенi на ваш гаманець!
-        Що далi?`, {
-                reply_markup: {
-                    inline_keyboard: [
-                        [{ text: "📃 Всі оголошення", callback_data: "allOrders" }],
-                        [{ text: "📌 Мої оголошення", callback_data: "myOrders" }],
-                        [{ text: "💼 Гаманець", callback_data: "wallet" }],
-                    ],
-                },
-            });
-        }
-        sendMessage(chatId, `Успiшно! Ескроу-контракт вiдправив криптовалюту покупцевi.
-      
-      Оголошення #1001
-      Продано: ${amount} ${crypto}
-      Сума: ${sumToPay}
-      Комiсiя за послугу: 1 ${crypto} (0.5%)
-      Статус: Завершено
-      Що далi?
-      `, agreeGetKeyBoard);
     },
     agree_yes: async ({ chatId, username }) => {
         const isUserRegistered = (await import("../isUserRegistered/isUserRegistered.js")).default;
@@ -158,37 +121,9 @@ const callbackHandlers = {
     },
     show_payment_buy_info: async ({ chatId }) => {
         const showPaymentInfo = (await import("./showPaymentInfo.js")).default;
-        const { orderId, sumToPay } = userState[chatId] ?? {};
-        if (!orderId) {
-            return sendMessage(chatId, "❗ orderId не указан.");
-        }
+        const notifySellerEscrowStarted = (await import("./notifySellerEscrowStarted.js")).default;
         await updateStatusToWaiting(userState, chatId, "sell_requests");
-        const sellerQuery = `SELECT chat_id, amount FROM sell_requests WHERE id = $1`;
-        const sellerResult = await pool.query(sellerQuery, [orderId]);
-        if (sellerResult.rows.length > 0) {
-            const { chat_id, amount } = sellerResult.rows[0];
-            sendMessage(chat_id, `✅ Успiшно! Криптовалюта перемещiна в ескроу. Очiкує підтвердження вiд покупця про вiдправку коштiв.
-
-        Оголошення #${orderId}
-        Продали: ${amount}
-        Сума: ${sumToPay}
-        Статус: Виконується
-        Реквiзити для оплати переданi покупцевi.
-        Термін дiï: 30хв
-        ! На цьому етапi угоду скасувати неможливо, вона проходить через блокчейн.`, {
-                reply_markup: {
-                    inline_keyboard: [
-                        [
-                            {
-                                text: "📃 Пiдтвердити отримання грошей",
-                                callback_data: `agree_get_${orderId}`,
-                            },
-                        ],
-                        [{ text: "ℹ️ Моï замовлення", callback_data: "myOrders" }],
-                    ],
-                },
-            });
-        }
+        await notifySellerEscrowStarted(userState, chatId);
         await showPaymentInfo(userState, chatId);
     },
     show_payment_sell_info: async ({ chatId }) => {
