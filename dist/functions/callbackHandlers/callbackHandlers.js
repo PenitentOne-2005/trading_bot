@@ -30,11 +30,11 @@ const callbackHandlers = {
         if (!orderId) {
             return console.log("❌ orderId не указан.");
         }
-        const sellerQuery = `SELECT chat_id, amount, price FROM sell_requests WHERE id = $1`;
+        const sellerQuery = `SELECT buyer_chat_id, amount, price FROM sell_requests WHERE id = $1`;
         const sellerResult = await pool.query(sellerQuery, [orderId]);
         if (sellerResult.rows.length > 0) {
-            const { chat_id, amount } = sellerResult.rows[0];
-            await sendMessage(chat_id, `✅ Успiшно! Продавец пiдтвердив отримання фiатного платежу.
+            const { buyer_chat_id, amount } = sellerResult.rows[0];
+            await sendMessage(buyer_chat_id, `✅ Успiшно! Продавец пiдтвердив отримання фiатного платежу.
 
         Оголошення #${orderId}
         Куплено: ${amount}
