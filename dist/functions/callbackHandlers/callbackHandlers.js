@@ -128,6 +128,7 @@ const callbackHandlers = {
     },
     show_payment_sell_info: async ({ chatId }) => {
         const sendCryptoTransaction = (await import("../sendCryptoTransaction/sendCryptoTransaction.js")).default;
+        await updateStatusToWaiting(userState, chatId, "buy_requests");
         await sendCryptoTransaction(chatId);
     },
     add_pay: async ({ chatId }) => {
