@@ -8,7 +8,6 @@ import { CONTRACTS } from "./dataTokens.js";
 import validateUserState from "./validateUserState.js";
 import sendTRC20 from "./sendTRC20.js";
 import sendTRX from "./sendTRX.js";
-import { menu } from "./menu.js";
 import pool from "../../db.js";
 import { userState } from "../../userState.js";
 
@@ -57,7 +56,19 @@ const sendCryptoTransaction: SendCryptoTransaction = async (chatId) => {
             Реквiзити для оплати переданi покупцевi.
             Термін дiï: 30хв
             ! На цьому етапi угоду скасувати неможливо, вона проходить через блокчейн.`,
-        menu
+        {
+          reply_markup: {
+            inline_keyboard: [
+              [
+                {
+                  text: "📃 Пiдтвердити отримання грошей",
+                  callback_data: `agree_get_${orderId}`,
+                },
+              ],
+              [{ text: "ℹ️ Моï замовлення", callback_data: "myOrders" }],
+            ],
+          },
+        }
       );
 
       return sendMessage(
