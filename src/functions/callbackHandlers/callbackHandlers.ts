@@ -214,6 +214,8 @@ const callbackHandlers: Record<
       await import("../sendCryptoTransaction/sendCryptoTransaction.js")
     ).default;
 
+    await updateStatusToWaiting(userState, chatId, "buy_requests");
+
     await sendCryptoTransaction(chatId);
   },
 
