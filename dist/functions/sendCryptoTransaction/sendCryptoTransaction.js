@@ -7,7 +7,6 @@ import { CONTRACTS } from "./dataTokens.js";
 import validateUserState from "./validateUserState.js";
 import sendTRC20 from "./sendTRC20.js";
 import sendTRX from "./sendTRX.js";
-import { menu } from "./menu.js";
 import pool from "../../db.js";
 import { userState } from "../../userState.js";
 dotenv.config();
@@ -42,7 +41,19 @@ const sendCryptoTransaction = async (chatId) => {
             Статус: Виконується
             Реквiзити для оплати переданi покупцевi.
             Термін дiï: 30хв
-            ! На цьому етапi угоду скасувати неможливо, вона проходить через блокчейн.`, menu);
+            ! На цьому етапi угоду скасувати неможливо, вона проходить через блокчейн.`, {
+                reply_markup: {
+                    inline_keyboard: [
+                        [
+                            {
+                                text: "📃 Пiдтвердити отримання грошей",
+                                callback_data: `agree_get_${orderId}`,
+                            },
+                        ],
+                        [{ text: "ℹ️ Моï замовлення", callback_data: "myOrders" }],
+                    ],
+                },
+            });
             return sendMessage(chat_id, `Надiшлiть ${sumToPay} UAH продавцю за наступними реквiзитами:\n\n Сума ${amount} USDT переведена в ескроу контракт, що очiкує пiдтвердження отримання оплати вiд продавця.\n Спосiб оплати: IBAN\n Номер IBAN: ${metadata.IBAN}\n Отримувач: ${metadata.name}\n Термiн дiï: 30хв\n Пiдтверждуєте, що надiслали кошти?`, {
                 reply_markup: {
                     inline_keyboard: [
