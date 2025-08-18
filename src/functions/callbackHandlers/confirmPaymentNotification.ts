@@ -1,12 +1,14 @@
 import { FuncInfoProps } from "./interface.js";
 import { confirmPaymentNotificationKeyBoard } from "./menu.js";
 import sendMessage from "../sendMessage/sendMessage.js";
+import dataMap from "../../map.js";
 
 const confirmPaymentNotification: FuncInfoProps = (userState, chatId) => {
-  const { orderId, amount, IBAN, Name } = userState[chatId] ?? {};
+  const { orderId, amount, IBAN, Name } =
+    userState[chatId || dataMap.get("second_user_chat_id")] ?? {};
 
   const text = `
-    Ваше пiдтвердження вiдправки отримано. Очiкуйте на пiдтвердження вiд продавця!
+    Ваше пiдтвердження вiдправки отримано!
     
     Оголошення #${orderId}
     Сума: ${amount} USDT
