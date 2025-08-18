@@ -1,5 +1,5 @@
 import { sellMenu } from "./sellMenu.js";
-import sendMessage from "../sendMessage/sendMessage.js";
+import { sendMessage } from "@/functions";
 const handleCryptoSelection = (obj) => {
     const { chatId, text, CRYPTOS, userState } = obj;
     if (!CRYPTOS.includes(text)) {

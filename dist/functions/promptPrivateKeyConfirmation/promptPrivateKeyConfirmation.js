@@ -1,6 +1,6 @@
-import MESSAGE_TEXT from "../../contentText.js";
-import sendMessage from "../sendMessage/sendMessage.js";
+import { MESSAGE_TEXT } from "@/exports.js";
 import { menu } from "./menu.js";
+import { sendMessage } from "@/functions";
 const promptPrivateKeyConfirmation = (chatId) => {
     return sendMessage(chatId, MESSAGE_TEXT.privateKeyText, menu);
 };

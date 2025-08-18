@@ -1,4 +1,5 @@
-import sendMessage from "../sendMessage/sendMessage.js";
+import { menu } from "./menu.js";
+import { sendMessage } from "@/functions";
 const processBuyCryptoSelection = (data, chatId, userState) => {
     const crypto = data?.replace("buy_", "") + " (TRC-20)";
     userState[chatId] = {
@@ -6,10 +7,6 @@ const processBuyCryptoSelection = (data, chatId, userState) => {
         step: "waitingForAmount",
         crypto,
     };
-    return sendMessage(chatId, `💰 Вкажіть суму в ${crypto}, яку хочете купити:`, {
-        reply_markup: {
-            inline_keyboard: [[{ text: "Назад", callback_data: "back" }]],
-        },
-    });
+    return sendMessage(chatId, `💰 Вкажіть суму в ${crypto}, яку хочете купити:`, menu);
 };
 export default processBuyCryptoSelection;

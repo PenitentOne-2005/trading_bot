@@ -1,6 +1,5 @@
-import { getPrivateKeyFromDB } from "../encrypt/encryptPrivateKey.js";
-import sendMessage from "../sendMessage/sendMessage.js";
 import { menu } from "./menu.js";
+import { sendMessage, getPrivateKeyFromDB } from "@/functions";
 const sendPrivateKey = async (chatId) => {
     const privateKey = await getPrivateKeyFromDB(chatId);
     if (!privateKey) {

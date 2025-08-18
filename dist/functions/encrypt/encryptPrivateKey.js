@@ -1,7 +1,7 @@
 import dotenv from "dotenv";
 dotenv.config({ path: "/root/trading_bot/.env" });
 import CryptoJS from "crypto-js";
-import pool from "../../db.js";
+import { pool } from "@/exports.js";
 const encryptionKey = process.env.ENCRYPTION_KEY;
 if (!encryptionKey) {
     throw new Error("ENCRYPTION_KEY is not defined in .env file!");

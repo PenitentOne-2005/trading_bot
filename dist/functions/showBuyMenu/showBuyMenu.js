@@ -1,4 +1,4 @@
-import showOrders from "../showOrders/showOrders.js";
+import { showOrders } from "@/functions";
 const showBuyMenu = async (userOffsets, chatId) => {
     const params = {
         userOffsets,
