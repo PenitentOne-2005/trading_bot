@@ -9,8 +9,8 @@ Telegram-бот для работы с криптовалютой в сети Tr
 - TronWeb + QuickNode (для работы с блокчейном Tron)
 - PostgreSQL (хранение данных пользователей)
 
-**Демо:**  
-Бот работает в Telegram:  
-[Попробовать бота](https://t.me/@TradingGreatBot)
+**Демо:**
+Бот работает в Telegram: 
+[@TradingGreatBot](https://t.me/TradingGreatBot)
 
 > Проект продолжает развиваться, новые функции добавляются постоянно.
