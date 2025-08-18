@@ -1,5 +1,5 @@
 import { IisUserRegistered } from "./interface.js";
-import pool from "../../db.js";
+import { pool } from "@/exports.js";
 
 const isUserRegistered: IisUserRegistered = async (telegramId) => {
   try {

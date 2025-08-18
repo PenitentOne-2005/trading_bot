@@ -1,6 +1,6 @@
 import { payMethodProps } from "./interface.js";
-import sendMessage from "../sendMessage/sendMessage.js";
-import showSummary from "../showSummary/showSummary.js";
+import { payMethodMenu } from "./menu.js";
+import { sendMessage, showSummary } from "@/functions";
 
 const payMethod: payMethodProps = (props) => {
   const { chatId, savedPayment, userState } = props;
@@ -22,15 +22,7 @@ const payMethod: payMethodProps = (props) => {
   return sendMessage(
     chatId,
     "У вас ще не збережено платіжний метод. Будь ласка, додайте:",
-    {
-      reply_markup: {
-        inline_keyboard: [
-          [{ text: "Банківська карта", callback_data: "card" }],
-          [{ text: "Банківський рахунок (IBAN)", callback_data: "IBAN" }],
-          [{ text: "Назад", callback_data: "back" }],
-        ],
-      },
-    }
+    payMethodMenu
   );
 };
 

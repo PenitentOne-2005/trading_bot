@@ -1,5 +1,5 @@
 import { ISendMessage } from "./interface.js";
-import bot from "../../botInstance.js";
+import { bot } from "@/exports.js";
 
 const sendMessage: ISendMessage = (chatId, text, menu) =>
   bot.sendMessage(chatId, text, menu);

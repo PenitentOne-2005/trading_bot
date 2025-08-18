@@ -1,20 +1,17 @@
 import { menu } from "./menu.js";
 import { IconfirmByOrder } from "./interface.js";
-import saveRequest from "../saveRequests/saveRequest.js";
-import sendMessage from "../sendMessage/sendMessage.js";
+import { sendMessage, saveRequest } from "@/functions";
 
 const confirmBuyOrder: IconfirmByOrder = async (obj) => {
   const { userState, chatId, username } = obj;
 
-  const state = userState[chatId];
-
-  const { crypto, amount, price, paymentMethod, orderType } = state;
+  const { crypto, amount, price, paymentMethod, orderType } = userState[chatId];
 
   if (!crypto || !amount || !price) {
     return sendMessage(chatId, "❌ Помилка. Неповні дані заявки.");
   }
 
-  await saveRequest(orderType, username, chatId, crypto, amount, price);
+  await saveRequest({ orderType, username, chatId, crypto, amount, price });
 
   userState[chatId] = { step: "idle" };
 

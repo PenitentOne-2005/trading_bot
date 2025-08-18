@@ -1,6 +1,6 @@
-import pool from "../../db.js";
+import { pool } from "@/exports.js";
 import { NotifySeller } from "./interface.js";
-import sendMessage from "../sendMessage/sendMessage.js";
+import { sendMessage } from "@/functions";
 
 const notifySellerEscrowStarted: NotifySeller = async (userState, chatId) => {
   const { orderId, sumToPay } = userState[chatId] ?? {};

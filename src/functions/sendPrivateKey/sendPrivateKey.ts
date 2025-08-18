@@ -1,7 +1,6 @@
-import { getPrivateKeyFromDB } from "../encrypt/encryptPrivateKey.js";
-import sendMessage from "../sendMessage/sendMessage.js";
 import { Props } from "./interface.js";
 import { menu } from "./menu.js";
+import { sendMessage, getPrivateKeyFromDB } from "@/functions";
 
 const sendPrivateKey: Props = async (chatId) => {
   const privateKey = await getPrivateKeyFromDB(chatId);

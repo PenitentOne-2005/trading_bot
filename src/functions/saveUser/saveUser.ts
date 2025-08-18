@@ -1,6 +1,6 @@
+import { pool } from "@/exports.js";
 import { ISaveUser } from "./interface.js";
-import pool from "../../db.js";
-import sendMessage from "../sendMessage/sendMessage.js";
+import { sendMessage } from "@/functions";
 
 const saveUser: ISaveUser = async (data) => {
   const { chatId, username, address, encryptedKey, iv } = data;

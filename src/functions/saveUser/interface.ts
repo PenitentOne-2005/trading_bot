@@ -1,4 +1,4 @@
-import { IAddress } from "../../interface.js";
+import { IAddress } from "@/exports.js";
 
 interface IData {
   chatId: number;

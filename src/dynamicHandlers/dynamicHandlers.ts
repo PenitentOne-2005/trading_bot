@@ -1,7 +1,5 @@
 import { Message } from "node-telegram-bot-api";
-import { CallbackProps } from "../interface.js";
-import { userState } from "../userState.js";
-import handleConfirmFiat from "../functions/handleConfirmFiat/handleConfirmFiat.js";
+import { userState, CallbackProps } from "@/exports.js";
 
 const dynamicHandlers: {
   [key: string]: (
@@ -10,19 +8,13 @@ const dynamicHandlers: {
   ) => void | Promise<void | Message>;
 } = {
   buy_: async (data, props) => {
-    const processBuyCryptoSelection = (
-      await import(
-        "../functions/processBuyCryptoSelection/processBuyCryptoSelection.js"
-      )
-    ).default;
+    const { processBuyCryptoSelection } = await import("@/functions");
 
     processBuyCryptoSelection(data, props.chatId, userState);
   },
 
   select_order_: async (data, { chatId }) => {
-    const confirmOrderPreview = (
-      await import("../functions/confirmOrderPreview/confirmOrderPreview.js")
-    ).default;
+    const { confirmOrderPreview } = await import("@/functions");
 
     const orderId = data.replace("select_order_", "");
     const action = userState[chatId]?.currentDb;
@@ -31,9 +23,7 @@ const dynamicHandlers: {
   },
 
   agree_get_: async (data, { chatId }) => {
-    const sendMessage = (
-      await import("../functions/sendMessage/sendMessage.js")
-    ).default;
+    const { sendMessage, handleConfirmFiat } = await import("@/functions");
 
     const orderId = data.split("_")[2];
 

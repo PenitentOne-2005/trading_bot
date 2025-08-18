@@ -1,7 +1,6 @@
 import { FuncInfoProps } from "./interface.js";
-import pool from "../../db.js";
-import { cancelPaymentProcessKeyBoard } from "../../menu.js";
-import sendMessage from "../sendMessage/sendMessage.js";
+import { pool, cancelPaymentProcessKeyBoard } from "@/exports.js";
+import { sendMessage } from "@/functions";
 
 const cancelPaymentProcess: FuncInfoProps = async (
   userState,

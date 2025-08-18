@@ -1,8 +1,10 @@
 import { Iregister } from "./interface.js";
-import createWallet from "../createWallet/createWallet.js";
-import { encryptPrivateKey } from "../encrypt/encryptPrivateKey.js";
-import saveUser from "../saveUser/saveUser.js";
-import sendMessage from "../sendMessage/sendMessage.js";
+import {
+  sendMessage,
+  saveUser,
+  encryptPrivateKey,
+  createWallet,
+} from "@/functions";
 
 const registerHandler: Iregister = async (chatId, username) => {
   try {

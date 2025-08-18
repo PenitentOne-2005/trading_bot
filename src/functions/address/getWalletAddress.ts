@@ -1,4 +1,4 @@
-import pool from "../../db.js";
+import { pool } from "@/exports.js";
 import { IgetWalletAddress } from "./interface.js";
 
 const getWalletAddress: IgetWalletAddress = async (chatId) => {

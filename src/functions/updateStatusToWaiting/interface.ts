@@ -1,5 +1,5 @@
 import { Message } from "node-telegram-bot-api";
-import { UserState } from "../../userState.js";
+import { UserState } from "@/exports.js";
 
 export interface FuncInfoProps {
   (

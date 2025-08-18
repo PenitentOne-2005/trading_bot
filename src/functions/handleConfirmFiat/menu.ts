@@ -1,4 +1,6 @@
-export const handleConfirmFiatMenu = {
+import { SendMessageOptions } from "node-telegram-bot-api";
+
+export const handleConfirmFiatMenu: SendMessageOptions = {
   reply_markup: {
     inline_keyboard: [
       [{ text: "📃 Всі оголошення", callback_data: "allOrders" }],

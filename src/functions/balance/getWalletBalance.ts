@@ -1,7 +1,7 @@
 import dotenv from "dotenv";
 import axios from "axios";
 import { IgetWalletBalance } from "./interface.js";
-import getWalletAddress from "../address/getWalletAddress.js";
+import { getWalletAddress } from "@/functions";
 
 dotenv.config();
 

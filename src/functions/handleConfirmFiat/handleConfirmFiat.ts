@@ -1,7 +1,5 @@
-import pool from "../../db.js";
-import sendMessage from "../sendMessage/sendMessage.js";
-import { userState } from "../../userState.js";
-import { agreeGetKeyBoard } from "../../menu.js";
+import { pool, userState, agreeGetKeyBoard } from "@/exports.js";
+import { sendMessage } from "@/functions";
 import { HandleConfirmFiat } from "./interface.js";
 import { handleConfirmFiatMenu } from "./menu.js";
 

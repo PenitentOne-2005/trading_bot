@@ -1,5 +1,5 @@
 import { SendMessageOptions } from "node-telegram-bot-api";
-import { UserState } from "./userState.js";
+import { UserState } from "@/exports.js";
 
 export interface IAddress {
   base58: string;

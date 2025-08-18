@@ -4,7 +4,7 @@ dotenv.config();
 
 import express from "express";
 import cors from "cors";
-import pool from "./db.js";
+import { pool } from "@/exports.js";
 
 const app = express();
 

@@ -1,7 +1,6 @@
 import { Message } from "node-telegram-bot-api";
-import MESSAGE_TEXT from "../contentText.js";
-import { selectLanguageBoard } from "../selectLanguageBoard.js";
-import sendMessage from "../functions/sendMessage/sendMessage.js";
+import { selectLanguageBoard, MESSAGE_TEXT } from "@/exports.js";
+import { sendMessage } from "@/functions";
 
 const createMessageHandlers = (chatId: number) => {
   return {

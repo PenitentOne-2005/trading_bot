@@ -72,7 +72,7 @@ export const confirmPaymentNotificationKeyBoard: SendMessageOptions = {
   },
 };
 
-export const showPaymentInfoKeyBoard = {
+export const showPaymentInfoKeyBoard: SendMessageOptions = {
   reply_markup: {
     inline_keyboard: [
       [{ text: "Так, я надiслав(ла) оплату", callback_data: "agree_sent" }],
@@ -81,7 +81,7 @@ export const showPaymentInfoKeyBoard = {
   },
 };
 
-export const cancelPaymentProcessKeyBoard = {
+export const cancelPaymentProcessKeyBoard: SendMessageOptions = {
   reply_markup: {
     inline_keyboard: [
       [
@@ -116,6 +116,25 @@ export const agreeGetKeyBoard: SendMessageOptions = {
       ],
       [{ text: "ℹ️ Моï замовлення", callback_data: "myOrders" }],
       [{ text: "Гаманец", callback_data: "wallet" }],
+    ],
+  },
+};
+
+export const createOrderMenu: SendMessageOptions = {
+  reply_markup: {
+    inline_keyboard: [
+      [{ text: "Купити криптовалюту", callback_data: "create_buy_crypto" }],
+      [{ text: "Продати криптовалюту", callback_data: "create_sell_crypto" }],
+      [{ text: "Назад", callback_data: "back" }],
+    ],
+  },
+};
+
+export const selectLanguageBoard: SendMessageOptions = {
+  reply_markup: {
+    inline_keyboard: [
+      [{ text: "I speak English", callback_data: "lang_en" }],
+      [{ text: "Я розмовляю українською", callback_data: "lang_ua" }],
     ],
   },
 };

@@ -1,7 +1,6 @@
 import { FuncInfoProps } from "./interface.js";
-import { confirmPaymentNotificationKeyBoard } from "../../menu.js";
-import sendMessage from "../sendMessage/sendMessage.js";
-import dataMap from "../../map.js";
+import { confirmPaymentNotificationKeyBoard, dataMap } from "@/exports.js";
+import { sendMessage } from "@/functions";
 
 const confirmPaymentNotification: FuncInfoProps = (userState, chatId) => {
   const { orderId, amount, IBAN, Name } =

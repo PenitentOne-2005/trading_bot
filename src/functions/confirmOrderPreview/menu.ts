@@ -1,4 +1,6 @@
-export const showPaymentSell = {
+import { SendMessageOptions } from "node-telegram-bot-api";
+
+export const showPaymentSell: SendMessageOptions = {
   reply_markup: {
     inline_keyboard: [
       [
@@ -12,7 +14,7 @@ export const showPaymentSell = {
   },
 };
 
-export const showPaymentBuy = {
+export const showPaymentBuy: SendMessageOptions = {
   reply_markup: {
     inline_keyboard: [
       [

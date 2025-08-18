@@ -1,4 +1,4 @@
-import pool from "../../db.js";
+import { pool } from "@/exports.js";
 import { IgetPaymentFromDB } from "./interface.js";
 
 const getPaymentFromDB: IgetPaymentFromDB = async (chatId) => {
