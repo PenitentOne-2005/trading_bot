@@ -3,6 +3,7 @@ import pool from "../../db.js";
 import sendMessage from "../sendMessage/sendMessage.js";
 import { userState } from "../../userState.js";
 import { showPaymentBuy, showPaymentSell } from "./menu.js";
+import dataMap from "../../map.js";
 
 const confirmOrderPreview: Props = async (action, chatId, orderId) => {
   if (!action) {
@@ -34,6 +35,8 @@ const confirmOrderPreview: Props = async (action, chatId, orderId) => {
     sumToPay: sumToPay,
     crypto: crypto,
   };
+
+  dataMap.set("second_user_chat_id", chatId);
 
   return sendMessage(chatId, `📝 ${actionText}`, menu);
 };
