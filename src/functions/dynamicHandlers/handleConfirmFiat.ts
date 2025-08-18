@@ -1,13 +1,16 @@
 import pool from "../../db.js";
+import { userState } from "../../userState.js";
 import { agreeGetKeyBoard } from "../callbackHandlers/menu.js";
 import sendMessage from "../sendMessage/sendMessage.js";
 import { HandleConfirmFiat } from "./interface.js";
 import { handleConfirmFiatMenu } from "./menu.js";
 
 const handleConfirmFiat: HandleConfirmFiat = async (chatId, orderId) => {
+  const { currentDb } = userState[chatId] ?? {};
+
   const sellerQuery = `
     SELECT buyer_chat_id, amount, price, crypto
-    FROM sell_requests
+    FROM ${currentDb}
     WHERE id = $1
   `;
   const sellerResult = await pool.query(sellerQuery, [orderId]);
@@ -16,12 +19,12 @@ const handleConfirmFiat: HandleConfirmFiat = async (chatId, orderId) => {
     return sendMessage(chatId, "❌ Ордер не найден.");
   }
 
-  const { buyer_chat_id, amount, price, crypto } = sellerResult.rows[0];
+  const { chat_id, amount, price, crypto } = sellerResult.rows[0];
   const sumToPay = amount * price;
 
   // Сообщение покупателю
   await sendMessage(
-    buyer_chat_id,
+    chat_id,
     `✅ Успiшно! Продавец пiдтвердив отримання фiатного платежу.
 
         Оголошення #${orderId}
