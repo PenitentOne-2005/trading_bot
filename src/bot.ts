@@ -2,9 +2,9 @@ import dotenv from "dotenv";
 
 dotenv.config();
 
-import processUserMessage from "./processUserMessage/processUserMessage.js";
 import {
   handleCallbackQuery,
+  processUserMessage,
   CRYPTOS,
   userState,
   mainMenu,

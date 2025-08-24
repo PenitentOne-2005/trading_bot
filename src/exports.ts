@@ -2,6 +2,7 @@ export { default as callbackHandlers } from "./callbackHandlers/index.js";
 export { default as dynamicHandlers } from "./dynamicHandlers/index.js";
 export { default as handleCallbackQuery } from "./handleCallbackQuery/index.js";
 export { default as createMessageHandlers } from "./messageHandlers/index.js";
+export { default as processUserMessage } from "./processUserMessage/index.js";
 export { default as bot } from "./botInstance.js";
 export { default as MESSAGE_TEXT } from "./contentText.js";
 export { default as pool } from "./db.js";
