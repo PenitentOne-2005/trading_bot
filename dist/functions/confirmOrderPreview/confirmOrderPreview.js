@@ -1,6 +1,6 @@
-import { userState, dataMap, pool } from "@/exports.js";
+import { userState, dataMap, pool } from "../../exports.js";
 import { showPaymentBuy, showPaymentSell } from "./menu.js";
-import { sendMessage } from "@/functions";
+import { sendMessage } from "../../functions";
 const confirmOrderPreview = async (action, chatId, orderId) => {
     if (!action) {
         return sendMessage(chatId, "⚠️ Невідома таблиця заявок.");

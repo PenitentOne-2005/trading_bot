@@ -1,4 +1,4 @@
-import { sendMessage, saveUser, encryptPrivateKey, createWallet, } from "@/functions";
+import { sendMessage, saveUser, encryptPrivateKey, createWallet, } from "../../functions";
 const registerHandler = async (chatId, username) => {
     try {
         const result = await createWallet();

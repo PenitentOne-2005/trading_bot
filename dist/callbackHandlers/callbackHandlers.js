@@ -1,21 +1,21 @@
-import { sendMessage, showOrders, createOrder, setPaymentMethod, updateStatusToWaiting, cancelPaymentProcess, } from "@/functions";
-import { selectLanguageBoard, agreeKeyBoard, helpKeyBoard, mainMenu, myOrdersKeyBoard, showOrdersKeyBoard, userOffsets, userState, MESSAGE_TEXT, pool, } from "@/exports.js";
+import { sendMessage, showOrders, createOrder, setPaymentMethod, updateStatusToWaiting, cancelPaymentProcess, } from "../functions";
+import { selectLanguageBoard, agreeKeyBoard, helpKeyBoard, mainMenu, myOrdersKeyBoard, showOrdersKeyBoard, userOffsets, userState, MESSAGE_TEXT, pool, } from "../exports.js";
 const callbackHandlers = {
     lang_en: ({ chatId }) => sendMessage(chatId, MESSAGE_TEXT.unsuportLang, selectLanguageBoard),
     lang_ua: ({ chatId }) => sendMessage(chatId, MESSAGE_TEXT.lang, agreeKeyBoard),
     agree_buy: async ({ chatId, text }) => {
-        const { handleCryptoSelection } = await import("@/functions");
-        const { CRYPTOS } = await import("@/exports.js");
+        const { handleCryptoSelection } = await import("../functions");
+        const { CRYPTOS } = await import("../exports.js");
         if (!text)
             return;
         return handleCryptoSelection({ chatId, text, CRYPTOS, userState });
     },
     agree_sent: async ({ chatId }) => {
-        const { confirmPaymentNotification } = await import("@/functions");
+        const { confirmPaymentNotification } = await import("../functions");
         return confirmPaymentNotification(userState, chatId);
     },
     agree_yes: async ({ chatId, username }) => {
-        const { isUserRegistered, registerHandler } = await import("@/functions");
+        const { isUserRegistered, registerHandler } = await import("../functions");
         const isUser = await isUserRegistered(chatId);
         if (!isUser) {
             registerHandler(chatId, username);
@@ -24,7 +24,7 @@ const callbackHandlers = {
     },
     agree_no: ({ chatId }) => sendMessage(chatId, MESSAGE_TEXT.selectLang, selectLanguageBoard),
     wallet: async ({ chatId }) => {
-        const { showWallet } = await import("@/functions");
+        const { showWallet } = await import("../functions");
         return await showWallet(chatId);
     },
     allOrders: async ({ chatId }) => {
@@ -33,7 +33,7 @@ const callbackHandlers = {
     },
     myOrders: async ({ chatId }) => sendMessage(chatId, MESSAGE_TEXT.myOrders, myOrdersKeyBoard),
     createOrder: async ({ chatId }) => {
-        const { createOrderMenu } = await import("@/exports.js");
+        const { createOrderMenu } = await import("../exports.js");
         return sendMessage(chatId, MESSAGE_TEXT.buyText, createOrderMenu);
     },
     pending_orders: ({ chatId }) => { },
@@ -47,19 +47,19 @@ const callbackHandlers = {
     },
     help: async ({ chatId }) => sendMessage(chatId, MESSAGE_TEXT.help, helpKeyBoard),
     getPrivateKey: async ({ chatId }) => {
-        const { promptPrivateKeyConfirmation } = await import("@/functions");
+        const { promptPrivateKeyConfirmation } = await import("../functions");
         return promptPrivateKeyConfirmation(chatId);
     },
     private_key: async ({ chatId }) => {
-        const { sendPrivateKey } = await import("@/functions");
+        const { sendPrivateKey } = await import("../functions");
         return sendPrivateKey(chatId);
     },
     buy_crypto: async ({ chatId }) => {
-        const { showBuyMenu } = await import("@/functions");
+        const { showBuyMenu } = await import("../functions");
         return showBuyMenu(userOffsets, chatId);
     },
     sell_crypto: async ({ chatId }) => {
-        const { showSellMenu } = await import("@/functions");
+        const { showSellMenu } = await import("../functions");
         return showSellMenu(userOffsets, chatId);
     },
     create_buy_crypto: (props) => {
@@ -99,23 +99,23 @@ const callbackHandlers = {
         });
     },
     pay_method: async ({ chatId }) => {
-        const { getPaymentFromDB, payMethod } = await import("@/functions");
+        const { getPaymentFromDB, payMethod } = await import("../functions");
         const savedPayment = await getPaymentFromDB(chatId);
         payMethod({ chatId, savedPayment, userState });
     },
     show_payment_buy_info: async ({ chatId }) => {
-        const { showPaymentInfo, notifySellerEscrowStarted } = await import("@/functions");
+        const { showPaymentInfo, notifySellerEscrowStarted } = await import("../functions");
         await updateStatusToWaiting(userState, chatId, "sell_requests");
         await notifySellerEscrowStarted(userState, chatId);
         await showPaymentInfo(userState, chatId);
     },
     show_payment_sell_info: async ({ chatId }) => {
-        const { sendCryptoTransaction } = await import("@/functions");
+        const { sendCryptoTransaction } = await import("../functions");
         await updateStatusToWaiting(userState, chatId, "buy_requests");
         await sendCryptoTransaction(chatId);
     },
     add_pay: async ({ chatId }) => {
-        const { paymentMethodKeyBoard } = await import("@/exports.js");
+        const { paymentMethodKeyBoard } = await import("../exports.js");
         userState[chatId] = {
             ...userState[chatId],
             step: "waitingForPaymentMethod",
@@ -125,7 +125,7 @@ const callbackHandlers = {
     card: ({ chatId }) => setPaymentMethod(chatId, "card", "Введіть номер вашої картки (16 цифр):"),
     IBAN: ({ chatId }) => setPaymentMethod(chatId, "IBAN", "Введiть номер IBAN:"),
     confirm_buy_order: async ({ chatId, username }) => {
-        const { confirmBuyOrder } = await import("@/functions");
+        const { confirmBuyOrder } = await import("../functions");
         userState[chatId] = {
             ...userState[chatId],
             step: "confirmOrder",

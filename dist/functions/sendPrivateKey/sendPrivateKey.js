@@ -1,5 +1,5 @@
 import { menu } from "./menu.js";
-import { sendMessage, getPrivateKeyFromDB } from "@/functions";
+import { sendMessage, getPrivateKeyFromDB } from "../../functions";
 const sendPrivateKey = async (chatId) => {
     const privateKey = await getPrivateKeyFromDB(chatId);
     if (!privateKey) {

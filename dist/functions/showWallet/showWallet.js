@@ -1,5 +1,5 @@
 import { menu } from "./menu.js";
-import { getWalletAddress, getWalletBalance, sendMessage } from "@/functions";
+import { getWalletAddress, getWalletBalance, sendMessage } from "../../functions";
 const showWallet = async (chatId) => {
     const balance = await getWalletBalance(chatId);
     const wallet = await getWalletAddress(chatId);

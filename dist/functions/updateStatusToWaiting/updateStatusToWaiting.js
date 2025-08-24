@@ -1,5 +1,5 @@
-import { pool } from "@/exports.js";
-import { sendMessage } from "@/functions";
+import { pool } from "../../exports.js";
+import { sendMessage } from "../../functions";
 const updateStatusToWaiting = async (userState, chatId, currentDb) => {
     try {
         const orderId = userState[chatId]?.orderId;

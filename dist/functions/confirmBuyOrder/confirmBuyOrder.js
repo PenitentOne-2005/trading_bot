@@ -1,5 +1,5 @@
 import { menu } from "./menu.js";
-import { sendMessage, saveRequest } from "@/functions";
+import { sendMessage, saveRequest } from "../../functions";
 const confirmBuyOrder = async (obj) => {
     const { userState, chatId, username } = obj;
     const { crypto, amount, price, paymentMethod, orderType } = userState[chatId];

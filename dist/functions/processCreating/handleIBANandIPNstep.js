@@ -1,6 +1,6 @@
 import stepConfigs from "./stepConfig.js";
 import { backSteps, menuBack } from "./menu.js";
-import { sendMessage } from "@/functions";
+import { sendMessage } from "../../functions";
 const handleIBANandIPNstep = (props) => {
     const { userState, chatId, text } = props;
     const currentStep = userState[chatId]?.step;

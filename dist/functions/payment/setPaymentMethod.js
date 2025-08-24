@@ -1,5 +1,5 @@
-import { setPaymentMethodKeyBoard, userState } from "@/exports.js";
-import { sendMessage } from "@/functions";
+import { setPaymentMethodKeyBoard, userState } from "../../exports.js";
+import { sendMessage } from "../../functions";
 const setPaymentMethod = (chatId, method, text) => {
     userState[chatId] = {
         ...userState[chatId],
