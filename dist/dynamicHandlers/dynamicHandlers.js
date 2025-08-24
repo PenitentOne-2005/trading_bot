@@ -1,8 +1,8 @@
 import { userState } from "../exports.js";
 const dynamicHandlers = {
-    buy_: async (data, props) => {
+    buy_: async (data, { chatId }) => {
         const { processBuyCryptoSelection } = await import("../functions/index.js");
-        processBuyCryptoSelection(data, props.chatId, userState);
+        processBuyCryptoSelection(data, chatId, userState);
     },
     select_order_: async (data, { chatId }) => {
         const { confirmOrderPreview } = await import("../functions/index.js");
@@ -12,7 +12,7 @@ const dynamicHandlers = {
     },
     agree_get_: async (data, { chatId }) => {
         const { sendMessage, handleConfirmFiat } = await import("../functions/index.js");
-        const orderId = data.split("_")[2];
+        const orderId = userState[chatId]?.orderId;
         if (!orderId) {
             return sendMessage(chatId, "❗ orderId не указан.");
         }
