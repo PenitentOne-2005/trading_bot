@@ -1,6 +1,6 @@
 import { IAllOrdersMenu } from "./interface.js";
 import { showOrdersKeyBoard } from "@/exports.js";
-import { sendMessage } from "@/functions";
+import { sendMessage } from "@/functions/index.js";
 
 const allOrdersMenu: IAllOrdersMenu = (chatId) => {
   return sendMessage(

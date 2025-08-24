@@ -6,7 +6,7 @@ import {
   setPaymentMethod,
   updateStatusToWaiting,
   cancelPaymentProcess,
-} from "@/functions";
+} from "@/functions/index.js";
 import {
   selectLanguageBoard,
   agreeKeyBoard,

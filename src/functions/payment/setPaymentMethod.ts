@@ -1,6 +1,6 @@
 import { SetPaymentMethod } from "./interface.js";
 import { setPaymentMethodKeyBoard, userState } from "@/exports.js";
-import { sendMessage } from "@/functions";
+import { sendMessage } from "@/functions/index.js";
 
 const setPaymentMethod: SetPaymentMethod = (chatId, method, text) => {
   userState[chatId] = {

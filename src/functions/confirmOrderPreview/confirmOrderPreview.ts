@@ -1,7 +1,7 @@
 import { userState, dataMap, pool } from "@/exports.js";
 import { Props } from "./interface.js";
 import { showPaymentBuy, showPaymentSell } from "./menu.js";
-import { sendMessage } from "@/functions";
+import { sendMessage } from "@/functions/index.js";
 
 const confirmOrderPreview: Props = async (action, chatId, orderId) => {
   if (!action) {

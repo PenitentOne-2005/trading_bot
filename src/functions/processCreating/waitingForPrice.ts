@@ -1,6 +1,6 @@
 import { IWaitingForPrice } from "./interface.js";
 import { waitingForPriceMenu } from "./menu.js";
-import { sendMessage } from "@/functions";
+import { sendMessage } from "@/functions/index.js";
 
 const waitingForPrice: IWaitingForPrice = (props) => {
   const { userState, chatId, text } = props;

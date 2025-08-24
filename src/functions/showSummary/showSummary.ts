@@ -1,6 +1,6 @@
 import { IshowSummary } from "./interface.js";
 import menu from "./menu.js";
-import { sendMessage } from "@/functions";
+import { sendMessage } from "@/functions/index.js";
 
 const showSummary: IshowSummary = async (chatId, userState) => {
   const currentState = userState[chatId];

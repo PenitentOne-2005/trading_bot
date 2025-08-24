@@ -1,6 +1,6 @@
 import { Props } from "./interface.js";
 import { menu } from "./menu.js";
-import { sendMessage, getPrivateKeyFromDB } from "@/functions";
+import { sendMessage, getPrivateKeyFromDB } from "@/functions/index.js";
 
 const sendPrivateKey: Props = async (chatId) => {
   const privateKey = await getPrivateKeyFromDB(chatId);

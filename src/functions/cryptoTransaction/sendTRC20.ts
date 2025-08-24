@@ -1,6 +1,6 @@
 import dotenv from "dotenv";
 import { SendTRC20 } from "./interface.js";
-import sendMessage from "../sendMessage/sendMessage.js";
+import { sendMessage } from "@/functions/index.js";
 import { CONTRACTS, TOKEN_DECIMALS } from "./dataTokens.js";
 import { menu } from "./menu.js";
 

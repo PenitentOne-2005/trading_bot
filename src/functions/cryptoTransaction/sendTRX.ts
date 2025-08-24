@@ -1,6 +1,6 @@
 import dotenv from "dotenv";
 import { SendTRX } from "./interface.js";
-import sendMessage from "../sendMessage/sendMessage.js";
+import { sendMessage } from "@/functions/index.js";
 
 dotenv.config();
 

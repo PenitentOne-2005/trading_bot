@@ -1,6 +1,10 @@
 import { IShowWallet } from "./interface.js";
 import { menu } from "./menu.js";
-import { getWalletAddress, getWalletBalance, sendMessage } from "@/functions";
+import {
+  getWalletAddress,
+  getWalletBalance,
+  sendMessage,
+} from "@/functions/index.js";
 
 const showWallet: IShowWallet = async (chatId) => {
   const balance = await getWalletBalance(chatId);

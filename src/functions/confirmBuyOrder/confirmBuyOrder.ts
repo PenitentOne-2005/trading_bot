@@ -1,6 +1,6 @@
 import { menu } from "./menu.js";
 import { IconfirmByOrder } from "./interface.js";
-import { sendMessage, saveRequest } from "@/functions";
+import { sendMessage, saveRequest } from "@/functions/index.js";
 
 const confirmBuyOrder: IconfirmByOrder = async (obj) => {
   const { userState, chatId, username } = obj;

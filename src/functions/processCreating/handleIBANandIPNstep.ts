@@ -1,7 +1,7 @@
 import { BaseProps, IBANStep } from "./interface.js";
 import stepConfigs from "./stepConfig.js";
 import { backSteps, menuBack } from "./menu.js";
-import { sendMessage } from "@/functions";
+import { sendMessage } from "@/functions/index.js";
 
 const handleIBANandIPNstep = (props: BaseProps) => {
   const { userState, chatId, text } = props;

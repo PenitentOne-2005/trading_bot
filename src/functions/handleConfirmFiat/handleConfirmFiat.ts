@@ -1,5 +1,5 @@
 import { pool, userState, agreeGetKeyBoard } from "@/exports.js";
-import { sendMessage } from "@/functions";
+import { sendMessage } from "@/functions/index.js";
 import { HandleConfirmFiat } from "./interface.js";
 import { handleConfirmFiatMenu } from "./menu.js";
 

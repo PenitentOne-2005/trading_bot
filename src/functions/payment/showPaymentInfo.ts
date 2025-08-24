@@ -1,6 +1,6 @@
 import { FuncInfoProps } from "./interface.js";
 import { showPaymentInfoKeyBoard, pool } from "@/exports.js";
-import { sendMessage } from "@/functions";
+import { sendMessage } from "@/functions/index.js";
 
 const showPaymentInfo: FuncInfoProps = async (userState, chatId) => {
   const { amount, sumToPay } = userState[chatId] ?? {};

@@ -1,6 +1,6 @@
 import { pool, userState } from "@/exports.js";
 import { IShowOrders } from "./interface.js";
-import { sendMessage } from "@/functions";
+import { sendMessage } from "@/functions/index.js";
 
 const showOrders: IShowOrders = async (params) => {
   try {

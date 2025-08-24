@@ -1,5 +1,5 @@
 import { IShowSellMenu } from "./interface.js";
-import { showOrders } from "@/functions";
+import { showOrders } from "@/functions/index.js";
 
 const showSellMenu: IShowSellMenu = async (userOffsets, chatId) => {
   const params = {

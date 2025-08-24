@@ -1,6 +1,6 @@
 import { IhandleCryptoSelection } from "./interface.js";
 import { sellMenu } from "./sellMenu.js";
-import { sendMessage } from "@/functions";
+import { sendMessage } from "@/functions/index.js";
 
 const handleCryptoSelection: IhandleCryptoSelection = (obj) => {
   const { chatId, text, CRYPTOS, userState } = obj;

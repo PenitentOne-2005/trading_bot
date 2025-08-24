@@ -1,6 +1,6 @@
 import { Props } from "./interface.js";
 import { menu } from "./menu.js";
-import { sendMessage } from "@/functions";
+import { sendMessage } from "@/functions/index.js";
 
 const processBuyCryptoSelection: Props = (data, chatId, userState) => {
   const crypto = data?.replace("buy_", "") + " (TRC-20)";

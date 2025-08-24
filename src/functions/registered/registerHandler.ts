@@ -4,7 +4,7 @@ import {
   saveUser,
   encryptPrivateKey,
   createWallet,
-} from "@/functions";
+} from "@/functions/index.js";
 
 const registerHandler: Iregister = async (chatId, username) => {
   try {

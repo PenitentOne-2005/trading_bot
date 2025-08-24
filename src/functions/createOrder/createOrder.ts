@@ -1,6 +1,6 @@
 import { IPropsFunc } from "./interface.js";
 import { createOrderMenu } from "./menu.js";
-import { sendMessage } from "@/functions";
+import { sendMessage } from "@/functions/index.js";
 
 const createOrder: IPropsFunc = (props) => {
   const { currentState, chatId, userState, username } = props;

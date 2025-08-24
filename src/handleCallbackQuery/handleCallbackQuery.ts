@@ -1,5 +1,5 @@
 import { dynamicHandlers, callbackHandlers, CallbackProps } from "@/exports.js";
-import { sendMessage } from "@/functions";
+import { sendMessage } from "@/functions/index.js";
 
 async function handleCallbackQuery(data: string, props: CallbackProps) {
   if (callbackHandlers[data]) {

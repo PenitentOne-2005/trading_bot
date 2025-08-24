@@ -1,6 +1,6 @@
 import { payMethodProps } from "./interface.js";
 import { payMethodMenu } from "./menu.js";
-import { sendMessage, showSummary } from "@/functions";
+import { sendMessage, showSummary } from "@/functions/index.js";
 
 const payMethod: payMethodProps = (props) => {
   const { chatId, savedPayment, userState } = props;

@@ -1,6 +1,6 @@
 import { FuncInfoProps } from "./interface.js";
 import { pool } from "@/exports.js";
-import { sendMessage } from "@/functions";
+import { sendMessage } from "@/functions/index.js";
 
 const updateStatusToWaiting: FuncInfoProps = async (
   userState,
