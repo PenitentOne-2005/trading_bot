@@ -9,7 +9,7 @@ import {
   userState,
   mainMenu,
   bot,
-} from "@/exports.js";
+} from "./exports.js";
 
 const greetings = process.env.GREETINGS;
 if (!greetings) {
