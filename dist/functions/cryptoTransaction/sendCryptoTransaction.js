@@ -2,7 +2,7 @@ import { TronWeb } from "tronweb";
 import dotenv from "dotenv";
 import { CONTRACTS } from "./dataTokens.js";
 import validateUserState from "./validateUserState.js";
-import { sendMessage, getWalletBalance, getPrivateKeyFromDB, } from "../../functions";
+import { sendMessage, getWalletBalance, getPrivateKeyFromDB, } from "../../functions/index.js";
 import { userState, pool } from "../../exports.js";
 import sendTRC20 from "./sendTRC20.js";
 import sendTRX from "./sendTRX.js";
