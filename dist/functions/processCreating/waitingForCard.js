@@ -1,6 +1,6 @@
 import { checkUserCard } from "./regExp.js";
 import { menuBack } from "./menu.js";
-import { sendMessage } from "../../functions";
+import { sendMessage } from "../../functions/index.js";
 const waitingForCard = async (props) => {
     const { userState, chatId, text } = props;
     if (checkUserCard.test(text)) {

@@ -1,5 +1,5 @@
 import { waitingForPriceMenu } from "./menu.js";
-import { sendMessage } from "../../functions";
+import { sendMessage } from "../../functions/index.js";
 const waitingForPrice = (props) => {
     const { userState, chatId, text } = props;
     const price = parseFloat(text);

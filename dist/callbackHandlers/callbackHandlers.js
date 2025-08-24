@@ -1,4 +1,4 @@
-import { sendMessage, showOrders, createOrder, setPaymentMethod, updateStatusToWaiting, cancelPaymentProcess, } from "../functions";
+import { sendMessage, showOrders, createOrder, setPaymentMethod, updateStatusToWaiting, cancelPaymentProcess, } from "../functions/index.js";
 import { selectLanguageBoard, agreeKeyBoard, helpKeyBoard, mainMenu, myOrdersKeyBoard, showOrdersKeyBoard, userOffsets, userState, MESSAGE_TEXT, pool, } from "../exports.js";
 const callbackHandlers = {
     lang_en: ({ chatId }) => sendMessage(chatId, MESSAGE_TEXT.unsuportLang, selectLanguageBoard),

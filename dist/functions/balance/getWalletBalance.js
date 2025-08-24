@@ -1,6 +1,6 @@
 import dotenv from "dotenv";
 import axios from "axios";
-import { getWalletAddress } from "../../functions";
+import { getWalletAddress } from "../../functions/index.js";
 dotenv.config();
 const USDT_CONTRACT = "0x55d398326f99059fF775485246999027B3197955";
 const USDC_CONTRACT = "0x8ac76a51cc950d9822d68b83fe1ad97b32cd580d";

@@ -1,5 +1,5 @@
 import { payMethodMenu } from "./menu.js";
-import { sendMessage, showSummary } from "../../functions";
+import { sendMessage, showSummary } from "../../functions/index.js";
 const payMethod = (props) => {
     const { chatId, savedPayment, userState } = props;
     if (savedPayment) {

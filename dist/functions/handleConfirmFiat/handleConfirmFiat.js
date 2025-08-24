@@ -1,5 +1,5 @@
 import { pool, userState, agreeGetKeyBoard } from "../../exports.js";
-import { sendMessage } from "../../functions";
+import { sendMessage } from "../../functions/index.js";
 import { handleConfirmFiatMenu } from "./menu.js";
 const handleConfirmFiat = async (chatId, orderId) => {
     const { currentDb } = userState[chatId] ?? {};
