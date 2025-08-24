@@ -12,7 +12,7 @@ const dynamicHandlers = {
     },
     agree_get_: async (data, { chatId }) => {
         const { sendMessage, handleConfirmFiat } = await import("../functions/index.js");
-        const orderId = userState[chatId]?.orderId;
+        const orderId = data.replace("agree_get_", "");
         if (!orderId) {
             return sendMessage(chatId, "❗ orderId не указан.");
         }

@@ -27,7 +27,7 @@ const dynamicHandlers: {
       "@/functions/index.js"
     );
 
-    const orderId = userState[chatId]?.orderId;
+    const orderId = data.replace("agree_get_", "");
 
     if (!orderId) {
       return sendMessage(chatId, "❗ orderId не указан.");
