@@ -7,10 +7,10 @@ const dynamicHandlers: {
     props: CallbackProps
   ) => void | Promise<void | Message>;
 } = {
-  buy_: async (data, props) => {
+  buy_: async (data, { chatId }) => {
     const { processBuyCryptoSelection } = await import("@/functions/index.js");
 
-    processBuyCryptoSelection(data, props.chatId, userState);
+    processBuyCryptoSelection(data, chatId, userState);
   },
 
   select_order_: async (data, { chatId }) => {
@@ -27,7 +27,7 @@ const dynamicHandlers: {
       "@/functions/index.js"
     );
 
-    const orderId = data.split("_")[2];
+    const orderId = userState[chatId]?.orderId;
 
     if (!orderId) {
       return sendMessage(chatId, "❗ orderId не указан.");
