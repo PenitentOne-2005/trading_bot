@@ -1,7 +1,7 @@
 import { dynamicHandlers, callbackHandlers, CallbackProps } from "@/exports.js";
 import { sendMessage } from "@/functions/index.js";
 
-async function handleCallbackQuery(data: string, props: CallbackProps) {
+const handleCallbackQuery = async (data: string, props: CallbackProps) => {
   if (callbackHandlers[data]) {
     return callbackHandlers[data](props);
   }
@@ -15,6 +15,6 @@ async function handleCallbackQuery(data: string, props: CallbackProps) {
 
   // По умолчанию — неизвестная команда
   await sendMessage(props.chatId, "❓ Невідома команда.");
-}
+};
 
 export default handleCallbackQuery;

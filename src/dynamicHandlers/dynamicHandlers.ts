@@ -27,13 +27,18 @@ const dynamicHandlers: {
       "@/functions/index.js"
     );
 
-    const orderId = data.replace("agree_get_", "");
+    try {
+      const orderId = data.replace("agree_get_", "");
 
-    if (!orderId) {
-      return sendMessage(chatId, "❗ orderId не указан.");
+      if (!orderId) {
+        return sendMessage(chatId, "❗ orderId не указан.");
+      }
+
+      await handleConfirmFiat(chatId, orderId);
+    } catch (err) {
+      console.error("Ошибка в agree_get_:", err);
+      await sendMessage(chatId, "❌ Произошла ошибка при обработке.");
     }
-
-    await handleConfirmFiat(chatId, orderId);
   },
 };
 
