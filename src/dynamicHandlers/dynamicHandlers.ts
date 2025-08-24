@@ -8,13 +8,13 @@ const dynamicHandlers: {
   ) => void | Promise<void | Message>;
 } = {
   buy_: async (data, props) => {
-    const { processBuyCryptoSelection } = await import("@/functions");
+    const { processBuyCryptoSelection } = await import("@/functions/index.js");
 
     processBuyCryptoSelection(data, props.chatId, userState);
   },
 
   select_order_: async (data, { chatId }) => {
-    const { confirmOrderPreview } = await import("@/functions");
+    const { confirmOrderPreview } = await import("@/functions/index.js");
 
     const orderId = data.replace("select_order_", "");
     const action = userState[chatId]?.currentDb;
@@ -23,7 +23,9 @@ const dynamicHandlers: {
   },
 
   agree_get_: async (data, { chatId }) => {
-    const { sendMessage, handleConfirmFiat } = await import("@/functions");
+    const { sendMessage, handleConfirmFiat } = await import(
+      "@/functions/index.js"
+    );
 
     const orderId = data.split("_")[2];
 
