@@ -7,7 +7,7 @@ import {
   sendMessage,
   getWalletBalance,
   getPrivateKeyFromDB,
-} from "@/functions";
+} from "@/functions/index.js";
 import { userState, pool } from "@/exports.js";
 import sendTRC20 from "./sendTRC20.js";
 import sendTRX from "./sendTRX.js";
