@@ -1,11 +1,11 @@
-import { pool, userState, agreeGetKeyBoard } from "@/exports.js";
+import { pool, agreeGetKeyBoard, dataMap } from "@/exports.js";
 import { sendMessage } from "@/functions/index.js";
 import { HandleConfirmFiat } from "./interface.js";
 import { handleConfirmFiatMenu } from "./menu.js";
 
 const handleConfirmFiat: HandleConfirmFiat = async (chatId, orderId) => {
   try {
-    const { currentDb } = userState[chatId] ?? {};
+    const currentDb = dataMap.get("currentDb");
 
     const sellerQuery = `
     SELECT buyer_chat_id, amount, price, crypto
