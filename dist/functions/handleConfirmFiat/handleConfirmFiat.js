@@ -13,10 +13,10 @@ const handleConfirmFiat = async (chatId, orderId) => {
         if (sellerResult.rows.length === 0) {
             return sendMessage(chatId, "❌ Ордер не найден.");
         }
-        const { chat_id, amount, price, crypto } = sellerResult.rows[0];
+        const { buyer_chat_id, amount, price, crypto } = sellerResult.rows[0];
         const sumToPay = amount * price;
         // Сообщение покупателю
-        await sendMessage(chat_id, `✅ Успiшно! Продавец пiдтвердив отримання фiатного платежу.
+        await sendMessage(buyer_chat_id, `✅ Успiшно! Продавец пiдтвердив отримання фiатного платежу.
 
         Оголошення #${orderId}
         Куплено: ${amount}
