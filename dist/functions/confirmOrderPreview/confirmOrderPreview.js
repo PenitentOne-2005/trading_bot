@@ -23,7 +23,7 @@ const confirmOrderPreview = async (action, chatId, orderId) => {
         sumToPay: sumToPay,
         crypto: crypto,
     };
-    dataMap.set("second_user_chat_id", chatId);
+    dataMap.set("currentDb", action);
     return sendMessage(chatId, `📝 ${actionText}`, menu);
 };
 export default confirmOrderPreview;
