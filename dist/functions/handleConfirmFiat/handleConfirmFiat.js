@@ -5,7 +5,7 @@ const handleConfirmFiat = async (chatId, orderId) => {
     try {
         const { currentDb } = userState[chatId] ?? {};
         const sellerQuery = `
-    SELECT chat_id, amount, price, crypto
+    SELECT buyer_chat_id, amount, price, crypto
     FROM ${currentDb}
     WHERE id = $1
   `;
@@ -13,10 +13,10 @@ const handleConfirmFiat = async (chatId, orderId) => {
         if (sellerResult.rows.length === 0) {
             return sendMessage(chatId, "❌ Ордер не найден.");
         }
-        const { chat_id, amount, price, crypto } = sellerResult.rows[0];
+        const { buyer_chat_id, amount, price, crypto } = sellerResult.rows[0];
         const sumToPay = amount * price;
         // Сообщение покупателю
-        await sendMessage(chat_id, `✅ Успiшно! Продавец пiдтвердив отримання фiатного платежу.
+        await sendMessage(buyer_chat_id, `✅ Успiшно! Продавец пiдтвердив отримання фiатного платежу.
 
         Оголошення #${orderId}
         Куплено: ${amount}
