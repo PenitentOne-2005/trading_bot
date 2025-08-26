@@ -2,10 +2,10 @@ import { TronWeb } from "tronweb";
 import dotenv from "dotenv";
 import { CONTRACTS } from "./dataTokens.js";
 import validateUserState from "./validateUserState.js";
-import { sendMessage, getWalletBalance, getPrivateKeyFromDB, } from "../../functions/index.js";
 import { userState, pool } from "../../exports.js";
 import sendTRC20 from "./sendTRC20.js";
 import sendTRX from "./sendTRX.js";
+import { sendMessage, getWalletBalance, getPrivateKeyFromDB, } from "../../functions/index.js";
 dotenv.config();
 const TRONGRID_API_KEY = process.env.TRONGRID_API_KEY;
 const sendCryptoTransaction = async (chatId) => {
@@ -38,8 +38,7 @@ const sendCryptoTransaction = async (chatId) => {
             Статус: Виконується
             Реквiзити для оплати переданi покупцевi.
             Термін дiï: 30хв
-            ! На цьому етапi угоду скасувати неможливо, вона проходить через блокчейн.
-            OrderId: ${orderId}`, {
+            ! На цьому етапi угоду скасувати неможливо, вона проходить через блокчейн.`, {
                 reply_markup: {
                     inline_keyboard: [
                         [
