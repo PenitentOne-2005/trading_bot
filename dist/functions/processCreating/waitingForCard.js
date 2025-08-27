@@ -1,6 +1,6 @@
 import { checkUserCard } from "./regExp.js";
 import { menuBack } from "./menu.js";
-import { sendMessage } from "../../functions/index.js";
+import { sendMessage, showSummary, savePayments } from "../../functions/index.js";
 const waitingForCard = async (props) => {
     const { userState, chatId, text } = props;
     if (checkUserCard.test(text)) {
@@ -10,8 +10,6 @@ const waitingForCard = async (props) => {
             step: "confirmOrder",
             paymentMethod: "Картка",
         };
-        const { default: showSummary } = await import("../showSummary/showSummary.js");
-        const { default: savePayments } = await import("../payment/savePayments.js");
         await savePayments(chatId, obj);
         return await showSummary(chatId, userState);
     }

@@ -27,7 +27,7 @@ const handleConfirmFiat = async (chatId, orderId) => {
         Що далi?`, handleConfirmFiatMenu);
         // Сообщение продавцу
         await sendMessage(chatId, `Успiшно! Ескроу-контракт вiдправив криптовалюту покупцевi.
-    
+
      Оголошення #${orderId}
      Продано: ${amount} ${crypto}
      Сума: ${sumToPay}

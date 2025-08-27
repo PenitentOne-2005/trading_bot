@@ -5,6 +5,10 @@ const sendPrivateKey = async (chatId) => {
     if (!privateKey) {
         return sendMessage(chatId, "❌ Ключ не найден.");
     }
-    return sendMessage(chatId, `Надання приватного ключа\n Ваш приватний ключ: ${privateKey}\n Збережіть цей ключ у надійному місці!\n Телеграм бот не є сховищем ключів та не відповідає за їх зберігання.\n Що далі?`, menu);
+    return sendMessage(chatId, `Надання приватного ключа
+    Ваш приватний ключ: ${privateKey}
+    Збережіть цей ключ у надійному місці!
+    Телеграм бот не є сховищем ключів та не відповідає за їх зберігання.
+    Що далі?`, menu);
 };
 export default sendPrivateKey;
