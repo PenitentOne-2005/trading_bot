@@ -19,7 +19,10 @@ const cancelPaymentProcess: FuncInfoProps = async (
 
     await pool.query(updateQuery, [orderId, chatId]);
 
-    const text = `❌ Операцiю скасовано!\n Ви скасували покупку ${amount} ${crypto} за ${sumToPay} UAH.\n Оголошення #${orderId} залишилось активним, i ви можете використати його пiзнiше.\n Що далi?`;
+    const text = `❌ Операцiю скасовано!
+    Ви скасували покупку ${amount} ${crypto} за ${sumToPay} UAH.
+    Оголошення #${orderId} залишилось активним, i ви можете використати його пiзнiше.
+    Що далi?`;
 
     return sendMessage(chatId, text, cancelPaymentProcessKeyBoard);
   } catch (error) {

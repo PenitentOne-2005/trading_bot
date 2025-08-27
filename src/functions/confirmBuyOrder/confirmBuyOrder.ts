@@ -17,7 +17,15 @@ const confirmBuyOrder: IconfirmByOrder = async (obj) => {
 
   return sendMessage(
     chatId,
-    `✅ Ваше оголошення успішно створено!\n\n Оголошення N: 123456 ${amount}\n Криптовалюта: ${crypto}\n Ціна ${price}\n Валюта оплати: UAH\n Спосіб оплати: ${paymentMethod}\n Термін дії: 24 години\n Що далі?`,
+    `✅ Ваше оголошення успішно створено!
+    
+    Оголошення N: 123456 ${amount}
+    Криптовалюта: ${crypto}
+    Ціна ${price}
+    Валюта оплати: UAH
+    Спосіб оплати: ${paymentMethod}
+    Термін дії: 24 години
+    Що далі?`,
     menu
   );
 };

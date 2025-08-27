@@ -40,7 +40,7 @@ const handleConfirmFiat: HandleConfirmFiat = async (chatId, orderId) => {
     await sendMessage(
       chatId,
       `Успiшно! Ескроу-контракт вiдправив криптовалюту покупцевi.
-    
+
      Оголошення #${orderId}
      Продано: ${amount} ${crypto}
      Сума: ${sumToPay}
