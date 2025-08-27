@@ -1,7 +1,7 @@
 import { IWaitingForName } from "./interface.js";
 import { checkUserName } from "./regExp.js";
 import { menuBack } from "./menu.js";
-import { sendMessage } from "@/functions/index.js";
+import { sendMessage, showSummary, savePayments } from "@/functions/index.js";
 
 const waitingForName: IWaitingForName = async (props) => {
   const { userState, chatId, text } = props;
@@ -19,13 +19,6 @@ const waitingForName: IWaitingForName = async (props) => {
       step: "confirmOrder",
       IBANdata,
     };
-
-    const { default: showSummary } = await import(
-      "../showSummary/showSummary.js"
-    );
-    const { default: savePayments } = await import(
-      "../payment/savePayments.js"
-    );
 
     await savePayments(chatId, JSON.stringify(IBANdata));
     return showSummary(chatId, userState);
