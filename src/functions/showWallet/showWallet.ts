@@ -19,7 +19,6 @@ const showWallet: IShowWallet = async (chatId) => {
       * TRX (необхідний для комісій): ${balance?.trx} TRX
       * USDC: ${balance?.usdc} USDC
       * TUSD: ${balance?.tusd} TUSD
-      * DAI: ${balance?.dai} 
      Адреса вашого гаманця:
      ${wallet}
     Доступні дії:`,

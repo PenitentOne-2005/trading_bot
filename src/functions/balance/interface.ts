@@ -4,6 +4,5 @@ export interface IgetWalletBalance {
     usdt: number;
     usdc: number;
     tusd: number;
-    dai: number;
 } | null>
 }

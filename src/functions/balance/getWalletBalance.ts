@@ -12,7 +12,6 @@ const tronWeb = new TronWeb({
 const USDT_CONTRACT = "TLa2f6VPqDgRE67v1736s7bJ8Ray5wYjU7";
 const USDC_CONTRACT = "TXLAQ63Xg1NAzckPwKHvzw7CSEmLMEqcdj";
 const TUSD_CONTRACT = "TXMc2g6joB1pP6WXoW5aUq7qQ1uoBqYJ4t";
-const DAI_CONTRACT = "TQd1z9d9d9d9d9d9d9d9d9d9d9d9d9d9d9d";
 
 const getWalletBalance: IgetWalletBalance = async (chatId) => {
   try {
@@ -29,11 +28,10 @@ const getWalletBalance: IgetWalletBalance = async (chatId) => {
       return Number(balance.toString()) / Math.pow(10, decimals);
     };
 
-    const [usdt, usdc, tusd, dai] = await Promise.all([
+    const [usdt, usdc, tusd] = await Promise.all([
       getTokenBalance(USDT_CONTRACT, 6),
       getTokenBalance(USDC_CONTRACT, 6),
       getTokenBalance(TUSD_CONTRACT, 18),
-      getTokenBalance(DAI_CONTRACT, 18),
     ]);
 
     return {
@@ -41,7 +39,6 @@ const getWalletBalance: IgetWalletBalance = async (chatId) => {
       usdt,
       usdc,
       tusd,
-      dai,
     };
   } catch (error: any) {
     console.error("❌ Ошибка при получении баланса:", error.message);
