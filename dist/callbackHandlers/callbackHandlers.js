@@ -142,11 +142,6 @@ const callbackHandlers = {
         await cancelPaymentProcess(userState, chatId, orderId);
     },
     back: async ({ chatId }) => {
-        const orderId = userState[chatId]?.orderId;
-        if (!orderId) {
-            return sendMessage(chatId, "❗ Заявка не знайдена або вже оброблена.");
-        }
-        await cancelPaymentProcess(userState, chatId, orderId);
         userState[chatId] = { step: "idle" };
         sendMessage(chatId, "🔙 Главное меню:", mainMenu);
     },
