@@ -1,9 +1,13 @@
 import dotenv from "dotenv";
-import axios from "axios";
+import { TronWeb } from "tronweb";
 import { IgetWalletBalance } from "./interface.js";
 import { getWalletAddress } from "@/functions/index.js";
 
 dotenv.config();
+
+const tronWeb = new TronWeb({
+  fullHost: "https://api.trongrid.io",
+});
 
 const USDT_CONTRACT = "0x55d398326f99059fF775485246999027B3197955";
 const USDC_CONTRACT = "0x8ac76a51cc950d9822d68b83fe1ad97b32cd580d";
@@ -14,48 +18,22 @@ const getWalletBalance: IgetWalletBalance = async (chatId) => {
   try {
     const walletAddress = await getWalletAddress(chatId);
 
-    if (!process.env.QUICKNODE_RPC) {
-      throw new Error("QUICKNODE_RPC не задан в переменных окружения");
-    }
+    // Баланс TRX
+    const trxBalanceSun = await tronWeb.trx.getBalance(walletAddress);
+    const trxBalance = trxBalanceSun / 1e6; // 1 TRX = 1_000_000 SUN
 
-    const provider = process.env.QUICKNODE_RPC;
-
-    // Получаем TRX (BNB в случае BSC)
-    const trxResponse = await axios.post(provider, {
-      jsonrpc: "2.0",
-      method: "eth_getBalance",
-      params: [walletAddress, "latest"],
-      id: 1,
-    });
-
-    const trxHex = trxResponse.data?.result;
-    const trxBalance = trxHex ? parseInt(trxHex, 16) / 1e18 : 0;
-
-    // Формируем data для balanceOf(address)
-    const makeBalanceCall = async (tokenAddress: string, decimals: number) => {
-      const data =
-        "0x70a08231000000000000000000000000" + walletAddress?.slice(2);
-      const response = await axios.post(provider, {
-        jsonrpc: "2.0",
-        method: "eth_call",
-        params: [
-          {
-            to: tokenAddress,
-            data: data,
-          },
-          "latest",
-        ],
-        id: 2,
-      });
-      const hex = response.data?.result;
-      return hex ? parseInt(hex, 16) / Math.pow(10, decimals) : 0;
+    // Баланс TRC20 токенов
+    const getTokenBalance = async (tokenAddress: string, decimals: number) => {
+      const contract = await tronWeb.contract().at(tokenAddress);
+      const balance = await contract.balanceOf(walletAddress).call();
+      return Number(balance.toString()) / Math.pow(10, decimals);
     };
 
     const [usdt, usdc, tusd, dai] = await Promise.all([
-      makeBalanceCall(USDT_CONTRACT, 6),
-      makeBalanceCall(USDC_CONTRACT, 6),
-      makeBalanceCall(TUSD_CONTRACT, 18),
-      makeBalanceCall(DAI_CONTRACT, 18),
+      getTokenBalance(USDT_CONTRACT, 6),
+      getTokenBalance(USDC_CONTRACT, 6),
+      getTokenBalance(TUSD_CONTRACT, 18),
+      getTokenBalance(DAI_CONTRACT, 18),
     ]);
 
     return {
