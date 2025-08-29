@@ -1,6 +1,6 @@
 import dotenv from "dotenv";
 import { TronWeb } from "tronweb";
-import { getWalletAddress } from "../../functions/index.js";
+import { getWalletAddress, sendMessage } from "../../functions/index.js";
 dotenv.config();
 const tronWeb = new TronWeb({
     fullHost: "https://api.trongrid.io",
@@ -37,6 +37,7 @@ const getWalletBalance = async (chatId) => {
     }
     catch (error) {
         console.error("❌ Ошибка при получении баланса:", error.message);
+        sendMessage(chatId, "❌ Ошибка при получении баланса");
         return null;
     }
 };
