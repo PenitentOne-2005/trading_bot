@@ -8,7 +8,6 @@ const tronWeb = new TronWeb({
 const USDT_CONTRACT = "TLa2f6VPqDgRE67v1736s7bJ8Ray5wYjU7";
 const USDC_CONTRACT = "TXLAQ63Xg1NAzckPwKHvzw7CSEmLMEqcdj";
 const TUSD_CONTRACT = "TXMc2g6joB1pP6WXoW5aUq7qQ1uoBqYJ4t";
-const DAI_CONTRACT = "TQd1z9d9d9d9d9d9d9d9d9d9d9d9d9d9d9d";
 const getWalletBalance = async (chatId) => {
     try {
         const walletAddress = await getWalletAddress(chatId);
@@ -21,18 +20,16 @@ const getWalletBalance = async (chatId) => {
             const balance = await contract.balanceOf(walletAddress).call();
             return Number(balance.toString()) / Math.pow(10, decimals);
         };
-        const [usdt, usdc, tusd, dai] = await Promise.all([
+        const [usdt, usdc, tusd] = await Promise.all([
             getTokenBalance(USDT_CONTRACT, 6),
             getTokenBalance(USDC_CONTRACT, 6),
             getTokenBalance(TUSD_CONTRACT, 18),
-            getTokenBalance(DAI_CONTRACT, 18),
         ]);
         return {
             trx: trxBalance,
             usdt,
             usdc,
             tusd,
-            dai,
         };
     }
     catch (error) {
