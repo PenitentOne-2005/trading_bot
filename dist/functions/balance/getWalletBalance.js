@@ -5,10 +5,10 @@ dotenv.config();
 const tronWeb = new TronWeb({
     fullHost: "https://api.trongrid.io",
 });
-const USDT_CONTRACT = "0x55d398326f99059fF775485246999027B3197955";
-const USDC_CONTRACT = "0x8ac76a51cc950d9822d68b83fe1ad97b32cd580d";
-const TUSD_CONTRACT = "0x14016e85a25aeb13065688cafb43044c2ef86784";
-const DAI_CONTRACT = "0x1AF3F329e8BE154074D8769D1FFa4eE058B1DBc3";
+const USDT_CONTRACT = "TLa2f6VPqDgRE67v1736s7bJ8Ray5wYjU7";
+const USDC_CONTRACT = "TXLAQ63Xg1NAzckPwKHvzw7CSEmLMEqcdj";
+const TUSD_CONTRACT = "TXMc2g6joB1pP6WXoW5aUq7qQ1uoBqYJ4t";
+const DAI_CONTRACT = "TQd1z9d9d9d9d9d9d9d9d9d9d9d9d9d9d9d";
 const getWalletBalance = async (chatId) => {
     try {
         const walletAddress = await getWalletAddress(chatId);
