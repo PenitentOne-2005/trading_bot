@@ -1,7 +1,7 @@
 import dotenv from "dotenv";
 import { TronWeb } from "tronweb";
 import { IgetWalletBalance } from "./interface.js";
-import { getWalletAddress } from "@/functions/index.js";
+import { getWalletAddress, sendMessage } from "@/functions/index.js";
 
 dotenv.config();
 
@@ -45,6 +45,7 @@ const getWalletBalance: IgetWalletBalance = async (chatId) => {
     };
   } catch (error: any) {
     console.error("❌ Ошибка при получении баланса:", error.message);
+    sendMessage(chatId, "❌ Ошибка при получении баланса");
     return null;
   }
 };
