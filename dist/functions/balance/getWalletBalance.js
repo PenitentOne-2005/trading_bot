@@ -11,20 +11,20 @@ const TUSD_CONTRACT = "TXMc2g6joB1pP6WXoW5aUq7qQ1uoBqYJ4t";
 const getWalletBalance = async (chatId) => {
     try {
         const walletAddress = await getWalletAddress(chatId);
+        sendMessage(chatId, `WalletAddress: ${walletAddress}`);
         // Баланс TRX
         const trxBalanceSun = await tronWeb.trx.getBalance(walletAddress);
         const trxBalance = trxBalanceSun / 1e6; // 1 TRX = 1_000_000 SUN
         // Баланс TRC20 токенов
         const getTokenBalance = async (tokenAddress, decimals) => {
-            const hexAddress = tronWeb.address.toHex(tokenAddress); // конвертация
-            const contract = await tronWeb.contract().at(hexAddress);
+            const contract = await tronWeb.contract().at(tokenAddress); // без toHex
             const balance = await contract.balanceOf(walletAddress).call();
             return Number(balance.toString()) / Math.pow(10, decimals);
         };
         const [usdt, usdc, tusd] = await Promise.all([
             getTokenBalance(USDT_CONTRACT, 6),
             getTokenBalance(USDC_CONTRACT, 6),
-            getTokenBalance(TUSD_CONTRACT, 6),
+            getTokenBalance(TUSD_CONTRACT, 6), // TUSD тоже 6 знаков
         ]);
         return {
             trx: trxBalance,
