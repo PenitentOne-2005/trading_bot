@@ -1,6 +1,7 @@
 import dotenv from "dotenv";
 dotenv.config();
-import { handleCallbackQuery, processUserMessage, CRYPTOS, userState, mainMenu, bot, } from "./exports.js";
+import bot from "./botInstance.js";
+import { handleCallbackQuery, processUserMessage, CRYPTOS, userState, mainMenu, } from "./exports.js";
 const greetings = process.env.GREETINGS;
 if (!greetings) {
     console.error("❌ GREETINGS не найден! Убедитесь, что он задан в .env файле.");
