@@ -49,5 +49,3 @@ bot.on("callback_query", async (callbackQuery) => {
 bot.on("polling_error", (error) => {
   console.error("❌ Ошибка опроса бота:", error);
 });
-
-bot.startPolling();
