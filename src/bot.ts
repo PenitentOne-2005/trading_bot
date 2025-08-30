@@ -2,13 +2,13 @@ import dotenv from "dotenv";
 
 dotenv.config();
 
+import bot from "./botInstance.js";
 import {
   handleCallbackQuery,
   processUserMessage,
   CRYPTOS,
   userState,
   mainMenu,
-  bot,
 } from "./exports.js";
 
 const greetings = process.env.GREETINGS;
