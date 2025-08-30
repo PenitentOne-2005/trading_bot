@@ -11,6 +11,6 @@ if (!token) {
   process.exit(1);
 }
 
-const bot = new TelegramBot(token);
+const bot = new TelegramBot(token, { polling: true });
 
 export default bot;
