@@ -1,13 +1,11 @@
 import dotenv from "dotenv";
 import { TronWeb } from "tronweb";
+import CONTRACTS from "./CONTRACTS.js";
 import { getWalletAddress, sendMessage } from "../../functions/index.js";
 dotenv.config();
 const tronWeb = new TronWeb({
     fullHost: "https://api.trongrid.io",
 });
-const USDT_CONTRACT = "TLa2f6VPqDgRE67v1736s7bJ8Ray5wYjU7";
-const USDC_CONTRACT = "TEkxiTehnzSmSe2XqrBj4w32RUN966rdz8";
-const TUSD_CONTRACT = "TUpMhErZL2fhh4sVNULAbNKLokS4GjC1F4";
 const getWalletBalance = async (chatId) => {
     try {
         const walletAddress = await getWalletAddress(chatId);
@@ -30,9 +28,9 @@ const getWalletBalance = async (chatId) => {
             }
         };
         const [usdt, usdc, tusd] = await Promise.all([
-            getTokenBalance(USDT_CONTRACT, 6),
-            getTokenBalance(USDC_CONTRACT, 6),
-            getTokenBalance(TUSD_CONTRACT, 6),
+            getTokenBalance(CONTRACTS.USDT, 6),
+            getTokenBalance(CONTRACTS.USDC, 6),
+            getTokenBalance(CONTRACTS.TUSD, 6),
         ]);
         return {
             trx: trxBalance,
