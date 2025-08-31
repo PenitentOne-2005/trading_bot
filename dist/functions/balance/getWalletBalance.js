@@ -6,7 +6,7 @@ const tronWeb = new TronWeb({
     fullHost: "https://api.trongrid.io",
 });
 const USDT_CONTRACT = "TLa2f6VPqDgRE67v1736s7bJ8Ray5wYjU7";
-const USDC_CONTRACT = "TXLAQ63Xg1NAzckPwKHvzw7CSEmLMEqcdj";
+const USDC_CONTRACT = "TEkxiTehnzSmSe2XqrBj4w32RUN966rdz8";
 const TUSD_CONTRACT = "TUpMhErZL2fhh4sVNULAbNKLokS4GjC1F4";
 const getWalletBalance = async (chatId) => {
     try {
