@@ -23,8 +23,10 @@ const getWalletBalance: IgetWalletBalance = async (chatId) => {
 
     // Баланс TRC20 токенов
     const getTokenBalance = async (tokenAddress: string, decimals: number) => {
-      const contract = await tronWeb.contract().at(tokenAddress); // без toHex
-      const balance = await contract.balanceOf(walletAddress).call();
+      const contract = await tronWeb.contract().at(tokenAddress);
+      const balance = await contract.balanceOf(walletAddress).call({
+        from: walletAddress,
+      });
       return Number(balance.toString()) / Math.pow(10, decimals);
     };
 
