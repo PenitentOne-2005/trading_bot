@@ -16,8 +16,10 @@ const getWalletBalance = async (chatId) => {
         const trxBalance = trxBalanceSun / 1e6; // 1 TRX = 1_000_000 SUN
         // Баланс TRC20 токенов
         const getTokenBalance = async (tokenAddress, decimals) => {
-            const contract = await tronWeb.contract().at(tokenAddress); // без toHex
-            const balance = await contract.balanceOf(walletAddress).call();
+            const contract = await tronWeb.contract().at(tokenAddress);
+            const balance = await contract.balanceOf(walletAddress).call({
+                from: walletAddress,
+            });
             return Number(balance.toString()) / Math.pow(10, decimals);
         };
         const [usdt, usdc, tusd] = await Promise.all([
