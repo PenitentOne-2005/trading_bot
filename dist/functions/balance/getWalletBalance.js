@@ -18,7 +18,9 @@ const getWalletBalance = async (chatId) => {
         const getTokenBalance = async (tokenAddress, decimals) => {
             try {
                 const contract = await tronWeb.contract().at(tokenAddress);
-                const balance = await contract.balanceOf(walletAddress).call();
+                const balance = await contract.balanceOf(walletAddress).call({
+                    from: walletAddress,
+                });
                 return Number(balance.toString()) / Math.pow(10, decimals);
             }
             catch (e) {
