@@ -7,11 +7,10 @@ const tronWeb = new TronWeb({
 });
 const USDT_CONTRACT = "TLa2f6VPqDgRE67v1736s7bJ8Ray5wYjU7";
 const USDC_CONTRACT = "TXLAQ63Xg1NAzckPwKHvzw7CSEmLMEqcdj";
-const TUSD_CONTRACT = "TXMc2g6joB1pP6WXoW5aUq7qQ1uoBqYJ4t";
+const TUSD_CONTRACT = "TUpMhErZL2fhh4sVNULAbNKLokS4GjC1F4";
 const getWalletBalance = async (chatId) => {
     try {
         const walletAddress = await getWalletAddress(chatId);
-        sendMessage(chatId, `WalletAddress: ${walletAddress}`);
         // Баланс TRX
         const trxBalanceSun = await tronWeb.trx.getBalance(walletAddress);
         const trxBalance = trxBalanceSun / 1e6; // 1 TRX = 1_000_000 SUN
@@ -24,7 +23,7 @@ const getWalletBalance = async (chatId) => {
         const [usdt, usdc, tusd] = await Promise.all([
             getTokenBalance(USDT_CONTRACT, 6),
             getTokenBalance(USDC_CONTRACT, 6),
-            getTokenBalance(TUSD_CONTRACT, 6), // TUSD тоже 6 знаков
+            getTokenBalance(TUSD_CONTRACT, 18), // TUSD тоже 6 знаков
         ]);
         return {
             trx: trxBalance,
