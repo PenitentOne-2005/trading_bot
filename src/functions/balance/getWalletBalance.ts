@@ -2,6 +2,7 @@ import dotenv from "dotenv";
 import { TronWeb } from "tronweb";
 import { IgetWalletBalance } from "./interface.js";
 import CONTRACTS from "./CONTRACTS.js";
+import { getTokenBalance } from "./index.js";
 import { getWalletAddress, sendMessage } from "@/functions/index.js";
 
 dotenv.config();
@@ -14,32 +15,30 @@ const getWalletBalance: IgetWalletBalance = async (chatId) => {
   try {
     const walletAddress = await getWalletAddress(chatId);
 
-    // Баланс TRX
-    const trxBalanceSun = await tronWeb.trx.getBalance(walletAddress);
-    const trxBalance = trxBalanceSun / 1e6; // 1 TRX = 1_000_000 SUN
-
-    // Баланс TRC20 токенов
-    const getTokenBalance = async (tokenAddress: string, decimals: number) => {
-      try {
-        const contract = await tronWeb.contract().at(tokenAddress);
-        const balance = await contract.balanceOf(walletAddress).call({
-          from: walletAddress,
-        });
-        return Number(balance.toString()) / Math.pow(10, decimals);
-      } catch (e: any) {
-        console.error(
-          `Ошибка при получении токена ${tokenAddress}:`,
-          e.message
-        );
-        sendMessage(chatId, `❌ Ошибка при получении токена ${tokenAddress}`);
-        return 0;
-      }
-    };
+    const trxBalance = (await tronWeb.trx.getBalance(walletAddress)) / 1e6; // 1 TRX = 1_000_000 SUN
 
     const [usdt, usdc, tusd] = await Promise.all([
-      getTokenBalance(CONTRACTS.USDT, 6),
-      getTokenBalance(CONTRACTS.USDC, 6),
-      getTokenBalance(CONTRACTS.TUSD, 6),
+      getTokenBalance({
+        chatId,
+        tronWeb,
+        walletAddress,
+        tokenAddress: CONTRACTS.USDT,
+        decimals: 6,
+      }),
+      getTokenBalance({
+        chatId,
+        tronWeb,
+        walletAddress,
+        tokenAddress: CONTRACTS.USDC,
+        decimals: 6,
+      }),
+      getTokenBalance({
+        chatId,
+        tronWeb,
+        walletAddress,
+        tokenAddress: CONTRACTS.TUSD,
+        decimals: 6,
+      }),
     ]);
 
     return {
