@@ -26,6 +26,7 @@ const handleWalletAddressInput = async (props) => {
         .join("\n");
     return sendMessage(chatId, `Виберiть криптовалюту для виводу
     Вашi доступнi баланси:
+
     ${balances || "❌ Баланс порожнiй"}
 
     Увага! Обрана криптовалюта буде надiслана на вказану вами адресу в мережi TRON (TRC-20).
