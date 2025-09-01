@@ -1,4 +1,5 @@
 import { TronWeb } from "tronweb";
+import { menu } from "./menu.js";
 import { sendMessage, getWalletBalance } from "../../functions/index.js";
 const tronWeb = new TronWeb({ fullHost: "https://api.trongrid.io" });
 const handleWalletAddressInput = async (props) => {
@@ -22,6 +23,6 @@ const handleWalletAddressInput = async (props) => {
 
     Увага! Обрана криптовалюта буде надiслана на вказану вами адресу в мережi TRON (TRC-20).
     Переконайтеся, що ваш гаманець пiдтримує цю мережу, iнакше кошти можуть бути втраченi.
-        Виберiть криптовалюту для виводу:`);
+        Виберiть криптовалюту для виводу:`, menu);
 };
 export default handleWalletAddressInput;
