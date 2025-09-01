@@ -13,6 +13,12 @@ const dynamicHandlers: {
     processBuyCryptoSelection(data, chatId, userState);
   },
 
+  withdraw_: async (data, { chatId }) => {
+    const { sendMessage } = await import("@/functions/index.js");
+
+    sendMessage(chatId, "Введiть суму для виводу");
+  },
+
   select_order_: async (data, { chatId }) => {
     const { confirmOrderPreview } = await import("@/functions/index.js");
 
