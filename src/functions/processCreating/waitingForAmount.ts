@@ -3,7 +3,7 @@ import { menuBack } from "./menu.js";
 import { sendMessage } from "@/functions/index.js";
 
 const waitingForAmount: IWaitingForAmount = (props) => {
-  const { userState, currentState, chatId, text } = props;
+  const { userState, chatId, text } = props;
 
   const amount = parseFloat(text);
   if (isNaN(amount) || amount <= 0) {
@@ -11,7 +11,7 @@ const waitingForAmount: IWaitingForAmount = (props) => {
   }
 
   userState[chatId] = {
-    ...currentState,
+    ...userState[chatId],
     step: "waitingForPrice",
     amount,
   };
