@@ -4,7 +4,7 @@ export const menu: SendMessageOptions = {
   reply_markup: {
     inline_keyboard: [
       [{ text: "📃 Перейти до оголошень", callback_data: "wallet" }],
-      [{ text: "Вивести криптовалюту", callback_data: "allOrders" }],
+      [{ text: "Вивести криптовалюту", callback_data: "withdrawCrypto" }],
       [{ text: "Редагувати платіжні методи", callback_data: "myOrders" }],
       [
         {
