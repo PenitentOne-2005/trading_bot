@@ -1,4 +1,5 @@
 import { StepHandlersProps } from "./interface.js";
+import { handleWalletAddressInput } from "@/functions/index.js";
 import {
   waitingForAmount,
   waitingForCard,
@@ -15,6 +16,7 @@ const stepHandlers: Record<string, (props: StepHandlersProps) => Promise<any>> =
     waitingForIBAN: handleIBANandIPNstep,
     waitingForIPN: handleIBANandIPNstep,
     waitingForName: waitingForName,
+    waitingForWalletAddress: handleWalletAddressInput,
   };
 
 export default stepHandlers;
