@@ -25,18 +25,27 @@ const handleWalletAddressInput: HandleWalletAddressInput = async (props) => {
 
   const balance = await getWalletBalance(chatId);
 
+  const tokens = [
+    { key: "usdt", label: "USDT" },
+    { key: "trx", label: "TRX" },
+    { key: "usdc", label: "USDC" },
+    { key: "tusd", label: "TUSD" },
+  ] as const;
+
+  const balances = tokens
+    .filter((token) => balance?.[token.key] && balance[token.key] > 0)
+    .map((token) => `* ${token.label}: ${balance?.[token.key]} ${token.label}`)
+    .join("\n");
+
   return sendMessage(
     chatId,
     `Виберiть криптовалюту для виводу
-     Вашi доступни баланси:
-        ${balance?.usdt === 0 ? "" : `* USDT: ${balance?.usdt} USDT`}
-        ${balance?.trx === 0 ? "" : `* TRX: ${balance?.trx} TRX`}
-        ${balance?.usdc === 0 ? "" : `* USDC: ${balance?.usdc} USDC`}
-        ${balance?.tusd === 0 ? "" : `* TUSD: ${balance?.tusd} TUSD`} 
+    Вашi доступнi баланси:
+    ${balances || "❌ Баланс порожнiй"}
 
     Увага! Обрана криптовалюта буде надiслана на вказану вами адресу в мережi TRON (TRC-20).
     Переконайтеся, що ваш гаманець пiдтримує цю мережу, iнакше кошти можуть бути втраченi.
-        Виберiть криптовалюту для виводу:`,
+    Виберiть криптовалюту для виводу:`,
     menu
   );
 };
