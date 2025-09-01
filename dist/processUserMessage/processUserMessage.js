@@ -11,11 +11,10 @@ const processUserMessage = async (msg) => {
     if (!text)
         return;
     const currentState = userState[chatId];
-    const props = { userState, currentState, chatId, text };
     if (currentState?.step) {
         const handler = stepHandlers[currentState.step];
         if (handler) {
-            return handler(props);
+            return handler({ userState, currentState, chatId, text });
         }
         userState[chatId] = { step: "idle" };
         return sendMessage(chatId, "⚠️ Невідомий крок. Скиньте, будь ласка, команду ще раз.");

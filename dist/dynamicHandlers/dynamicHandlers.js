@@ -4,6 +4,10 @@ const dynamicHandlers = {
         const { processBuyCryptoSelection } = await import("../functions/index.js");
         processBuyCryptoSelection(data, chatId, userState);
     },
+    withdraw_: async (data, { chatId }) => {
+        const { sendMessage } = await import("../functions/index.js");
+        sendMessage(chatId, "Введiть суму для виводу");
+    },
     select_order_: async (data, { chatId }) => {
         const { confirmOrderPreview } = await import("../functions/index.js");
         const orderId = data.replace("select_order_", "");

@@ -1,13 +1,13 @@
 import { menuBack } from "./menu.js";
 import { sendMessage } from "../../functions/index.js";
 const waitingForAmount = (props) => {
-    const { userState, currentState, chatId, text } = props;
+    const { userState, chatId, text } = props;
     const amount = parseFloat(text);
     if (isNaN(amount) || amount <= 0) {
         return sendMessage(chatId, "❌ Введіть коректну суму.");
     }
     userState[chatId] = {
-        ...currentState,
+        ...userState[chatId],
         step: "waitingForPrice",
         amount,
     };
