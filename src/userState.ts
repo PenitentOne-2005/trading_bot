@@ -4,6 +4,7 @@ export type UserStep =
   | "waitingForAmount"
   | "waitingForPrice"
   | "waitingForPaymentMethod"
+  | "waitingForWalletAddress"
   | "showSummary"
   | "confirmOrder"
   | "waitingForCard"
@@ -31,6 +32,7 @@ export interface UserState {
   sumToPay?: number;
   IBAN?: string;
   Name?: string;
+  walletAddress?: string;
 }
 
 export const userState: Record<number, UserState> = {};
