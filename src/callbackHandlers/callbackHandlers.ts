@@ -126,6 +126,23 @@ const callbackHandlers: Record<
     return showSellMenu(userOffsets, chatId);
   },
 
+  withdrawCrypto: async ({ chatId }) => {
+    userState[chatId] = {
+      ...userState[chatId],
+      step: "waitingForWalletAddress",
+    };
+
+    sendMessage(
+      chatId,
+      `Введiть адресу отримувача
+      Увага!
+      Адреса має бути у мережi TRON (TRC-20). Вiдправлення на
+      iншi блокчейни може призвести до втрати коштiв.
+      
+      Будь ласка, введiть адресу для виводу:`
+    );
+  },
+
   create_buy_crypto: (props: CallbackProps) => {
     const { chatId } = props;
 
