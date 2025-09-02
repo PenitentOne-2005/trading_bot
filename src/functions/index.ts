@@ -26,6 +26,7 @@ export { default as getWalletBalance } from "./balance/index.js";
 export { default as allOrdersMenu } from "./allOrdersMenu/index.js";
 export { default as getWalletAddress } from "./address/index.js";
 export { default as handleWalletAddressInput } from "./handleWalletAddressInput/index.js";
+export { default as cryptoWithdraw } from "./cryptoWithdraw/index.js";
 export {
   handleIBANandIPNstep,
   waitingForAmount,
