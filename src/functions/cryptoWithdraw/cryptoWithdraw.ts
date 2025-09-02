@@ -1,12 +1,11 @@
 import { CryptoWithdraw } from "./interface.js";
 import { sendMessage } from "@/functions/index.js";
+import { menu } from "./menu.js";
 
 const cryptoWithdraw: CryptoWithdraw = async (props) => {
   const { userState, chatId, text } = props;
 
-  userState[chatId] = { step: "idle" };
-
-  return sendMessage(chatId, "Успешно выведенно");
+  return sendMessage(chatId, "Успешно выведенно", menu);
 };
 
 export default cryptoWithdraw;
