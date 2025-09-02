@@ -1,7 +1,7 @@
 import { Message } from "node-telegram-bot-api";
 import { TronWeb } from "tronweb";
 
-export const allowedKeys = ["trx", "usdt", "usdc", "tusd"] as const;
+export const allowedKeys = ["TRX", "USDT", "USDC", "TUSD"] as const;
 export type CryptoKey = (typeof allowedKeys)[number];
 
 export interface SendCryptoTransaction {

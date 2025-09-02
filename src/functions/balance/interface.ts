@@ -2,10 +2,10 @@ import { TronWeb } from "tronweb";
 
 export interface IgetWalletBalance {
   (chatId: number): Promise<{
-    trx: number;
-    usdt: number;
-    usdc: number;
-    tusd: number;
+    TRX: number;
+    USDT: number;
+    USDC: number;
+    TUSD: number;
   } | null>;
 }
 
