@@ -10,6 +10,7 @@ export type UserStep =
   | "waitingForCard"
   | "waitingForIBAN"
   | "waitingForIPN"
+  | "cryptoWithdraw"
   | "waitingForName";
 
 export interface IBANData {
@@ -33,6 +34,12 @@ export interface UserState {
   IBAN?: string;
   Name?: string;
   walletAddress?: string;
+  balance?: {
+    TRX: number;
+    USDT: number;
+    USDC: number;
+    TUSD: number;
+  } | null;
 }
 
 export const userState: Record<number, UserState> = {};
