@@ -8,5 +8,5 @@ interface Props {
 }
 
 export interface CryptoWithdraw {
-  (props: Props): Promise<Message>;
+  (props: Props): Promise<Message | undefined>;
 }

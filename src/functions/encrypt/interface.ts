@@ -1,3 +1,3 @@
 export interface IGetPrivateKeyFromDB {
-  (userId: number): Promise<string | null>;
+  (userId: number): Promise<string | undefined>;
 }
