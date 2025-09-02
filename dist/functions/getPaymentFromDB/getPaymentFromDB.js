@@ -1,4 +1,4 @@
-import { pool } from "@/exports.js";
+import { pool } from "../../exports.js";
 const getPaymentFromDB = async (chatId) => {
     try {
         const { rows } = await pool.query(`SELECT metadata FROM payments WHERE telegram_id = $1`, [chatId]);

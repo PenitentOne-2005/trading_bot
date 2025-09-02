@@ -1,5 +1,5 @@
-import { showPaymentInfoKeyBoard, pool } from "@/exports.js";
-import { sendMessage } from "@/functions/index.js";
+import { showPaymentInfoKeyBoard, pool } from "../../exports.js";
+import { sendMessage } from "../../functions/index.js";
 const showPaymentInfo = async (userState, chatId) => {
     const { amount, sumToPay } = userState[chatId] ?? {};
     const query = `SELECT * FROM payments WHERE telegram_id = $1`;

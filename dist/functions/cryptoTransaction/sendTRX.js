@@ -1,5 +1,5 @@
 import dotenv from "dotenv";
-import { sendMessage } from "@/functions/index.js";
+import { sendMessage } from "../../functions/index.js";
 dotenv.config();
 const ESCROW_ADDRESS = process.env.ESCROW_ADDRESS || "";
 const sendTRX = async (tronWeb, amount, chatId) => {

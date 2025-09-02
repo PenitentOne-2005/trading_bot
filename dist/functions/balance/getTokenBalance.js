@@ -1,4 +1,4 @@
-import { sendMessage } from "@/functions/index.js";
+import { sendMessage } from "../../functions/index.js";
 const getTokenBalance = async (props) => {
     const { chatId, tronWeb, walletAddress, tokenAddress, decimals } = props;
     try {

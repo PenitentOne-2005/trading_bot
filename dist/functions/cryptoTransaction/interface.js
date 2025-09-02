@@ -1,1 +1,1 @@
-export const allowedKeys = ["trx", "usdt", "usdc", "tusd"];
+export const allowedKeys = ["TRX", "USDT", "USDC", "TUSD"];

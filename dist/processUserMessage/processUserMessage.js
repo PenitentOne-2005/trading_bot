@@ -1,5 +1,5 @@
-import { sendMessage, stepHandlers } from "@/functions/index.js";
-import { selectLanguageBoard, userState, MESSAGE_TEXT, createMessageHandlers, } from "@/exports.js";
+import { sendMessage, stepHandlers } from "../functions/index.js";
+import { selectLanguageBoard, userState, MESSAGE_TEXT, createMessageHandlers, } from "../exports.js";
 const greetings = process.env.GREETINGS;
 if (!greetings) {
     console.error("❌ GREETINGS не найден! Убедитесь, что он задан в .env файле.");

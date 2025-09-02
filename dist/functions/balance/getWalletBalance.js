@@ -2,7 +2,7 @@ import dotenv from "dotenv";
 import { TronWeb } from "tronweb";
 import CONTRACTS from "./CONTRACTS.js";
 import { getTokenBalance } from "./index.js";
-import { getWalletAddress, sendMessage } from "@/functions/index.js";
+import { getWalletAddress, sendMessage } from "../../functions/index.js";
 dotenv.config();
 const tronWeb = new TronWeb({
     fullHost: "https://api.trongrid.io",

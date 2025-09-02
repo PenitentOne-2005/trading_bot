@@ -1,5 +1,5 @@
 import { allowedKeys, } from "./interface.js";
-import { userState } from "@/exports.js";
+import { userState } from "../../exports.js";
 const normalizeCrypto = (cryptoRaw) => {
     return cryptoRaw?.toLowerCase().split(" ")[0].trim();
 };

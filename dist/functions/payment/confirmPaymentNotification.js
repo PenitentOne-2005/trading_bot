@@ -1,5 +1,5 @@
-import { confirmPaymentNotificationKeyBoard, dataMap } from "@/exports.js";
-import { sendMessage } from "@/functions/index.js";
+import { confirmPaymentNotificationKeyBoard, dataMap } from "../../exports.js";
+import { sendMessage } from "../../functions/index.js";
 const confirmPaymentNotification = (userState, chatId) => {
     const { orderId, amount, IBAN, Name } = userState[chatId || dataMap.get("second_user_chat_id")] ?? {};
     const text = `

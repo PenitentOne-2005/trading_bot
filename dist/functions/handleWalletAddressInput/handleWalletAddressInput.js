@@ -1,6 +1,6 @@
 import { TronWeb } from "tronweb";
 import { menu } from "./menu.js";
-import { sendMessage, getWalletBalance } from "@/functions/index.js";
+import { sendMessage, getWalletBalance } from "../../functions/index.js";
 const tronWeb = new TronWeb({ fullHost: "https://api.trongrid.io" });
 const handleWalletAddressInput = async (props) => {
     const { userState, chatId, text } = props;

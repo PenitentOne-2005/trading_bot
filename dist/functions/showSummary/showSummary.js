@@ -1,5 +1,5 @@
 import menu from "./menu.js";
-import { sendMessage } from "@/functions/index.js";
+import { sendMessage } from "../../functions/index.js";
 const showSummary = async (chatId, userState) => {
     const currentState = userState[chatId];
     if (!currentState)

@@ -1,5 +1,5 @@
-import { pool, userState } from "@/exports.js";
-import { sendMessage } from "@/functions/index.js";
+import { pool, userState } from "../../exports.js";
+import { sendMessage } from "../../functions/index.js";
 const showOrders = async (params) => {
     try {
         const { userOffsets, chatId, dbName, text } = params;

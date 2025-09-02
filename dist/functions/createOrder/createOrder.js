@@ -1,5 +1,5 @@
 import { createOrderMenu } from "./menu.js";
-import { sendMessage } from "@/functions/index.js";
+import { sendMessage } from "../../functions/index.js";
 const createOrder = (props) => {
     const { currentState, chatId, userState, username } = props;
     if (!username)

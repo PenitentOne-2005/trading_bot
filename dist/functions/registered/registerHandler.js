@@ -1,4 +1,4 @@
-import { sendMessage, saveUser, encryptPrivateKey, createWallet, } from "@/functions/index.js";
+import { sendMessage, saveUser, encryptPrivateKey, createWallet, } from "../../functions/index.js";
 const registerHandler = async (chatId, username) => {
     try {
         const result = await createWallet();
