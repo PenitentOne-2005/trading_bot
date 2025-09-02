@@ -15,10 +15,10 @@ const showWallet: IShowWallet = async (chatId) => {
     `Baш криптовалютний баланс
       Блокчейн: TRON (TRC-20)
       Ваші активи:
-      * USDT: ${balance?.usdt} USDT
-      * TRX (необхідний для комісій): ${balance?.trx} TRX
-      * USDC: ${balance?.usdc} USDC
-      * TUSD: ${balance?.tusd} TUSD
+      * USDT: ${balance?.USDT} USDT
+      * TRX (необхідний для комісій): ${balance?.TRX} TRX
+      * USDC: ${balance?.USDC} USDC
+      * TUSD: ${balance?.TUSD} TUSD
      Адреса вашого гаманця:
      ${wallet}
     Доступні дії:`,
