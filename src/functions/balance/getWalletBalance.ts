@@ -17,7 +17,7 @@ const getWalletBalance: IgetWalletBalance = async (chatId) => {
 
     const trxBalance = (await tronWeb.trx.getBalance(walletAddress)) / 1e6; // 1 TRX = 1_000_000 SUN
 
-    const [usdt, usdc, tusd] = await Promise.all([
+    const [USDT, USDC, TUSD] = await Promise.all([
       getTokenBalance({
         chatId,
         tronWeb,
@@ -42,10 +42,10 @@ const getWalletBalance: IgetWalletBalance = async (chatId) => {
     ]);
 
     return {
-      trx: trxBalance,
-      usdt,
-      usdc,
-      tusd,
+      TRX: trxBalance,
+      USDT,
+      USDC,
+      TUSD,
     };
   } catch (error: any) {
     console.error("❌ Ошибка при получении баланса:", error.message);
