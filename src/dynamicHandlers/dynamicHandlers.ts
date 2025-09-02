@@ -15,8 +15,26 @@ const dynamicHandlers: {
 
   withdraw_: async (data, { chatId }) => {
     const { sendMessage } = await import("@/functions/index.js");
+    type CryptoKey = "TRX" | "USDT" | "USDC" | "TUSD";
 
-    sendMessage(chatId, "Введiть суму для виводу");
+    const crypto = data?.replace("withdraw_", "") as CryptoKey;
+    const { balance } = userState[chatId];
+
+    userState[chatId] = {
+      ...userState[chatId],
+      step: "cryptoWithdraw",
+    };
+
+    sendMessage(
+      chatId,
+      `
+      Введiть суму для виводу
+      Ваш поточний баланс: ${balance?.[crypto]} ${crypto}
+      Мiнiмальний баланс TRX для комiсiй: 1 ${crypto}
+
+      Введiть суму ${crypto}, яку хочете вивести:
+      `
+    );
   },
 
   select_order_: async (data, { chatId }) => {
