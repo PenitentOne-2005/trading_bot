@@ -1,4 +1,4 @@
-import { handleWalletAddressInput } from "../../functions/index.js";
+import { handleWalletAddressInput, cryptoWithdraw } from "../../functions/index.js";
 import { waitingForAmount, waitingForCard, handleIBANandIPNstep, waitingForName, waitingForPrice, } from "./index.js";
 const stepHandlers = {
     waitingForPrice: waitingForPrice,
@@ -8,5 +8,6 @@ const stepHandlers = {
     waitingForIPN: handleIBANandIPNstep,
     waitingForName: waitingForName,
     waitingForWalletAddress: handleWalletAddressInput,
+    cryptoWithdraw: cryptoWithdraw,
 };
 export default stepHandlers;
