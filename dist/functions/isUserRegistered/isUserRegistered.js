@@ -1,4 +1,4 @@
-import { pool } from "../../exports.js";
+import { pool } from "@/exports.js";
 const isUserRegistered = async (telegramId) => {
     try {
         const result = await pool.query(`SELECT wallet_address FROM users WHERE telegram_id = $1`, [telegramId]);

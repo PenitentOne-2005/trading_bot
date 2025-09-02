@@ -1,5 +1,5 @@
 import { menu } from "./menu.js";
-import { sendMessage } from "../../functions/index.js";
+import { sendMessage } from "@/functions/index.js";
 const processBuyCryptoSelection = (data, chatId, userState) => {
     const crypto = data?.replace("buy_", "") + " (TRC-20)";
     userState[chatId] = {

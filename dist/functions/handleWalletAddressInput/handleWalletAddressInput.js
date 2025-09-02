@@ -1,6 +1,6 @@
 import { TronWeb } from "tronweb";
 import { menu } from "./menu.js";
-import { sendMessage, getWalletBalance } from "../../functions/index.js";
+import { sendMessage, getWalletBalance } from "@/functions/index.js";
 const tronWeb = new TronWeb({ fullHost: "https://api.trongrid.io" });
 const handleWalletAddressInput = async (props) => {
     const { userState, chatId, text } = props;
@@ -8,22 +8,22 @@ const handleWalletAddressInput = async (props) => {
     if (!tronWeb.isAddress(address)) {
         return sendMessage(chatId, "Невiрний адрес. Введiть коректну адресу у мережi TRON (TRC-20).");
     }
-    userState[chatId] = {
-        ...userState[chatId],
-        step: "waitingForAmount",
-        walletAddress: address,
-    };
     const balance = await getWalletBalance(chatId);
     const tokens = [
-        { key: "usdt", label: "USDT" },
-        { key: "trx", label: "TRX" },
-        { key: "usdc", label: "USDC" },
-        { key: "tusd", label: "TUSD" },
+        { key: "USDT", label: "USDT" },
+        { key: "TRX", label: "TRX" },
+        { key: "USDC", label: "USDC" },
+        { key: "TUSD", label: "TUSD" },
     ];
     const balances = tokens
         .filter((token) => balance?.[token.key] && balance[token.key] > 0)
         .map((token) => `* ${token.label}: ${balance?.[token.key]} ${token.label}`)
         .join("\n");
+    userState[chatId] = {
+        ...userState[chatId],
+        walletAddress: address,
+        balance,
+    };
     return sendMessage(chatId, `Виберiть криптовалюту для виводу
     Вашi доступнi баланси:
 

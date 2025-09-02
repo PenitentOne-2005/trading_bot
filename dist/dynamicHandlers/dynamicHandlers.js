@@ -1,21 +1,33 @@
-import { userState } from "../exports.js";
+import { userState } from "@/exports.js";
 const dynamicHandlers = {
     buy_: async (data, { chatId }) => {
-        const { processBuyCryptoSelection } = await import("../functions/index.js");
+        const { processBuyCryptoSelection } = await import("@/functions/index.js");
         processBuyCryptoSelection(data, chatId, userState);
     },
     withdraw_: async (data, { chatId }) => {
-        const { sendMessage } = await import("../functions/index.js");
-        sendMessage(chatId, "Введiть суму для виводу");
+        const { sendMessage } = await import("@/functions/index.js");
+        const crypto = data?.replace("withdraw_", "");
+        const { balance } = userState[chatId];
+        userState[chatId] = {
+            ...userState[chatId],
+            step: "cryptoWithdraw",
+        };
+        sendMessage(chatId, `
+      Введiть суму для виводу
+      Ваш поточний баланс: ${balance?.[crypto]} ${crypto}
+      Мiнiмальний баланс TRX для комiсiй: 1 ${crypto}
+
+      Введiть суму ${crypto}, яку хочете вивести:
+      `);
     },
     select_order_: async (data, { chatId }) => {
-        const { confirmOrderPreview } = await import("../functions/index.js");
+        const { confirmOrderPreview } = await import("@/functions/index.js");
         const orderId = data.replace("select_order_", "");
         const action = userState[chatId]?.currentDb;
         await confirmOrderPreview(action, chatId, orderId);
     },
     agree_get_: async (data, { chatId }) => {
-        const { sendMessage, handleConfirmFiat } = await import("../functions/index.js");
+        const { sendMessage, handleConfirmFiat } = await import("@/functions/index.js");
         try {
             const orderId = data.replace("agree_get_", "");
             if (!orderId) {

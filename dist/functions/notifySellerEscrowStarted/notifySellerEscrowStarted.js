@@ -1,5 +1,5 @@
-import { pool } from "../../exports.js";
-import { sendMessage } from "../../functions/index.js";
+import { pool } from "@/exports.js";
+import { sendMessage } from "@/functions/index.js";
 const notifySellerEscrowStarted = async (userState, chatId) => {
     const { orderId, sumToPay } = userState[chatId] ?? {};
     if (!orderId) {

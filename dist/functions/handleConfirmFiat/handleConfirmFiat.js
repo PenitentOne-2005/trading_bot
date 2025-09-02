@@ -1,5 +1,5 @@
-import { pool, agreeGetKeyBoard, dataMap } from "../../exports.js";
-import { sendMessage } from "../../functions/index.js";
+import { pool, agreeGetKeyBoard, dataMap } from "@/exports.js";
+import { sendMessage } from "@/functions/index.js";
 import { handleConfirmFiatMenu } from "./menu.js";
 const handleConfirmFiat = async (chatId, orderId) => {
     try {

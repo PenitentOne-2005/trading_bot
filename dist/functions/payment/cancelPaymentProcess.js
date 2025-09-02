@@ -1,5 +1,5 @@
-import { pool, cancelPaymentProcessKeyBoard } from "../../exports.js";
-import { sendMessage } from "../../functions/index.js";
+import { pool, cancelPaymentProcessKeyBoard } from "@/exports.js";
+import { sendMessage } from "@/functions/index.js";
 const cancelPaymentProcess = async (userState, chatId, orderId) => {
     try {
         const { amount, sumToPay, crypto, currentDb } = userState[chatId] ?? {};

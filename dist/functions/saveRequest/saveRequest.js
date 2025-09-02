@@ -1,4 +1,4 @@
-import { pool } from "../../exports.js";
+import { pool } from "@/exports.js";
 const saveRequest = async (props) => {
     const { orderType, username, chatId, crypto, amount, price } = props;
     const tableName = orderType === "buy" ? "buy_requests" : "sell_requests";

@@ -1,4 +1,4 @@
-import { pool } from "../../exports.js";
+import { pool } from "@/exports.js";
 const savePayments = async (chatId, metadata) => {
     try {
         await pool.query(`

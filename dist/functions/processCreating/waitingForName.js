@@ -1,6 +1,6 @@
 import { checkUserName } from "./regExp.js";
 import { menuBack } from "./menu.js";
-import { sendMessage, showSummary, savePayments } from "../../functions/index.js";
+import { sendMessage, showSummary, savePayments } from "@/functions/index.js";
 const waitingForName = async (props) => {
     const { userState, chatId, text } = props;
     if (checkUserName.test(text)) {

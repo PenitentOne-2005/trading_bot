@@ -1,5 +1,5 @@
-import { pool } from "../../exports.js";
-import { sendMessage } from "../../functions/index.js";
+import { pool } from "@/exports.js";
+import { sendMessage } from "@/functions/index.js";
 const saveUser = async (data) => {
     const { chatId, username, address, encryptedKey, iv } = data;
     try {

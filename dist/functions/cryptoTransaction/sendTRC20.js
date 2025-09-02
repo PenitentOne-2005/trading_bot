@@ -1,5 +1,5 @@
 import dotenv from "dotenv";
-import { sendMessage } from "../../functions/index.js";
+import { sendMessage } from "@/functions/index.js";
 import { CONTRACTS, TOKEN_DECIMALS } from "./dataTokens.js";
 import { menu } from "./menu.js";
 dotenv.config();

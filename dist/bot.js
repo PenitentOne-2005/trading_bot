@@ -16,7 +16,7 @@ bot.on("callback_query", async (callbackQuery) => {
     if (!chatId || !data || !text || !username)
         return;
     const currentState = userState[chatId] ?? { step: "idle" };
-    const props = {
+    await handleCallbackQuery(data, {
         currentState,
         CRYPTOS,
         text,
@@ -24,8 +24,7 @@ bot.on("callback_query", async (callbackQuery) => {
         userState,
         username,
         mainMenu,
-    };
-    await handleCallbackQuery(data, props);
+    });
     // Удалить "часики" на кнопке
     await bot.answerCallbackQuery(callbackQuery.id);
 });
