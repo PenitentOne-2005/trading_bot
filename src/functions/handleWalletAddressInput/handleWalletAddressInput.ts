@@ -1,9 +1,11 @@
-import { TronWeb } from "tronweb";
 import { HandleWalletAddressInput } from "./interface.js";
-import { menu } from "./menu.js";
 import { sendMessage, getWalletBalance } from "@/functions/index.js";
-
-const tronWeb = new TronWeb({ fullHost: "https://api.trongrid.io" });
+import {
+  getAvailableUserBalances,
+  initMenu,
+  tokens,
+  tronWeb,
+} from "./index.js";
 
 const handleWalletAddressInput: HandleWalletAddressInput = async (props) => {
   const { userState, chatId, text } = props;
@@ -19,17 +21,14 @@ const handleWalletAddressInput: HandleWalletAddressInput = async (props) => {
 
   const balance = await getWalletBalance(chatId);
 
-  const tokens = [
-    { key: "USDT", label: "USDT" },
-    { key: "TRX", label: "TRX" },
-    { key: "USDC", label: "USDC" },
-    { key: "TUSD", label: "TUSD" },
-  ] as const;
+  const availableUserBalances = getAvailableUserBalances(tokens, balance);
 
-  const balances = tokens
-    .filter((token) => balance?.[token.key] && balance[token.key] > 0)
-    .map((token) => `* ${token.label}: ${balance?.[token.key]} ${token.label}`)
-    .join("\n");
+  const tokenButtons = tokens.map((token) => ({
+    text: token.key,
+    callback_data: `withdraw_${token.key}`,
+  }));
+
+  const menu = initMenu(tokenButtons);
 
   userState[chatId] = {
     ...userState[chatId],
@@ -42,7 +41,7 @@ const handleWalletAddressInput: HandleWalletAddressInput = async (props) => {
     `Виберiть криптовалюту для виводу
     Вашi доступнi баланси:
 
-    ${balances || "❌ Баланс порожнiй"}
+    ${availableUserBalances || "❌ Баланс порожнiй"}
 
     Увага! Обрана криптовалюта буде надiслана на вказану вами адресу в мережi TRON (TRC-20).
     Переконайтеся, що ваш гаманець пiдтримує цю мережу, iнакше кошти можуть бути втраченi.
