@@ -1,7 +1,7 @@
 import dotenv from "dotenv";
 import { TronWeb } from "tronweb";
 import { IgetWalletBalance } from "./interface.js";
-import CONTRACTS from "./CONTRACTS.js";
+import { CONTRACTS } from "@/exports.js";
 import { getTokenBalance } from "./index.js";
 import { getWalletAddress, sendMessage } from "@/functions/index.js";
 
