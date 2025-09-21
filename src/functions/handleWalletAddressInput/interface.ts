@@ -11,11 +11,17 @@ export interface HandleWalletAddressInput {
   (props: Props): Promise<Message>;
 }
 
-export interface getAvailableUserBalances {
-  (
-    tokens: readonly { key: string; label: string }[],
-    balance: Record<string, number> | null
-  ): string;
+interface TokenBalanceArgs {
+  tokens: readonly { key: string; label: string }[];
+  balance: Record<string, number> | null;
+}
+
+export interface FormatBalancesToString {
+  (args: TokenBalanceArgs): string;
+}
+
+export interface GetAvailableUserTokens {
+  (args: TokenBalanceArgs): { key: string; label: string }[];
 }
 
 export interface initMenu {
