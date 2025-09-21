@@ -38,7 +38,7 @@ const processUserMessage: IProcessUserMessage = async (msg) => {
   }
 
   if (text === "/start") {
-    await sendMessage(chatId, MESSAGE_TEXT.selectLang, selectLanguageBoard);
+    sendMessage(chatId, MESSAGE_TEXT.selectLang, selectLanguageBoard);
 
     userState[chatId] = { step: "idle" };
     return;
@@ -48,7 +48,7 @@ const processUserMessage: IProcessUserMessage = async (msg) => {
 
   return text in handlers
     ? await handlers[text as ValidCommand]()
-    : await sendMessage(chatId, "Невідома команда.");
+    : sendMessage(chatId, "Невідома команда.");
 };
 
 export default processUserMessage;
