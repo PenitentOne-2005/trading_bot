@@ -1,5 +1,6 @@
+import { CONTRACTS } from "@/exports.js";
 import { UserState } from "@/userState";
-import { Message } from "node-telegram-bot-api";
+import { TronWeb } from "tronweb";
 
 interface Props {
   userState: Record<number, UserState>;
@@ -8,5 +9,23 @@ interface Props {
 }
 
 export interface CryptoWithdraw {
-  (props: Props): Promise<Message | undefined>;
+  (props: Props): Promise<WithdrawResult | void>;
+}
+
+export interface PropsWithDrawTRX extends Props {
+  tronWeb: TronWeb;
+  fromAddress: string | undefined;
+  amount: number;
+}
+
+export interface WithdrawResult {
+  result: boolean;
+  txid?: string;
+}
+
+export interface withDrawToken {
+  (
+    props: PropsWithDrawTRX,
+    token: keyof typeof CONTRACTS
+  ): Promise<WithdrawResult>;
 }
