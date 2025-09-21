@@ -1,4 +1,4 @@
-import { Message } from "node-telegram-bot-api";
+import { CallbackHandlers } from "./interface.js";
 import {
   sendMessage,
   showOrders,
@@ -21,10 +21,7 @@ import {
   CallbackProps,
 } from "@/exports.js";
 
-const callbackHandlers: Record<
-  string,
-  (props: CallbackProps) => void | Promise<Message | void>
-> = {
+const callbackHandlers: Record<string, CallbackHandlers> = {
   lang_en: ({ chatId }) =>
     sendMessage(chatId, MESSAGE_TEXT.unsuportLang, selectLanguageBoard),
 
