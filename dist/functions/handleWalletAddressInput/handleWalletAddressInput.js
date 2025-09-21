@@ -1,5 +1,5 @@
 import { sendMessage, getWalletBalance } from "../../functions/index.js";
-import { getAvailableUserBalances, initMenu, tokens, tronWeb, } from "./index.js";
+import { getAvailableUserTokens, formatBalancesToString, initMenu, tokens, tronWeb, } from "./index.js";
 const handleWalletAddressInput = async (props) => {
     const { userState, chatId, text } = props;
     const address = text.trim();
@@ -7,8 +7,12 @@ const handleWalletAddressInput = async (props) => {
         return sendMessage(chatId, "Невiрний адрес. Введiть коректну адресу у мережi TRON (TRC-20).");
     }
     const balance = await getWalletBalance(chatId);
-    const availableUserBalances = getAvailableUserBalances(tokens, balance);
-    const tokenButtons = tokens.map((token) => ({
+    const availableUserTokens = getAvailableUserTokens({ tokens, balance });
+    const availableUserBalances = formatBalancesToString({
+        tokens: availableUserTokens,
+        balance,
+    });
+    const tokenButtons = availableUserTokens.map((token) => ({
         text: token.key,
         callback_data: `withdraw_${token.key}`,
     }));
