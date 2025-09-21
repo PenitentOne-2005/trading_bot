@@ -1,12 +1,12 @@
-import { Message } from "node-telegram-bot-api";
+import { CreateMessageHandlers } from "./interface.js";
 import { selectLanguageBoard, MESSAGE_TEXT } from "@/exports.js";
 import { sendMessage } from "@/functions/index.js";
 
-const createMessageHandlers = (chatId: number) => {
+const createMessageHandlers: CreateMessageHandlers = (chatId) => {
   return {
     "/start": () =>
       sendMessage(chatId, MESSAGE_TEXT.selectLang, selectLanguageBoard),
-  } satisfies Record<string, () => Promise<Message | void>>;
+  };
 };
 
 export default createMessageHandlers;
