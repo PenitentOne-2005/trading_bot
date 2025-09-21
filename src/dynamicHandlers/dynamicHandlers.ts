@@ -1,12 +1,7 @@
-import { Message } from "node-telegram-bot-api";
-import { userState, CallbackProps } from "@/exports.js";
+import { userState } from "@/exports.js";
+import { DynamicHandlers } from "./interface.js";
 
-const dynamicHandlers: {
-  [key: string]: (
-    data: string,
-    props: CallbackProps
-  ) => void | Promise<void | Message>;
-} = {
+const dynamicHandlers: DynamicHandlers = {
   buy_: async (data, { chatId }) => {
     const { processBuyCryptoSelection } = await import("@/functions/index.js");
 
@@ -14,27 +9,9 @@ const dynamicHandlers: {
   },
 
   withdraw_: async (data, { chatId }) => {
-    const { sendMessage } = await import("@/functions/index.js");
-    type CryptoKey = "TRX" | "USDT" | "USDC" | "TUSD";
+    const { promptWithdrawAmount } = await import("@/functions/index.js");
 
-    const crypto = data?.replace("withdraw_", "") as CryptoKey;
-    const { balance } = userState[chatId];
-
-    userState[chatId] = {
-      ...userState[chatId],
-      step: "cryptoWithdraw",
-    };
-
-    sendMessage(
-      chatId,
-      `
-      Введiть суму для виводу
-      Ваш поточний баланс: ${balance?.[crypto]} ${crypto}
-      Мiнiмальний баланс TRX для комiсiй: 1 ${crypto}
-
-      Введiть суму ${crypto}, яку хочете вивести:
-      `
-    );
+    promptWithdrawAmount(chatId, data, userState);
   },
 
   select_order_: async (data, { chatId }) => {
@@ -55,7 +32,8 @@ const dynamicHandlers: {
       const orderId = data.replace("agree_get_", "");
 
       if (!orderId) {
-        return sendMessage(chatId, "❗ orderId не указан.");
+        sendMessage(chatId, "❗ orderId не указан.");
+        return;
       }
 
       await handleConfirmFiat(chatId, orderId);
