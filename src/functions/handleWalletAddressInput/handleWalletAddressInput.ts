@@ -1,7 +1,8 @@
 import { HandleWalletAddressInput } from "./interface.js";
 import { sendMessage, getWalletBalance } from "@/functions/index.js";
 import {
-  getAvailableUserBalances,
+  getAvailableUserTokens,
+  formatBalancesToString,
   initMenu,
   tokens,
   tronWeb,
@@ -21,9 +22,14 @@ const handleWalletAddressInput: HandleWalletAddressInput = async (props) => {
 
   const balance = await getWalletBalance(chatId);
 
-  const availableUserBalances = getAvailableUserBalances(tokens, balance);
+  const availableUserTokens = getAvailableUserTokens({ tokens, balance });
 
-  const tokenButtons = tokens.map((token) => ({
+  const availableUserBalances = formatBalancesToString({
+    tokens: availableUserTokens,
+    balance,
+  });
+
+  const tokenButtons = availableUserTokens.map((token) => ({
     text: token.key,
     callback_data: `withdraw_${token.key}`,
   }));
