@@ -20,13 +20,13 @@ const processUserMessage = async (msg) => {
         return sendMessage(chatId, "⚠️ Невідомий крок. Скиньте, будь ласка, команду ще раз.");
     }
     if (text === "/start") {
-        await sendMessage(chatId, MESSAGE_TEXT.selectLang, selectLanguageBoard);
+        sendMessage(chatId, MESSAGE_TEXT.selectLang, selectLanguageBoard);
         userState[chatId] = { step: "idle" };
         return;
     }
     const handlers = createMessageHandlers(chatId);
     return text in handlers
         ? await handlers[text]()
-        : await sendMessage(chatId, "Невідома команда.");
+        : sendMessage(chatId, "Невідома команда.");
 };
 export default processUserMessage;
