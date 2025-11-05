@@ -5,21 +5,23 @@ import { getWalletBalance, sendMessage } from "@/functions/index.js";
 const waitingForAmount: IWaitingForAmount = async (props) => {
   const { userState, chatId, text } = props;
 
-  const { crypto } = userState[chatId];
+  const { crypto, orderType } = userState[chatId];
 
   const amount = parseFloat(text);
 
-  const balance = await getWalletBalance(chatId);
+  if (orderType === "sell") {
+    const balance = await getWalletBalance(chatId);
 
-  if (!balance) {
-    return sendMessage(chatId, "❌ Не вдалося отримати баланс.");
-  }
+    if (!balance) {
+      return sendMessage(chatId, "❌ Не вдалося отримати баланс.");
+    }
 
-  const currentCryptoBalance =
-    balance[crypto as "TRX" | "USDT" | "USDC" | "TUSD"];
+    const currentCryptoBalance =
+      balance[crypto as "TRX" | "USDT" | "USDC" | "TUSD"];
 
-  if (currentCryptoBalance !== amount) {
-    return sendMessage(chatId, "❌ Недостатньо коштів.", menuBack);
+    if (currentCryptoBalance !== amount) {
+      return sendMessage(chatId, "❌ Недостатньо коштів.", menuBack);
+    }
   }
 
   if (isNaN(amount) || amount <= 0) {
