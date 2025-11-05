@@ -7,12 +7,12 @@ const handleCryptoSelection: IhandleCryptoSelection = (obj) => {
 
   const { orderType } = userState[chatId];
 
+  const action = orderType === "buy" ? "купити" : "продати";
+
   if (!CRYPTOS.includes(text)) {
     return sendMessage(
       chatId,
-      `Виберіть криптовалюту, яку хочете ${
-        orderType === "buy" ? "купити" : "продати"
-      }:`,
+      `Виберіть криптовалюту, яку хочете ${action}:`,
       sellMenu
     );
   }
@@ -25,9 +25,7 @@ const handleCryptoSelection: IhandleCryptoSelection = (obj) => {
 
   return sendMessage(
     chatId,
-    `💰 Вкажіть суму в ${text}, яку хочете ${
-      orderType === "buy" ? "купити" : "продати"
-    }:`,
+    `💰 Вкажіть суму в ${text}, яку хочете ${action}:`,
     {
       reply_markup: {
         inline_keyboard: [[{ text: "Назад", callback_data: "back" }]],
