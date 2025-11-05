@@ -3,14 +3,16 @@ import { getWalletBalance, sendMessage } from "../../functions/index.js";
 const waitingForAmount = async (props) => {
     const { userState, chatId, text } = props;
     const { crypto, orderType } = userState[chatId];
+    const currentCrypto = crypto?.replace("buy_", "") + " (TRC-20)";
     const amount = parseFloat(text);
     if (orderType === "sell") {
         const balance = await getWalletBalance(chatId);
         if (!balance) {
             return sendMessage(chatId, "❌ Не вдалося отримати баланс.");
         }
-        const currentCryptoBalance = balance[crypto];
+        const currentCryptoBalance = balance[currentCrypto];
         sendMessage(chatId, `crypto: ${crypto}`);
+        sendMessage(chatId, `currentCryptoBalance: ${currentCryptoBalance}`);
         if (currentCryptoBalance !== amount) {
             return sendMessage(chatId, "❌ Недостатньо коштів.", menuBack);
         }
