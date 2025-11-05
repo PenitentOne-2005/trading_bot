@@ -19,6 +19,8 @@ const waitingForAmount: IWaitingForAmount = async (props) => {
     const currentCryptoBalance =
       balance[crypto as "TRX" | "USDT" | "USDC" | "TUSD"];
 
+    sendMessage(chatId, `currentCryptoBalance: ${currentCryptoBalance}`);
+
     if (currentCryptoBalance !== amount) {
       return sendMessage(chatId, "❌ Недостатньо коштів.", menuBack);
     }
