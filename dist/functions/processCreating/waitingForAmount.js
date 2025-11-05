@@ -2,15 +2,17 @@ import { menuBack } from "./menu.js";
 import { getWalletBalance, sendMessage } from "../../functions/index.js";
 const waitingForAmount = async (props) => {
     const { userState, chatId, text } = props;
-    const { crypto } = userState[chatId];
+    const { crypto, orderType } = userState[chatId];
     const amount = parseFloat(text);
-    const balance = await getWalletBalance(chatId);
-    if (!balance) {
-        return sendMessage(chatId, "❌ Не вдалося отримати баланс.");
-    }
-    const currentCryptoBalance = balance[crypto];
-    if (currentCryptoBalance !== amount) {
-        return sendMessage(chatId, "❌ Недостатньо коштів.", menuBack);
+    if (orderType === "sell") {
+        const balance = await getWalletBalance(chatId);
+        if (!balance) {
+            return sendMessage(chatId, "❌ Не вдалося отримати баланс.");
+        }
+        const currentCryptoBalance = balance[crypto];
+        if (currentCryptoBalance !== amount) {
+            return sendMessage(chatId, "❌ Недостатньо коштів.", menuBack);
+        }
     }
     if (isNaN(amount) || amount <= 0) {
         return sendMessage(chatId, "❌ Введіть коректну суму.");
