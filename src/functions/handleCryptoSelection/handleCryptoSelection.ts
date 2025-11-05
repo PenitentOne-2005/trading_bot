@@ -5,9 +5,9 @@ import { sendMessage } from "@/functions/index.js";
 const handleCryptoSelection: IhandleCryptoSelection = (obj) => {
   const { chatId, text, CRYPTOS, userState } = obj;
 
-  const { orderType } = userState[chatId];
+  const action = userState[chatId].orderType === "buy" ? "купити" : "продати";
 
-  const action = orderType === "buy" ? "купити" : "продати";
+  sendMessage(chatId, `action: ${action}`);
 
   if (!CRYPTOS.includes(text)) {
     return sendMessage(
@@ -22,6 +22,8 @@ const handleCryptoSelection: IhandleCryptoSelection = (obj) => {
     step: "waitingForPrice",
     crypto: text,
   };
+
+  sendMessage(chatId, `action: ${action}`);
 
   return sendMessage(
     chatId,
