@@ -7,6 +7,8 @@ const waitingForAmount: IWaitingForAmount = async (props) => {
 
   const { crypto, orderType } = userState[chatId];
 
+  const currentCrypto = crypto?.replace("buy_", "") + " (TRC-20)";
+
   const amount = parseFloat(text);
 
   if (orderType === "sell") {
@@ -17,9 +19,10 @@ const waitingForAmount: IWaitingForAmount = async (props) => {
     }
 
     const currentCryptoBalance =
-      balance[crypto as "TRX" | "USDT" | "USDC" | "TUSD"];
+      balance[currentCrypto as "TRX" | "USDT" | "USDC" | "TUSD"];
 
     sendMessage(chatId, `crypto: ${crypto}`);
+    sendMessage(chatId, `currentCryptoBalance: ${currentCryptoBalance}`);
 
     if (currentCryptoBalance !== amount) {
       return sendMessage(chatId, "❌ Недостатньо коштів.", menuBack);
