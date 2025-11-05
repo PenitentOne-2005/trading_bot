@@ -7,8 +7,6 @@ const handleCryptoSelection: IhandleCryptoSelection = (obj) => {
 
   const action = userState[chatId].orderType === "buy" ? "купити" : "продати";
 
-  sendMessage(chatId, `action1: ${action}`);
-
   if (!CRYPTOS.includes(text)) {
     return sendMessage(
       chatId,
@@ -23,11 +21,9 @@ const handleCryptoSelection: IhandleCryptoSelection = (obj) => {
     crypto: text,
   };
 
-  sendMessage(chatId, `action2: ${action}`);
-
   return sendMessage(
     chatId,
-    `💰 Вкажіть суму в ${text}, яку хочете ${action}:`,
+    `💰 pum Вкажіть суму в ${text}, яку хочете ${action}:`,
     {
       reply_markup: {
         inline_keyboard: [[{ text: "Назад", callback_data: "back" }]],
