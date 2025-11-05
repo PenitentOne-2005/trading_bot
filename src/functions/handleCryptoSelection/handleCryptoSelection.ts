@@ -23,7 +23,7 @@ const handleCryptoSelection: IhandleCryptoSelection = (obj) => {
 
   return sendMessage(
     chatId,
-    `💰 pum Вкажіть суму в ${text}, яку хочете ${action}:`,
+    `💰 Вкажіть суму в ${text}, яку хочете ${action}:`,
     {
       reply_markup: {
         inline_keyboard: [[{ text: "Назад", callback_data: "back" }]],
