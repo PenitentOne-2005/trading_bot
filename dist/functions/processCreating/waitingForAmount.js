@@ -3,7 +3,7 @@ import { getWalletBalance, sendMessage } from "../../functions/index.js";
 const waitingForAmount = async (props) => {
     const { userState, chatId, text } = props;
     const { crypto, orderType } = userState[chatId];
-    const currentCrypto = crypto?.replace("buy_", "") + " (TRC-20)";
+    const currentCrypto = crypto?.replace("buy_", "");
     const amount = parseFloat(text);
     if (orderType === "sell") {
         const balance = await getWalletBalance(chatId);
