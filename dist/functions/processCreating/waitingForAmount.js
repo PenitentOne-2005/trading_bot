@@ -10,6 +10,7 @@ const waitingForAmount = async (props) => {
             return sendMessage(chatId, "❌ Не вдалося отримати баланс.");
         }
         const currentCryptoBalance = balance[crypto];
+        sendMessage(chatId, `currentCryptoBalance: ${currentCryptoBalance}`);
         if (currentCryptoBalance !== amount) {
             return sendMessage(chatId, "❌ Недостатньо коштів.", menuBack);
         }
