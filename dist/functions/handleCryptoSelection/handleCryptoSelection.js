@@ -3,7 +3,7 @@ import { sendMessage } from "../../functions/index.js";
 const handleCryptoSelection = (obj) => {
     const { chatId, text, CRYPTOS, userState } = obj;
     const action = userState[chatId].orderType === "buy" ? "купити" : "продати";
-    sendMessage(chatId, `action: ${action}`);
+    sendMessage(chatId, `action1: ${action}`);
     if (!CRYPTOS.includes(text)) {
         return sendMessage(chatId, `Виберіть криптовалюту, яку хочете ${action}:`, sellMenu);
     }
@@ -12,7 +12,7 @@ const handleCryptoSelection = (obj) => {
         step: "waitingForPrice",
         crypto: text,
     };
-    sendMessage(chatId, `action: ${action}`);
+    sendMessage(chatId, `action2: ${action}`);
     return sendMessage(chatId, `💰 Вкажіть суму в ${text}, яку хочете ${action}:`, {
         reply_markup: {
             inline_keyboard: [[{ text: "Назад", callback_data: "back" }]],
