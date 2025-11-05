@@ -1,11 +1,27 @@
 import { IWaitingForAmount } from "./interface.js";
 import { menuBack } from "./menu.js";
-import { sendMessage } from "@/functions/index.js";
+import { getWalletBalance, sendMessage } from "@/functions/index.js";
 
-const waitingForAmount: IWaitingForAmount = (props) => {
+const waitingForAmount: IWaitingForAmount = async (props) => {
   const { userState, chatId, text } = props;
 
+  const { crypto } = userState[chatId];
+
   const amount = parseFloat(text);
+
+  const balance = await getWalletBalance(chatId);
+
+  if (!balance) {
+    return sendMessage(chatId, "❌ Не вдалося отримати баланс.");
+  }
+
+  const currentCryptoBalance =
+    balance[crypto as "TRX" | "USDT" | "USDC" | "TUSD"];
+
+  if (currentCryptoBalance !== amount) {
+    return sendMessage(chatId, "❌ Недостатньо коштів.", menuBack);
+  }
+
   if (isNaN(amount) || amount <= 0) {
     return sendMessage(chatId, "❌ Введіть коректну суму.");
   }
@@ -18,7 +34,7 @@ const waitingForAmount: IWaitingForAmount = (props) => {
 
   return sendMessage(
     chatId,
-    `💸 Встановіть ціну в UAH за 1 ${userState[chatId].crypto}:`,
+    `💸 Встановіть ціну в UAH за 1 ${crypto}:`,
     menuBack
   );
 };
