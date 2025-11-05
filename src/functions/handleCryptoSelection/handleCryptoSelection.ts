@@ -5,6 +5,10 @@ import { sendMessage } from "@/functions/index.js";
 const handleCryptoSelection: IhandleCryptoSelection = (obj) => {
   const { chatId, text, CRYPTOS, userState } = obj;
 
+  const { orderType } = userState[chatId];
+
+  sendMessage(chatId, `orderType: ${orderType}`);
+
   if (!CRYPTOS.includes(text)) {
     return sendMessage(
       chatId,
