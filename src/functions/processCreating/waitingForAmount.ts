@@ -7,7 +7,7 @@ const waitingForAmount: IWaitingForAmount = async (props) => {
 
   const { crypto, orderType } = userState[chatId];
 
-  const currentCrypto = crypto?.replace("buy_", "");
+  const currentCrypto = crypto?.replace("buy_", "").replace("(TRC-20)", "");
 
   const amount = parseFloat(text);
 
