@@ -2,6 +2,8 @@ import { sellMenu } from "./sellMenu.js";
 import { sendMessage } from "../../functions/index.js";
 const handleCryptoSelection = (obj) => {
     const { chatId, text, CRYPTOS, userState } = obj;
+    const { orderType } = userState[chatId];
+    sendMessage(chatId, `orderType: ${orderType}`);
     if (!CRYPTOS.includes(text)) {
         return sendMessage(chatId, "Виберіть криптовалюту, яку хочете купити:", sellMenu);
     }
