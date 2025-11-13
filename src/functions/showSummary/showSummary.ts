@@ -3,11 +3,7 @@ import menu from "./menu.js";
 import { sendMessage } from "@/functions/index.js";
 
 const showSummary: IshowSummary = async (chatId, userState) => {
-  const currentState = userState[chatId];
-
-  if (!currentState) return;
-
-  const { crypto, price, paymentMethod } = currentState;
+  const { crypto, price, paymentMethod } = userState[chatId];
 
   return sendMessage(
     chatId,
