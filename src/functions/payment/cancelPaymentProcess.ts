@@ -8,7 +8,10 @@ const cancelPaymentProcess: FuncInfoProps = async (
   orderId
 ) => {
   try {
-    const { amount, sumToPay, crypto, currentDb } = userState[chatId] ?? {};
+    const { amount, sumToPay, crypto, currentDb, orderType } =
+      userState[chatId] ?? {};
+
+    const action = orderType === "buy" ? "покупку" : "продаж";
 
     const updateQuery = `
         UPDATE ${currentDb}
@@ -20,7 +23,7 @@ const cancelPaymentProcess: FuncInfoProps = async (
     await pool.query(updateQuery, [orderId, chatId]);
 
     const text = `❌ Операцiю скасовано!
-    Ви скасували покупку ${amount} ${crypto} за ${sumToPay} UAH.
+    Ви скасували ${action} ${amount} ${crypto} за ${sumToPay} UAH.
     Оголошення #${orderId} залишилось активним, i ви можете використати його пiзнiше.
     Що далi?`;
 
