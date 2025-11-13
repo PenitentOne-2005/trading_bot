@@ -5,7 +5,10 @@ const waitingForAmount = async (props) => {
     const { crypto, orderType } = userState[chatId];
     const amount = parseFloat(text);
     if (orderType === "sell") {
-        const currentCrypto = crypto?.match(/(TRX|USDT|USDC|TUSD)/)?.[0];
+        const currentCrypto = crypto
+            ?.replace("buy_", "")
+            .replace("(TRC-20)", "")
+            .trim();
         const balance = await getWalletBalance(chatId);
         sendMessage(chatId, `balance: ${balance?.TRX}`);
         if (!balance) {
