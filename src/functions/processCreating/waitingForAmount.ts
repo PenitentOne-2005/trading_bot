@@ -14,7 +14,7 @@ const waitingForAmount: IWaitingForAmount = async (props) => {
   if (orderType === "sell") {
     const balance = await getWalletBalance(chatId);
 
-    sendMessage(chatId, `balance: ${balance}`);
+    sendMessage(chatId, `balance: ${balance?.TRX}`);
 
     if (!balance) {
       return sendMessage(chatId, "❌ Не вдалося отримати баланс.");
