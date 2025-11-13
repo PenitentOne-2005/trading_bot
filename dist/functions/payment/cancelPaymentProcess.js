@@ -2,7 +2,8 @@ import { pool, cancelPaymentProcessKeyBoard } from "../../exports.js";
 import { sendMessage } from "../../functions/index.js";
 const cancelPaymentProcess = async (userState, chatId, orderId) => {
     try {
-        const { amount, sumToPay, crypto, currentDb } = userState[chatId] ?? {};
+        const { amount, sumToPay, crypto, currentDb, orderType } = userState[chatId] ?? {};
+        const action = orderType === "buy" ? "покупку" : "продаж";
         const updateQuery = `
         UPDATE ${currentDb}
         SET status = 'active',
@@ -11,7 +12,7 @@ const cancelPaymentProcess = async (userState, chatId, orderId) => {
       `;
         await pool.query(updateQuery, [orderId, chatId]);
         const text = `❌ Операцiю скасовано!
-    Ви скасували покупку ${amount} ${crypto} за ${sumToPay} UAH.
+    Ви скасували ${action} ${amount} ${crypto} за ${sumToPay} UAH.
     Оголошення #${orderId} залишилось активним, i ви можете використати його пiзнiше.
     Що далi?`;
         return sendMessage(chatId, text, cancelPaymentProcessKeyBoard);
