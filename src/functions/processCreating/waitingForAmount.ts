@@ -14,7 +14,6 @@ const waitingForAmount: IWaitingForAmount = async (props) => {
 
     const balance = await getWalletBalance(chatId);
 
-
     if (!balance) {
       return sendMessage(chatId, "❌ Не вдалося отримати баланс.");
     }

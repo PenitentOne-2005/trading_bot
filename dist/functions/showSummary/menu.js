@@ -10,7 +10,7 @@ const menu = {
             [
                 {
                     text: "Скасувати",
-                    callback_data: "cancel_buy_order",
+                    callback_data: "cancel",
                 },
             ],
             [{ text: "Назад", callback_data: "back" }],
