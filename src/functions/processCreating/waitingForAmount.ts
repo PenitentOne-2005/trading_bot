@@ -10,14 +10,9 @@ const waitingForAmount: IWaitingForAmount = async (props) => {
   const amount = parseFloat(text);
 
   if (orderType === "sell") {
-    const currentCrypto = crypto
-      ?.replace("buy_", "")
-      .replace("(TRC-20)", "")
-      .trim();
+    const currentCrypto = crypto?.match(/(TRX|USDT|USDC|TUSD)/)?.[0];
 
     const balance = await getWalletBalance(chatId);
-
-    sendMessage(chatId, `balance: ${balance?.TRX}`);
 
     if (!balance) {
       return sendMessage(chatId, "❌ Не вдалося отримати баланс.");
@@ -26,10 +21,7 @@ const waitingForAmount: IWaitingForAmount = async (props) => {
     const currentCryptoBalance =
       balance[currentCrypto as "TRX" | "USDT" | "USDC" | "TUSD"];
 
-    sendMessage(chatId, `crypto: ${currentCrypto}`);
-    sendMessage(chatId, `currentCryptoBalance: ${currentCryptoBalance}`);
-
-    if (currentCryptoBalance !== amount) {
+    if (currentCryptoBalance === undefined) {
       return sendMessage(chatId, "❌ Недостатньо коштів.", menuBack);
     }
   }
