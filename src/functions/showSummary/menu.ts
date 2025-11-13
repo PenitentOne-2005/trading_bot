@@ -12,7 +12,7 @@ const menu: SendMessageOptions = {
       [
         {
           text: "Скасувати",
-          callback_data: "cancel",
+          callback_data: "back",
         },
       ],
       [{ text: "Назад", callback_data: "back" }],
