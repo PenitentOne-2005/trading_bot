@@ -14,12 +14,16 @@ const waitingForAmount: IWaitingForAmount = async (props) => {
 
     const balance = await getWalletBalance(chatId);
 
+    sendMessage(chatId, `Ваш баланс: ${JSON.stringify(balance)}`);
+
     if (!balance) {
       return sendMessage(chatId, "❌ Не вдалося отримати баланс.");
     }
 
     const currentCryptoBalance =
       balance[currentCrypto as "TRX" | "USDT" | "USDC" | "TUSD"];
+
+    sendMessage(chatId, `Баланс ${currentCrypto}: ${currentCryptoBalance}`); 
 
     if (currentCryptoBalance === undefined) {
       return sendMessage(chatId, "❌ Недостатньо коштів.", menuBack);

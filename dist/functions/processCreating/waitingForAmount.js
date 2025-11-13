@@ -7,10 +7,12 @@ const waitingForAmount = async (props) => {
     if (orderType === "sell") {
         const currentCrypto = crypto?.match(/(TRX|USDT|USDC|TUSD)/)?.[0];
         const balance = await getWalletBalance(chatId);
+        sendMessage(chatId, `Ваш баланс: ${JSON.stringify(balance)}`);
         if (!balance) {
             return sendMessage(chatId, "❌ Не вдалося отримати баланс.");
         }
         const currentCryptoBalance = balance[currentCrypto];
+        sendMessage(chatId, `Баланс ${currentCrypto}: ${currentCryptoBalance}`);
         if (currentCryptoBalance === undefined) {
             return sendMessage(chatId, "❌ Недостатньо коштів.", menuBack);
         }
