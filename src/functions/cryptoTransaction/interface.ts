@@ -5,7 +5,7 @@ export const allowedKeys = ["TRX", "USDT", "USDC", "TUSD"] as const;
 export type CryptoKey = (typeof allowedKeys)[number];
 
 export interface SendCryptoTransaction {
-  (chatId: number): Promise<Message>;
+  (chatId: number): Promise<Message | undefined>;
 }
 
 export interface SendTRX {
@@ -22,6 +22,17 @@ interface SendTRC20Props {
   amount: number;
   sumToPay: number | undefined;
   chatId: number;
+}
+
+export interface EscrowPayload {
+  amount: number;
+  sumToPay: number | undefined;
+  orderId: string | undefined;
+  metadata: {
+    IBAN: string;
+    name: string;
+    [key: string]: any;
+  };
 }
 
 export interface ValidateUserState {
