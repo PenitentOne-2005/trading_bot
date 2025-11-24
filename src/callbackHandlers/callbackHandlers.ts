@@ -93,7 +93,11 @@ const callbackHandlers: Record<string, CallbackHandlers> = {
 
     const allRequests = [...buyResult.rows, ...sellResult.rows];
 
-    sendMessage(chatId, `${JSON.stringify(allRequests)}`);
+    const { crypto, amount, price } = allRequests[0];
+
+    const message = `${crypto} ${amount} ${price}`;
+
+    sendMessage(chatId, message);
   },
 
   help: async ({ chatId }) =>
