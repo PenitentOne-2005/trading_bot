@@ -46,7 +46,7 @@ const callbackHandlers = {
         const allRequests = [...buyResult.rows, ...sellResult.rows];
         const payQuery = `SELECT * FROM payments WHERE telegram_id = $1`;
         const res = await pool.query(payQuery, [chatId]);
-        const payMethod = res.rows[0].metadata.IBAN;
+        const payMethod = res.rows[0].metadata;
         const { id, crypto, amount, price } = allRequests[0];
         const message = `Оголошення #${id}\n Продає: ${crypto}\n Дiапазон: ${amount}\n Цiна: ${price}\n Оплата: ${payMethod}`;
         sendMessage(chatId, message);
