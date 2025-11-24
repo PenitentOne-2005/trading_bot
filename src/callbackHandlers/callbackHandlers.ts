@@ -93,9 +93,11 @@ const callbackHandlers: Record<string, CallbackHandlers> = {
 
     const allRequests = [...buyResult.rows, ...sellResult.rows];
 
-    const { crypto, amount, price } = allRequests[0];
+    const { paymentMethod } = userState[chatId];
 
-    const message = `${crypto} ${amount} ${price}`;
+    const { id, crypto, amount, price } = allRequests[0];
+
+    const message = `Оголошення #${id}\n Продає: ${crypto}\n Дiапазон: ${amount}\n Цiна: ${price}\n Оплата: ${paymentMethod}`;
 
     sendMessage(chatId, message);
   },
