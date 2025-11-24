@@ -139,7 +139,7 @@ export const selectLanguageBoard: SendMessageOptions = {
   },
 };
 
-export const activeOrdersMenu = {
+export const activeOrdersMenu: SendMessageOptions = {
   reply_markup: {
     inline_keyboard: [
       [{ text: "Редагувати", callback_data: "" }],
