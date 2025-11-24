@@ -96,7 +96,7 @@ const callbackHandlers: Record<string, CallbackHandlers> = {
     const payQuery = `SELECT * FROM payments WHERE telegram_id = $1`;
     const res = await pool.query(payQuery, [chatId]);
 
-    const payMethod = res.rows;
+    const payMethod = res.rows[0].metadata.IBAN;
 
     const { id, crypto, amount, price } = allRequests[0];
 
