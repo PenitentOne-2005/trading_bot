@@ -142,9 +142,9 @@ export const selectLanguageBoard: SendMessageOptions = {
 export const activeOrdersMenu: SendMessageOptions = {
   reply_markup: {
     inline_keyboard: [
-      [{ text: "Редагувати", callback_data: "" }],
-      [{ text: "Зняти з публiкацiї", callback_data: "" }],
-      [{ text: "Видалити", callback_data: "" }],
+      [{ text: "Редагувати", callback_data: "edit" }],
+      [{ text: "Зняти з публiкацiї", callback_data: "unpublish" }],
+      [{ text: "Видалити", callback_data: "delete" }],
       [{ text: "Всi оголошення", callback_data: "allOrders" }],
       [{ text: "Назад", callback_data: "back" }],
     ],
