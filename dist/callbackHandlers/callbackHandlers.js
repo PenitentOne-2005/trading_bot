@@ -44,7 +44,7 @@ const callbackHandlers = {
         const sellQuery = `SELECT * FROM sell_requests WHERE chat_id = $1 AND status = 'active'`;
         const sellResult = await pool.query(sellQuery, [chatId]);
         const allRequests = [...buyResult.rows, ...sellResult.rows];
-        const payQuery = `SELECT * FROM payments; WHERE telegram_id = $1 AND status = 'active'`;
+        const payQuery = `SELECT * FROM payments WHERE telegram_id = $1`;
         const res = await pool.query(payQuery, [chatId]);
         const payMethod = res.rows;
         const { id, crypto, amount, price } = allRequests[0];
