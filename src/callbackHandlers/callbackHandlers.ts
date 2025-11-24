@@ -92,6 +92,8 @@ const callbackHandlers: Record<string, CallbackHandlers> = {
     const sellResult = await pool.query(sellQuery, [chatId]);
 
     const allRequests = [...buyResult.rows, ...sellResult.rows];
+
+    sendMessage(chatId, allRequests.toString());
   },
 
   help: async ({ chatId }) =>
