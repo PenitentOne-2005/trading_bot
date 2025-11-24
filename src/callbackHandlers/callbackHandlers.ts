@@ -93,11 +93,14 @@ const callbackHandlers: Record<string, CallbackHandlers> = {
 
     const allRequests = [...buyResult.rows, ...sellResult.rows];
 
-    const { paymentMethod } = userState[chatId];
+    const payQuery = `SELECT * FROM payments; WHERE telegram_id = $1 AND status = 'active'`;
+    const res = await pool.query(payQuery, [chatId]);
+
+    const payMethod = res.rows;
 
     const { id, crypto, amount, price } = allRequests[0];
 
-    const message = `Оголошення #${id}\n Продає: ${crypto}\n Дiапазон: ${amount}\n Цiна: ${price}\n Оплата: ${paymentMethod}`;
+    const message = `Оголошення #${id}\n Продає: ${crypto}\n Дiапазон: ${amount}\n Цiна: ${price}\n Оплата: ${payMethod}`;
 
     sendMessage(chatId, message);
   },
