@@ -93,7 +93,7 @@ const callbackHandlers: Record<string, CallbackHandlers> = {
 
     const allRequests = [...buyResult.rows, ...sellResult.rows];
 
-    sendMessage(chatId, allRequests.toString());
+    sendMessage(chatId, `${allRequests}`);
   },
 
   help: async ({ chatId }) =>

@@ -44,7 +44,7 @@ const callbackHandlers = {
         const sellQuery = `SELECT * FROM sell_requests WHERE chat_id = $1 AND status = 'active'`;
         const sellResult = await pool.query(sellQuery, [chatId]);
         const allRequests = [...buyResult.rows, ...sellResult.rows];
-        sendMessage(chatId, allRequests.toString());
+        sendMessage(chatId, `${allRequests}`);
     },
     help: async ({ chatId }) => sendMessage(chatId, MESSAGE_TEXT.help, helpKeyBoard),
     getPrivateKey: async ({ chatId }) => {
