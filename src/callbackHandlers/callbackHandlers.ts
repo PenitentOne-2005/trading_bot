@@ -19,6 +19,7 @@ import {
   MESSAGE_TEXT,
   pool,
   CallbackProps,
+  activeOrdersMenu,
 } from "@/exports.js";
 
 const callbackHandlers: Record<string, CallbackHandlers> = {
@@ -104,7 +105,7 @@ const callbackHandlers: Record<string, CallbackHandlers> = {
 
     const message = `Оголошення #${id}\n Продає: ${crypto}\n Дiапазон: ${amount}\n Цiна: ${price}\n Оплата: ${payMethod}`;
 
-    sendMessage(chatId, message);
+    sendMessage(chatId, message, activeOrdersMenu);
   },
 
   help: async ({ chatId }) =>

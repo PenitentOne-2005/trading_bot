@@ -124,3 +124,14 @@ export const selectLanguageBoard = {
         ],
     },
 };
+export const activeOrdersMenu = {
+    reply_markup: {
+        inline_keyboard: [
+            [{ text: "Редагувати", callback_data: "" }],
+            [{ text: "Зняти з публiкацiї", callback_data: "" }],
+            [{ text: "Видалити", callback_data: "" }],
+            [{ text: "Всi оголошення", callback_data: "allOrders" }],
+            [{ text: "Назад", callback_data: "back" }],
+        ],
+    },
+};

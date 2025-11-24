@@ -1,5 +1,5 @@
 import { sendMessage, showOrders, createOrder, setPaymentMethod, updateStatusToWaiting, cancelPaymentProcess, } from "../functions/index.js";
-import { selectLanguageBoard, agreeKeyBoard, helpKeyBoard, mainMenu, myOrdersKeyBoard, showOrdersKeyBoard, userOffsets, userState, MESSAGE_TEXT, pool, } from "../exports.js";
+import { selectLanguageBoard, agreeKeyBoard, helpKeyBoard, mainMenu, myOrdersKeyBoard, showOrdersKeyBoard, userOffsets, userState, MESSAGE_TEXT, pool, activeOrdersMenu, } from "../exports.js";
 const callbackHandlers = {
     lang_en: ({ chatId }) => sendMessage(chatId, MESSAGE_TEXT.unsuportLang, selectLanguageBoard),
     lang_ua: ({ chatId }) => sendMessage(chatId, MESSAGE_TEXT.lang, agreeKeyBoard),
@@ -50,7 +50,7 @@ const callbackHandlers = {
         const payMethod = payments.IBAN ? "IBAN" : "Card";
         const { id, crypto, amount, price } = allRequests[0];
         const message = `Оголошення #${id}\n Продає: ${crypto}\n Дiапазон: ${amount}\n Цiна: ${price}\n Оплата: ${payMethod}`;
-        sendMessage(chatId, message);
+        sendMessage(chatId, message, activeOrdersMenu);
     },
     help: async ({ chatId }) => sendMessage(chatId, MESSAGE_TEXT.help, helpKeyBoard),
     getPrivateKey: async ({ chatId }) => {
