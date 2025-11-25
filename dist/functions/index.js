@@ -28,5 +28,6 @@ export { default as getWalletAddress } from "./address/index.js";
 export { default as handleWalletAddressInput } from "./handleWalletAddressInput/index.js";
 export { default as cryptoWithdraw } from "./cryptoWithdraw/index.js";
 export { default as promptWithdrawAmount } from "./promptWithdrawAmount/index.js";
+export { default as renderActiveOrders } from "./renderActiveOrders/index.js";
 export { handleIBANandIPNstep, waitingForAmount, waitingForCard, waitingForName, waitingForPrice, stepHandlers, } from "./processCreating/index.js";
 export { cancelPaymentProcess, confirmPaymentNotification, payMethod, savePayments, setPaymentMethod, showPaymentInfo, } from "./payment/index.js";
