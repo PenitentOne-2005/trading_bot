@@ -37,16 +37,12 @@ const renderActiveOrders = async (chatId) => {
 💵 Ціна: ${item.price}
 🏦 Оплата: ${payMethod}
     `;
-        const inline_keyboard = [];
-        inline_keyboard.push([
-            { text: "Редагувати", callback_data: `edit_${item.id}` },
-        ]);
-        inline_keyboard.push([
-            { text: "Зняти з публікації", callback_data: `unpublish_${item.id}` },
-        ]);
-        inline_keyboard.push([
-            { text: "Видалити", callback_data: `delete_${item.id}` },
-        ]);
+        const inline_keyboard = [
+            [{ text: "Редагувати", callback_data: `edit_${item.id}` }],
+            [{ text: "Зняти з публікації", callback_data: `unpublish_${item.id}` }],
+            [{ text: "Видалити", callback_data: `delete_${item.id}` }],
+            [{ text: "Всi оголошення", callback_data: "allOrders" }],
+        ];
         // Пагинация
         inline_keyboard.push([
             { text: "⬅️", callback_data: "active_prev" },
