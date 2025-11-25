@@ -1,5 +1,5 @@
 import { sendMessage, showOrders, createOrder, setPaymentMethod, updateStatusToWaiting, cancelPaymentProcess, } from "../functions/index.js";
-import { selectLanguageBoard, agreeKeyBoard, helpKeyBoard, mainMenu, myOrdersKeyBoard, showOrdersKeyBoard, userOffsets, userState, MESSAGE_TEXT, pool, activeOrdersMenu, } from "../exports.js";
+import { selectLanguageBoard, agreeKeyBoard, helpKeyBoard, mainMenu, myOrdersKeyBoard, showOrdersKeyBoard, userOffsets, userState, MESSAGE_TEXT, pool, } from "../exports.js";
 const callbackHandlers = {
     lang_en: ({ chatId }) => sendMessage(chatId, MESSAGE_TEXT.unsuportLang, selectLanguageBoard),
     lang_ua: ({ chatId }) => sendMessage(chatId, MESSAGE_TEXT.lang, agreeKeyBoard),
@@ -38,19 +38,48 @@ const callbackHandlers = {
     },
     pending_orders: ({ chatId }) => { },
     active_orders: async ({ chatId }) => {
-        const buyQuery = `
-    SELECT * FROM buy_requests WHERE chat_id = $1 AND status = 'active'`;
-        const buyResult = await pool.query(buyQuery, [chatId]);
-        const sellQuery = `SELECT * FROM sell_requests WHERE chat_id = $1 AND status = 'active'`;
-        const sellResult = await pool.query(sellQuery, [chatId]);
-        const allRequests = [...buyResult.rows, ...sellResult.rows];
-        const payQuery = `SELECT * FROM payments WHERE telegram_id = $1`;
-        const res = await pool.query(payQuery, [chatId]);
-        const payments = JSON.parse(res.rows[0].metadata);
-        const payMethod = payments.IBAN ? "IBAN" : "Card";
-        const { id, crypto, amount, price } = allRequests[0];
-        const message = `Оголошення #${id}\n Продає: ${crypto}\n Дiапазон: ${amount}\n Цiна: ${price}\n Оплата: ${payMethod}`;
-        sendMessage(chatId, message, activeOrdersMenu);
+        try {
+            const buyQuery = `
+      SELECT * FROM buy_requests
+      WHERE chat_id = $1 AND status = 'active'
+      ORDER BY created_at ASC
+    `;
+            const buyResult = await pool.query(buyQuery, [chatId]);
+            const sellQuery = `
+      SELECT * FROM sell_requests
+      WHERE chat_id = $1 AND status = 'active'
+      ORDER BY created_at ASC
+    `;
+            const sellResult = await pool.query(sellQuery, [chatId]);
+            const allRequests = [...buyResult.rows, ...sellResult.rows];
+            if (allRequests.length === 0) {
+                return sendMessage(chatId, "📭 У вас немає активних оголошень.");
+            }
+            const payQuery = `
+      SELECT * FROM payments WHERE telegram_id = $1
+    `;
+            const res = await pool.query(payQuery, [chatId]);
+            const payments = JSON.parse(res.rows[0].metadata);
+            const payMethod = payments.IBAN ? "IBAN" : "Card";
+            let message = `📄 Ваші активні оголошення:\n\n`;
+            const inline_keyboard = [];
+            allRequests.forEach((req) => {
+                const { id, crypto, amount, price } = req;
+                message += `#${id}\n💱 Крипта: ${crypto}\n💰 Діапазон: ${amount}\n💵 Ціна: ${price}\n🧾 Оплата: ${payMethod}\n\n`;
+                inline_keyboard.push([
+                    {
+                        text: `Редагувати #${id}`,
+                        callback_data: `edit_order_${id}`,
+                    },
+                ]);
+            });
+            sendMessage(chatId, message, {
+                reply_markup: { inline_keyboard },
+            });
+        }
+        catch (err) {
+            console.error("❌ Помилка active_orders:", err);
+        }
     },
     help: async ({ chatId }) => sendMessage(chatId, MESSAGE_TEXT.help, helpKeyBoard),
     getPrivateKey: async ({ chatId }) => {
