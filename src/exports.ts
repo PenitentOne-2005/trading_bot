@@ -25,5 +25,4 @@ export {
   setPaymentMethodKeyBoard,
   agreeGetKeyBoard,
   selectLanguageBoard,
-  activeOrdersMenu,
 } from "./menu.js";
