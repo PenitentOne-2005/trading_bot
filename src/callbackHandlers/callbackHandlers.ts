@@ -17,11 +17,8 @@ import {
   userOffsets,
   userState,
   MESSAGE_TEXT,
-  pool,
   CallbackProps,
-  activeOrdersMenu,
 } from "@/exports.js";
-import { SendMessageOptions } from "node-telegram-bot-api";
 
 const callbackHandlers: Record<string, CallbackHandlers> = {
   lang_en: ({ chatId }) =>
@@ -68,13 +65,13 @@ const callbackHandlers: Record<string, CallbackHandlers> = {
     return await showWallet(chatId);
   },
 
-  allOrders: async ({ chatId }) => {
+  allOrders: ({ chatId }) => {
     userOffsets[chatId] = 0;
 
     return sendMessage(chatId, MESSAGE_TEXT.allOrders, showOrdersKeyBoard);
   },
 
-  myOrders: async ({ chatId }) =>
+  myOrders: ({ chatId }) =>
     sendMessage(chatId, MESSAGE_TEXT.myOrders, myOrdersKeyBoard),
 
   createOrder: async ({ chatId }) => {
@@ -86,58 +83,9 @@ const callbackHandlers: Record<string, CallbackHandlers> = {
   pending_orders: ({ chatId }) => {},
 
   active_orders: async ({ chatId }) => {
-    try {
-      const buyQuery = `
-      SELECT * FROM buy_requests
-      WHERE chat_id = $1 AND status = 'active'
-      ORDER BY created_at ASC
-    `;
-      const buyResult = await pool.query(buyQuery, [chatId]);
+    const { renderActiveOrders } = await import("@/functions/index.js");
 
-      const sellQuery = `
-      SELECT * FROM sell_requests
-      WHERE chat_id = $1 AND status = 'active'
-      ORDER BY created_at ASC
-    `;
-      const sellResult = await pool.query(sellQuery, [chatId]);
-
-      const allRequests = [...buyResult.rows, ...sellResult.rows];
-
-      if (allRequests.length === 0) {
-        return sendMessage(chatId, "📭 У вас немає активних оголошень.");
-      }
-
-      const payQuery = `
-      SELECT * FROM payments WHERE telegram_id = $1
-    `;
-      const res = await pool.query(payQuery, [chatId]);
-      const payments = JSON.parse(res.rows[0].metadata);
-      const payMethod = payments.IBAN ? "IBAN" : "Card";
-
-      let message = `📄 Ваші активні оголошення:\n\n`;
-      const inline_keyboard: Array<
-        Array<{ text: string; callback_data: string }>
-      > = [];
-
-      allRequests.forEach((req) => {
-        const { id, crypto, amount, price } = req;
-
-        message += `#${id}\n💱 Крипта: ${crypto}\n💰 Діапазон: ${amount}\n💵 Ціна: ${price}\n🧾 Оплата: ${payMethod}\n\n`;
-
-        inline_keyboard.push([
-          {
-            text: `Редагувати #${id}`,
-            callback_data: `edit_order_${id}`,
-          },
-        ]);
-      });
-
-      sendMessage(chatId, message, {
-        reply_markup: { inline_keyboard },
-      });
-    } catch (err) {
-      console.error("❌ Помилка active_orders:", err);
-    }
+    return await renderActiveOrders(chatId);
   },
 
   help: async ({ chatId }) =>
@@ -232,6 +180,32 @@ const callbackHandlers: Record<string, CallbackHandlers> = {
       userOffsets,
       text: "Список заявок",
     });
+  },
+
+  active_next: async ({ chatId }) => {
+    const total = userOffsets[chatId] ?? 0;
+
+    userOffsets[chatId] = (userOffsets[chatId] ?? 0) + 1;
+
+    if (userOffsets[chatId] >= total) {
+      userOffsets[chatId] = total - 1;
+    }
+
+    const { renderActiveOrders } = await import("@/functions/index.js");
+
+    return await renderActiveOrders(chatId);
+  },
+
+  active_prev: async ({ chatId }) => {
+    userOffsets[chatId] = (userOffsets[chatId] ?? 0) - 1;
+
+    if (userOffsets[chatId] < 0) {
+      userOffsets[chatId] = 0;
+    }
+
+    const { renderActiveOrders } = await import("@/functions/index.js");
+
+    return await renderActiveOrders(chatId);
   },
 
   pay_method: async ({ chatId }) => {
