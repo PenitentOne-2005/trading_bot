@@ -3,7 +3,7 @@ import { sendMessage } from "../../functions/index.js";
 import createKeyBoard from "./createKeyBoard.js";
 const renderActiveOrders = async (chatId, currentDb) => {
     try {
-        const offset = userOffsets[chatId] ?? 0;
+        let offset = userOffsets[chatId] ?? 0;
         const query = `
       SELECT *
       FROM ${currentDb}
@@ -12,16 +12,17 @@ const renderActiveOrders = async (chatId, currentDb) => {
       LIMIT 50
     `;
         const result = await pool.query(query, [chatId]);
-        if (result.rows.length === 0) {
+        const rows = result.rows;
+        if (rows.length === 0) {
+            userOffsets[chatId] = 0;
             return sendMessage(chatId, "📭 У вас немає активних оголошень.");
         }
-        // 5. Сохраняем total для пагинации
-        userOffsets[chatId] = result.rows.length;
-        // 6. Берём одну заявку по offset
-        const item = result.rows[offset];
-        if (!item) {
-            return sendMessage(chatId, "📭 Більше оголошень немає.");
-        }
+        if (offset < 0)
+            offset = 0;
+        if (offset >= rows.length)
+            offset = rows.length - 1;
+        userOffsets[chatId] = offset;
+        const item = rows[offset];
         const payQuery = `SELECT * FROM payments WHERE telegram_id = $1`;
         const res = await pool.query(payQuery, [chatId]);
         const payments = JSON.parse(res.rows[0]?.metadata || "{}");
@@ -38,17 +39,16 @@ const renderActiveOrders = async (chatId, currentDb) => {
             currentDb,
         };
         const inline_keyboard = createKeyBoard(item.id);
-        // Пагинация
         inline_keyboard.push([
             { text: "⬅️", callback_data: "active_prev" },
             {
-                text: `${offset + 1} / ${result.rows.length}`,
+                text: `${offset + 1} / ${rows.length}`,
                 callback_data: "noop",
             },
             { text: "➡️", callback_data: "active_next" },
         ]);
         inline_keyboard.push([{ text: "Назад", callback_data: "back" }]);
-        sendMessage(chatId, message, {
+        return sendMessage(chatId, message, {
             reply_markup: { inline_keyboard },
         });
     }
