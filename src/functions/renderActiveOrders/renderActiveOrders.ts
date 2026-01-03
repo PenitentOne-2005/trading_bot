@@ -1,6 +1,7 @@
 import { GetActiveOrders } from "./interface.js";
 import { pool, userOffsets, userState } from "@/exports.js";
 import { sendMessage } from "@/functions/index.js";
+import createKeyBoard from "./createKeyBoard.js";
 
 const renderActiveOrders: GetActiveOrders = async (chatId, currentDb) => {
   try {
@@ -39,7 +40,7 @@ const renderActiveOrders: GetActiveOrders = async (chatId, currentDb) => {
 Оголошення #${item.id}
 💱 Крипта: ${item.crypto}
 💰 Діапазон: ${item.amount}
-💵 Ціна: ${item.price}
+💵 Ціна: ${item.price} за 1 ${item.crypto}
 🏦 Оплата: ${payMethod}
     `;
 
@@ -48,17 +49,7 @@ const renderActiveOrders: GetActiveOrders = async (chatId, currentDb) => {
       currentDb,
     };
 
-    const inline_keyboard = [
-      [{ text: "Редагувати", callback_data: `edit_${item.id}` }],
-      [
-        {
-          text: "Зняти з публікації",
-          callback_data: `unpublish_${item.id}`,
-        },
-      ],
-      [{ text: "Видалити", callback_data: `delete_${item.id}` }],
-      [{ text: "Всi оголошення", callback_data: "allOrders" }],
-    ];
+    const inline_keyboard = createKeyBoard(item.id);
 
     // Пагинация
     inline_keyboard.push([
