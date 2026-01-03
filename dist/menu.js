@@ -124,3 +124,12 @@ export const selectLanguageBoard = {
         ],
     },
 };
+export const activeOrdersMenu = {
+    reply_markup: {
+        inline_keyboard: [
+            [{ text: "Продаж", callback_data: "showUserSellOrders" }],
+            [{ text: "Купівля", callback_data: "showUserBuyOrders" }],
+            [{ text: "Назад", callback_data: "back" }],
+        ],
+    },
+};

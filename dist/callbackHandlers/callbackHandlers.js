@@ -1,5 +1,5 @@
 import { sendMessage, showOrders, createOrder, setPaymentMethod, updateStatusToWaiting, cancelPaymentProcess, } from "../functions/index.js";
-import { selectLanguageBoard, agreeKeyBoard, helpKeyBoard, mainMenu, myOrdersKeyBoard, showOrdersKeyBoard, userOffsets, userState, MESSAGE_TEXT, } from "../exports.js";
+import { selectLanguageBoard, agreeKeyBoard, helpKeyBoard, activeOrdersMenu, mainMenu, myOrdersKeyBoard, showOrdersKeyBoard, userOffsets, userState, MESSAGE_TEXT, } from "../exports.js";
 const callbackHandlers = {
     lang_en: ({ chatId }) => sendMessage(chatId, MESSAGE_TEXT.unsuportLang, selectLanguageBoard),
     lang_ua: ({ chatId }) => sendMessage(chatId, MESSAGE_TEXT.lang, agreeKeyBoard),
@@ -37,9 +37,14 @@ const callbackHandlers = {
         return sendMessage(chatId, MESSAGE_TEXT.buyText, createOrderMenu);
     },
     pending_orders: ({ chatId }) => { },
-    active_orders: async ({ chatId }) => {
+    active_orders: async ({ chatId }) => sendMessage(chatId, MESSAGE_TEXT.allOrders, activeOrdersMenu),
+    showUserBuyOrders: async ({ chatId }) => {
         const { renderActiveOrders } = await import("../functions/index.js");
-        return await renderActiveOrders(chatId);
+        return await renderActiveOrders(chatId, "buy_requests");
+    },
+    showUserSellOrders: async ({ chatId }) => {
+        const { renderActiveOrders } = await import("../functions/index.js");
+        return await renderActiveOrders(chatId, "sell_requests");
     },
     help: async ({ chatId }) => sendMessage(chatId, MESSAGE_TEXT.help, helpKeyBoard),
     getPrivateKey: async ({ chatId }) => {
