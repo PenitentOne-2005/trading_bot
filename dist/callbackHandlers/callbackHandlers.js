@@ -113,20 +113,22 @@ const callbackHandlers = {
     },
     active_next: async ({ chatId }) => {
         const total = userOffsets[chatId] ?? 0;
+        const { currentDb } = userState[chatId];
         userOffsets[chatId] = (userOffsets[chatId] ?? 0) + 1;
         if (userOffsets[chatId] >= total) {
             userOffsets[chatId] = total - 1;
         }
         const { renderActiveOrders } = await import("../functions/index.js");
-        return await renderActiveOrders(chatId);
+        return await renderActiveOrders(chatId, currentDb);
     },
     active_prev: async ({ chatId }) => {
         userOffsets[chatId] = (userOffsets[chatId] ?? 0) - 1;
+        const { currentDb } = userState[chatId];
         if (userOffsets[chatId] < 0) {
             userOffsets[chatId] = 0;
         }
         const { renderActiveOrders } = await import("../functions/index.js");
-        return await renderActiveOrders(chatId);
+        return await renderActiveOrders(chatId, currentDb);
     },
     pay_method: async ({ chatId }) => {
         const { getPaymentFromDB, payMethod } = await import("../functions/index.js");
