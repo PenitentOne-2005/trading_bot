@@ -11,6 +11,7 @@ import {
   selectLanguageBoard,
   agreeKeyBoard,
   helpKeyBoard,
+  activeOrdersMenu,
   mainMenu,
   myOrdersKeyBoard,
   showOrdersKeyBoard,
@@ -82,10 +83,19 @@ const callbackHandlers: Record<string, CallbackHandlers> = {
 
   pending_orders: ({ chatId }) => {},
 
-  active_orders: async ({ chatId }) => {
+  active_orders: async ({ chatId }) =>
+    sendMessage(chatId, MESSAGE_TEXT.allOrders, activeOrdersMenu),
+
+  showUserBuyOrders: async ({ chatId }) => {
     const { renderActiveOrders } = await import("@/functions/index.js");
 
-    return await renderActiveOrders(chatId);
+    return await renderActiveOrders(chatId, "buy_requests");
+  },
+
+  showUserSellOrders: async ({ chatId }) => {
+    const { renderActiveOrders } = await import("@/functions/index.js");
+
+    return await renderActiveOrders(chatId, "sell_requests");
   },
 
   help: async ({ chatId }) =>
