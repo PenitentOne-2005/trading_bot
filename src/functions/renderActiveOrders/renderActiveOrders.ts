@@ -1,36 +1,30 @@
-import { GetActiveOrders } from "./interface";
-import { pool, userOffsets } from "@/exports.js";
+import { GetActiveOrders } from "./interface.js";
+import { pool, userOffsets, userState } from "@/exports.js";
 import { sendMessage } from "@/functions/index.js";
 
-const renderActiveOrders: GetActiveOrders = async (chatId) => {
+const renderActiveOrders: GetActiveOrders = async (chatId, currentDb) => {
   try {
     const offset = userOffsets[chatId] ?? 0;
 
-    const buyQuery = `
-      SELECT * FROM buy_requests
+    const query = `
+      SELECT *
+      FROM ${currentDb}
       WHERE chat_id = $1 AND status = 'active'
       ORDER BY created_at ASC
+      LIMIT 50
     `;
-    const buyResult = await pool.query(buyQuery, [chatId]);
 
-    const sellQuery = `
-      SELECT * FROM sell_requests
-      WHERE chat_id = $1 AND status = 'active'
-      ORDER BY created_at ASC
-    `;
-    const sellResult = await pool.query(sellQuery, [chatId]);
+    const result = await pool.query(query, [chatId]);
 
-    const allRequests = [...buyResult.rows, ...sellResult.rows];
-
-    if (allRequests.length === 0) {
+    if (result.rows.length === 0) {
       return sendMessage(chatId, "📭 У вас немає активних оголошень.");
     }
 
     // 5. Сохраняем total для пагинации
-    userOffsets[chatId] = allRequests.length;
+    userOffsets[chatId] = result.rows.length;
 
     // 6. Берём одну заявку по offset
-    const item = allRequests[offset];
+    const item = result.rows[offset];
     if (!item) {
       return sendMessage(chatId, "📭 Більше оголошень немає.");
     }
@@ -49,9 +43,19 @@ const renderActiveOrders: GetActiveOrders = async (chatId) => {
 🏦 Оплата: ${payMethod}
     `;
 
+    userState[chatId] = {
+      ...userState[chatId],
+      currentDb,
+    };
+
     const inline_keyboard = [
       [{ text: "Редагувати", callback_data: `edit_${item.id}` }],
-      [{ text: "Зняти з публікації", callback_data: `unpublish_${item.id}` }],
+      [
+        {
+          text: "Зняти з публікації",
+          callback_data: `unpublish_${item.id}`,
+        },
+      ],
       [{ text: "Видалити", callback_data: `delete_${item.id}` }],
       [{ text: "Всi оголошення", callback_data: "allOrders" }],
     ];
@@ -60,7 +64,7 @@ const renderActiveOrders: GetActiveOrders = async (chatId) => {
     inline_keyboard.push([
       { text: "⬅️", callback_data: "active_prev" },
       {
-        text: `${offset + 1} / ${allRequests.length}`,
+        text: `${offset + 1} / ${result.rows.length}`,
         callback_data: "noop",
       },
       { text: "➡️", callback_data: "active_next" },
