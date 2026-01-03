@@ -1,5 +1,5 @@
 import { Message } from "node-telegram-bot-api";
 
 export interface GetActiveOrders {
-  (chatId: number): Promise<Message | undefined>;
+  (chatId: number, currentDb?: string): Promise<Message | undefined>;
 }
