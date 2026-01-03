@@ -138,3 +138,13 @@ export const selectLanguageBoard: SendMessageOptions = {
     ],
   },
 };
+
+export const activeOrdersMenu: SendMessageOptions = {
+  reply_markup: {
+    inline_keyboard: [
+      [{ text: "Продаж", callback_data: "showUserSellOrders" }],
+      [{ text: "Купівля", callback_data: "showUserBuyOrders" }],
+      [{ text: "Назад", callback_data: "back" }],
+    ],
+  },
+};
