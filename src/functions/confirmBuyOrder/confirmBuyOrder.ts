@@ -1,5 +1,5 @@
-import { menu } from "./menu.js";
 import { IconfirmByOrder } from "./interface.js";
+import { menu } from "./menu.js";
 import { sendMessage, saveRequest } from "@/functions/index.js";
 
 const confirmBuyOrder: IconfirmByOrder = async (obj) => {
@@ -26,7 +26,7 @@ const confirmBuyOrder: IconfirmByOrder = async (obj) => {
     Спосіб оплати: ${paymentMethod}
     Термін дії: 24 години
     Що далі?`,
-    menu
+    menu,
   );
 };
 

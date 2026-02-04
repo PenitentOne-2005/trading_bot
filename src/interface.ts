@@ -1,6 +1,9 @@
 import { SendMessageOptions } from "node-telegram-bot-api";
 import { UserState } from "@/exports.js";
 
+export const allowedKeys = ["TRX", "USDT", "USDC", "TUSD"] as const;
+export type CryptoKey = (typeof allowedKeys)[number];
+
 export interface IAddress {
   base58: string;
   hex: string;

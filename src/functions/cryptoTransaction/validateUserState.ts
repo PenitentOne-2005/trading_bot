@@ -24,7 +24,7 @@ const validateUserState: ValidateUserState = (chatId) => {
     throw new Error("❌ Неверная или неуказанная сумма.");
   }
 
-  return { crypto: toLowerCrypto, amount, sumToPay };
+  return { cryptoValidate: toLowerCrypto, amountValidate: amount, sumToPay };
 };
 
 export default validateUserState;

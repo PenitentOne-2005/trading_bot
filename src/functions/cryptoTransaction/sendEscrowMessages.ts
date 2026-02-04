@@ -7,14 +7,14 @@ const sendEscrowMessages = async (
   buyerChatId: number,
   payload: EscrowPayload
 ): Promise<Message> => {
-  const { amount, sumToPay, orderId, metadata } = payload;
+  const { amountValidate, sumToPay, orderId, metadata } = payload;
 
   sendMessage(
     sellerChatId,
     `✅ Успiшно!
         Криптовалюта перемещiна в ескроу. Очiкує підтвердження вiд покупця про вiдправку коштiв.
           Оголошення #1001
-          Продали: ${amount}
+          Продали: ${amountValidate}
           Сума: ${sumToPay}
           Статус: Виконується
           Реквiзити для оплати переданi покупцевi.
@@ -32,14 +32,14 @@ const sendEscrowMessages = async (
           [{ text: "ℹ️ Моï замовлення", callback_data: "myOrders" }],
         ],
       },
-    }
+    },
   );
 
   return sendMessage(
     buyerChatId,
     `Надiшлiть ${sumToPay} UAH продавцю за наступними реквiзитами:
         
-        Сума ${amount} USDT переведена в ескроу контракт, що очiкує пiдтвердження отримання оплати вiд продавця.
+        Сума ${amountValidate} USDT переведена в ескроу контракт, що очiкує пiдтвердження отримання оплати вiд продавця.
         
         Спосiб оплати: IBAN
         Номер IBAN: ${metadata.IBAN}
@@ -58,7 +58,7 @@ const sendEscrowMessages = async (
           [{ text: "Скасувати", callback_data: "cancel" }],
         ],
       },
-    }
+    },
   );
 };
 

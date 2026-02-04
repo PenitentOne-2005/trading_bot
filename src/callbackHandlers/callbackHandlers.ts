@@ -45,9 +45,8 @@ const callbackHandlers: Record<string, CallbackHandlers> = {
   },
 
   agree_yes: async ({ chatId, username }) => {
-    const { isUserRegistered, registerHandler } = await import(
-      "@/functions/index.js"
-    );
+    const { isUserRegistered, registerHandler } =
+      await import("@/functions/index.js");
 
     const isUser = await isUserRegistered(chatId);
     if (!isUser) {
@@ -102,9 +101,8 @@ const callbackHandlers: Record<string, CallbackHandlers> = {
     sendMessage(chatId, MESSAGE_TEXT.help, helpKeyBoard),
 
   getPrivateKey: async ({ chatId }) => {
-    const { promptPrivateKeyConfirmation } = await import(
-      "@/functions/index.js"
-    );
+    const { promptPrivateKeyConfirmation } =
+      await import("@/functions/index.js");
 
     return promptPrivateKeyConfirmation(chatId);
   },
@@ -140,7 +138,7 @@ const callbackHandlers: Record<string, CallbackHandlers> = {
       Адреса має бути у мережi TRON (TRC-20). Вiдправлення на
       iншi блокчейни може призвести до втрати коштiв.
       
-      Будь ласка, введiть адресу для виводу:`
+      Будь ласка, введiть адресу для виводу:`,
     );
   },
 
@@ -211,9 +209,8 @@ const callbackHandlers: Record<string, CallbackHandlers> = {
   },
 
   pay_method: async ({ chatId }) => {
-    const { getPaymentFromDB, payMethod } = await import(
-      "@/functions/index.js"
-    );
+    const { getPaymentFromDB, payMethod } =
+      await import("@/functions/index.js");
 
     const savedPayment = await getPaymentFromDB(chatId);
 
@@ -221,9 +218,8 @@ const callbackHandlers: Record<string, CallbackHandlers> = {
   },
 
   show_payment_buy_info: async ({ chatId }) => {
-    const { showPaymentInfo, notifySellerEscrowStarted } = await import(
-      "@/functions/index.js"
-    );
+    const { showPaymentInfo, notifySellerEscrowStarted } =
+      await import("@/functions/index.js");
 
     await updateStatusToWaiting(userState, chatId, "sell_requests");
     await notifySellerEscrowStarted(userState, chatId);
@@ -231,10 +227,7 @@ const callbackHandlers: Record<string, CallbackHandlers> = {
   },
 
   show_payment_sell_info: async ({ chatId }) => {
-    const { sendCryptoTransaction } = await import("@/functions/index.js");
-
     await updateStatusToWaiting(userState, chatId, "buy_requests");
-    await sendCryptoTransaction(chatId);
   },
 
   add_pay: async ({ chatId }) => {
@@ -247,6 +240,8 @@ const callbackHandlers: Record<string, CallbackHandlers> = {
 
     sendMessage(chatId, "Додати новий платіжний метод:", paymentMethodKeyBoard);
   },
+
+  changePayments: ({ chatId }) => {},
 
   card: ({ chatId }) =>
     setPaymentMethod(chatId, "card", "Введіть номер вашої картки (16 цифр):"),

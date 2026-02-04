@@ -1,9 +1,10 @@
 import { TronWeb } from "tronweb";
 import dotenv from "dotenv";
-import { CryptoKey, SendCryptoTransaction } from "./interface.js";
+import { CryptoKey } from "@/interface.js";
+import { SendCryptoTransaction } from "./interface.js";
 import { CONTRACTS } from "./dataTokens.js";
 import validateUserState from "./validateUserState.js";
-import { userState, pool } from "@/exports.js";
+import { pool } from "@/exports.js";
 import sendTRC20 from "./sendTRC20.js";
 import sendTRX from "./sendTRX.js";
 import sendEscrowMessages from "./sendEscrowMessages.js";
@@ -17,7 +18,10 @@ dotenv.config();
 
 const TRONGRID_API_KEY = process.env.TRONGRID_API_KEY!;
 
-const sendCryptoTransaction: SendCryptoTransaction = async (chatId) => {
+const sendCryptoTransaction: SendCryptoTransaction = async (
+  chatId,
+  orderId,
+) => {
   try {
     const privateKey = await getPrivateKeyFromDB(chatId);
     if (!privateKey)
@@ -32,10 +36,10 @@ const sendCryptoTransaction: SendCryptoTransaction = async (chatId) => {
     const balance = await getWalletBalance(chatId);
     if (!balance) throw new Error("❌ Не удалось получить баланс.");
 
-    const { crypto, amount, sumToPay } = validateUserState(chatId);
-    const balanceAmount = balance[crypto as CryptoKey];
+    const { cryptoValidate, amountValidate, sumToPay } =
+      validateUserState(chatId);
 
-    const { orderId } = userState[chatId] ?? {};
+    const balanceAmount = balance[cryptoValidate as CryptoKey];
 
     const sellerQuery = `SELECT chat_id FROM buy_requests WHERE id = $1`;
     const sellerResult = await pool.query(sellerQuery, [orderId]);
@@ -47,9 +51,9 @@ const sendCryptoTransaction: SendCryptoTransaction = async (chatId) => {
 
     const metadata = JSON.parse(result.rows[0].metadata);
 
-    if (balanceAmount < amount) {
+    if (balanceAmount < amountValidate) {
       await sendEscrowMessages(chatId, chat_id, {
-        amount,
+        amountValidate,
         sumToPay,
         orderId,
         metadata,
@@ -57,16 +61,17 @@ const sendCryptoTransaction: SendCryptoTransaction = async (chatId) => {
       return;
     }
 
-    if (crypto === "trx") {
-      return await sendTRX(tronWebUser, amount, chatId);
+    if (cryptoValidate === "trx") {
+      return await sendTRX(tronWebUser, amountValidate, chatId);
     }
 
-    if (!CONTRACTS[crypto]) throw new Error("❌ Контракт токена не найден.");
+    if (!CONTRACTS[cryptoValidate])
+      throw new Error("❌ Контракт токена не найден.");
 
     return await sendTRC20({
       tronWebUser,
-      crypto,
-      amount,
+      cryptoValidate,
+      amountValidate,
       sumToPay,
       chatId,
     });
@@ -74,7 +79,7 @@ const sendCryptoTransaction: SendCryptoTransaction = async (chatId) => {
     console.error("❌ Ошибка при отправке:", error?.message || error);
     return sendMessage(
       chatId,
-      `❌ Ошибка при отправке: ${error?.message || error}`
+      `❌ Ошибка при отправке: ${error?.message || error}`,
     );
   }
 };

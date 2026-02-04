@@ -17,10 +17,13 @@ const dynamicHandlers: DynamicHandlers = {
   },
 
   select_order_: async (data, { chatId }) => {
-    const { confirmOrderPreview } = await import("@/functions/index.js");
+    const { confirmOrderPreview, sendCryptoTransaction } =
+      await import("@/functions/index.js");
 
     const orderId = data.replace("select_order_", "");
     const action = userState[chatId]?.currentDb;
+
+    await sendCryptoTransaction(chatId, orderId);
 
     await confirmOrderPreview(action, chatId, orderId);
   },

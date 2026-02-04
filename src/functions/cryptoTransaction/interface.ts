@@ -1,11 +1,8 @@
 import { Message } from "node-telegram-bot-api";
 import { TronWeb } from "tronweb";
 
-export const allowedKeys = ["TRX", "USDT", "USDC", "TUSD"] as const;
-export type CryptoKey = (typeof allowedKeys)[number];
-
 export interface SendCryptoTransaction {
-  (chatId: number): Promise<Message | undefined>;
+  (chatId: number, orderId: string): Promise<Message | undefined>;
 }
 
 export interface SendTRX {
@@ -13,19 +10,19 @@ export interface SendTRX {
 }
 
 export interface SendTRC20 {
-  (props: SendTRC20Props): Promise<Message>;
+  (props: SendTRC20Props): Promise<Message | undefined>;
 }
 
 interface SendTRC20Props {
   tronWebUser: TronWeb;
-  crypto: string;
-  amount: number;
+  cryptoValidate: string;
+  amountValidate: number;
   sumToPay: number | undefined;
   chatId: number;
 }
 
 export interface EscrowPayload {
-  amount: number;
+  amountValidate: number;
   sumToPay: number | undefined;
   orderId: string | undefined;
   metadata: {
@@ -36,7 +33,7 @@ export interface EscrowPayload {
 }
 
 export interface ValidateUserState {
-  (chatId: number): { crypto: string; amount: number; sumToPay?: number };
+  (chatId: number): { cryptoValidate: string; amountValidate: number; sumToPay?: number };
 }
 
 export interface NormalizeCrypto {

@@ -1,6 +1,6 @@
 import { IshowSummary } from "./interface.js";
-import menu from "./menu.js";
 import { sendMessage } from "@/functions/index.js";
+import menu from "./menu.js";
 
 const showSummary: IshowSummary = async (chatId, userState) => {
   const { crypto, price, paymentMethod } = userState[chatId];
@@ -15,7 +15,7 @@ const showSummary: IshowSummary = async (chatId, userState) => {
       `🔸 Спосіб оплати: ${paymentMethod} \n` +
       `🔸 Термін дії: 24 години \n` +
       `✅ Все вірно?`,
-    menu
+    menu,
   );
 };
 
