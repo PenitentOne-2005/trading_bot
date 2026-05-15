@@ -9,8 +9,9 @@ export { default as CRYPTOS } from "./listCrypto.js";
 export { default as dataMap } from "./map.js";
 export { default as CONTRACTS } from "./CONTRACTS.js";
 export { userOffsets } from "./userOffsets.js";
-export { userState, UserStep, IBANData, UserState } from "./userState.js";
-export { CallbackProps, IAddress } from "./interface.js";
+export { userState } from "./userState.js";
+export type { IBANData, UserState, UserStep } from "./userState.js";
+export type { CallbackProps, IAddress } from "./interface.js";
 export {
   createOrderMenu,
   mainMenu,
