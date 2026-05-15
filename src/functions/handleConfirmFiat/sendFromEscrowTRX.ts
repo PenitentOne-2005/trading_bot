@@ -1,19 +1,26 @@
-import { TronWeb } from "tronweb";
 import { sendEscrowTRX } from "./interface.js";
 
-const sendFromEscrowTRX: sendEscrowTRX = async (amount, buyerWallet) => {
+const sendFromEscrowTRX: sendEscrowTRX = async (
+  amount,
+  buyerWallet,
+  tronWebEscrow,
+) => {
   try {
-    const tronWebEscrow = new TronWeb({
-      fullHost: "https://api.trongrid.io",
-      headers: { "TRON-PRO-API-KEY": process.env.TRONGRID_API_KEY },
-      privateKey: process.env.ESCROW_KEY!,
-    });
+    const sunAmount = tronWebEscrow.toSun(amount);
 
-    const sunAmount = new BigNumber(tronWebEscrow.toSun(amount));
+    const sentTransaction = await tronWebEscrow.trx.sendTransaction(
+      buyerWallet,
+      Number(sunAmount),
+    );
 
-    await tronWebEscrow.trx.sendTransaction(buyerWallet, sunAmount.toNumber());
+    if (!sentTransaction?.result || !sentTransaction?.txid) {
+      throw new Error("sendFromEscrowTRX: Transaction failed");
+    }
+
+    return sentTransaction.txid;
   } catch (error) {
     console.error("Error in sendFromEscrowTRX:", error);
+    throw error;
   }
 };
 

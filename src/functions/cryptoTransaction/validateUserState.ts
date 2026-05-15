@@ -1,22 +1,24 @@
-import {
-  allowedKeys,
-  CryptoKey,
-  NormalizeCrypto,
-  ValidateUserState,
-} from "./interface.js";
-import { userState } from "@/exports.js";
+import pool from "@/db.js";
+import { allowedKeys, CryptoKey } from "@/interface.js";
+import { NormalizeCrypto, ValidateUserState } from "./interface.js";
 
 const normalizeCrypto: NormalizeCrypto = (cryptoRaw) => {
-  return cryptoRaw?.toLowerCase().split(" ")[0].trim();
+  return cryptoRaw?.split(" ")[0].trim();
 };
 
-const validateUserState: ValidateUserState = (chatId) => {
-  const { crypto, amount, sumToPay } = userState[chatId] ?? {};
+const validateUserState: ValidateUserState = async (orderId) => {
+  const sellerQuery = `SELECT crypto, amount, price FROM orders WHERE id = $1`;
+  const sellerResult = await pool.query(sellerQuery, [orderId]);
+
+  const { crypto, amount, price } = sellerResult.rows[0];
+
   const toLowerCrypto = normalizeCrypto(crypto);
+
+  const sumToPay = amount * price;
 
   if (!toLowerCrypto || !allowedKeys.includes(toLowerCrypto as CryptoKey)) {
     throw new Error(
-      `❌ Неверная или неуказанная криптовалюта. ${toLowerCrypto}, ${amount} ${sumToPay}`
+      `❌ Неверная или неуказанная криптовалюта. ${toLowerCrypto}, ${amount} ${sumToPay}`,
     );
   }
 
@@ -24,7 +26,11 @@ const validateUserState: ValidateUserState = (chatId) => {
     throw new Error("❌ Неверная или неуказанная сумма.");
   }
 
-  return { cryptoValidate: toLowerCrypto, amountValidate: amount, sumToPay };
+  return {
+    cryptoValidate: toLowerCrypto,
+    amountValidate: amount,
+    sumToPay,
+  };
 };
 
 export default validateUserState;

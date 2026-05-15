@@ -1,26 +1,22 @@
-import { userState, dataMap, pool } from "@/exports.js";
+import { userState, pool } from "@/exports.js";
 import { Props } from "./interface.js";
 import { showPaymentBuy, showPaymentSell } from "./menu.js";
 import { sendMessage } from "@/functions/index.js";
 
-const confirmOrderPreview: Props = async (action, chatId, orderId) => {
-  if (!action) {
-    return sendMessage(chatId, "⚠️ Невідома таблиця заявок.");
-  }
-
-  const query = `SELECT * FROM ${action} WHERE id = $1`;
+const confirmOrderPreview: Props = async (chatId, orderId) => {
+  const query = `SELECT * FROM orders WHERE id = $1`;
   const result = await pool.query(query, [orderId]);
 
   if (result.rows.length === 0) {
     return sendMessage(chatId, "⚠️ Заявку не знайдено.");
   }
 
-  const { amount, crypto, price } = result.rows[0];
+  const { amount, crypto, price, type } = result.rows[0];
 
   const sumToPay = amount * price;
 
   const actionText =
-    action === "buy_requests"
+    type === "buy"
       ? `🔴 Пiдтвердження
       Ви збираєтесь *продати* ${amount} ${crypto} за ${sumToPay} UAH
       Пiсля пiдтвердження криптовалюта буде перемiщена в ескроу-контракт.
@@ -36,7 +32,7 @@ const confirmOrderPreview: Props = async (action, chatId, orderId) => {
        Термiн дiї: 30хв
       Пiдтверджуєте, що хочете продовжити?`;
 
-  const menu = action === "buy_requests" ? showPaymentSell : showPaymentBuy;
+  const menu = type === "buy" ? showPaymentSell : showPaymentBuy;
 
   userState[chatId] = {
     ...userState[chatId],
@@ -45,8 +41,6 @@ const confirmOrderPreview: Props = async (action, chatId, orderId) => {
     sumToPay: sumToPay,
     crypto: crypto,
   };
-
-  dataMap.set("currentDb", action);
 
   return sendMessage(chatId, `📝 ${actionText}`, menu);
 };
