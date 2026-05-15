@@ -17,19 +17,23 @@ const dynamicHandlers: DynamicHandlers = {
   },
 
   select_order_: async (data, { chatId }) => {
-    const { confirmOrderPreview, sendCryptoTransaction } =
-      await import("@/functions/index.js");
+    const { confirmOrderPreview } = await import("@/functions/index.js");
 
     const orderId = data.replace("select_order_", "");
-    const action = userState[chatId]?.currentDb;
 
-    await sendCryptoTransaction(chatId, orderId);
+    await pool.query(
+      `UPDATE orders
+      SET status = 'waiting', buyer_chat_id = $1
+      WHERE id = $2`,
+      [chatId, orderId],
+    );
 
-    await confirmOrderPreview(action, chatId, orderId);
+    await confirmOrderPreview(chatId, orderId);
   },
 
   agree_get_: async (data, { chatId }) => {
-    const { handleConfirmFiat } = await import("@/functions/index.js");
+    const { handleConfirmFiat, sendCryptoTransaction } =
+      await import("@/functions/index.js");
 
     try {
       const orderId = data.replace("agree_get_", "");
@@ -38,6 +42,8 @@ const dynamicHandlers: DynamicHandlers = {
         sendMessage(chatId, "❗ orderId не указан.");
         return;
       }
+
+      await sendCryptoTransaction(orderId);
 
       await handleConfirmFiat(chatId, orderId);
     } catch (err) {
