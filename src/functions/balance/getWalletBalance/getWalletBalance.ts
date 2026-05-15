@@ -8,7 +8,7 @@ import { getTokenBalance } from "../index.js";
 dotenv.config();
 
 const tronWeb = new TronWeb({
-  fullHost: "https://api.trongrid.io",
+  fullHost: "https://api.shasta.trongrid.io",
   headers: { "TRON-PRO-API-KEY": process.env.TRONGRID_API_KEY },
 });
 
