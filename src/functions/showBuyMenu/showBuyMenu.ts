@@ -5,7 +5,7 @@ const showBuyMenu: IShowBuyMenu = async (userOffsets, chatId) => {
   const params = {
     userOffsets,
     chatId,
-    dbName: "sell_requests",
+    type: "sell",
     text: "Доступні оголошення на продаж криптовалюти",
   };
   await showOrders(params);

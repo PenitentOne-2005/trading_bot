@@ -4,19 +4,20 @@ import { sendMessage } from "@/functions/index.js";
 
 const showOrders: IShowOrders = async (params) => {
   try {
-    const { userOffsets, chatId, dbName, text } = params;
+    const { userOffsets, chatId, type, text } = params;
 
     const offset = userOffsets[chatId] ?? 0;
 
     const query = `
-      SELECT * FROM ${dbName}
+      SELECT * FROM orders
       WHERE chat_id != $2
         AND status = 'active'
+        AND type = $3
       ORDER BY created_at ASC
       LIMIT 2 OFFSET $1
     `;
 
-    const response = await pool.query(query, [offset, chatId]);
+    const response = await pool.query(query, [offset, chatId, type]);
 
     if (response.rows.length === 0) {
       return sendMessage(chatId, "📭 Пока нет заявок.");
@@ -50,10 +51,9 @@ const showOrders: IShowOrders = async (params) => {
 
     userState[chatId] = {
       ...userState[chatId],
-      currentDb: dbName,
     };
   } catch (error) {
-    console.log("❌ Помилка при отриманні заявок:", error);
+    console.log("showOrders: ❌ Помилка при отриманні заявок:", error);
   }
 };
 

@@ -1,5 +1,3 @@
-const VALID_COMMANDS = ["/start"] as const;
+export const VALID_COMMANDS = ["/start"] as const;
 
-type ValidCommand = (typeof VALID_COMMANDS)[number];
-
-export default ValidCommand;
+export type ValidCommand = (typeof VALID_COMMANDS)[number];

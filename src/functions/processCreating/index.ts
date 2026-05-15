@@ -4,4 +4,5 @@ export { default as waitingForCard } from "./waitingForCard.js";
 export { default as waitingForName } from "./waitingForName.js";
 export { default as waitingForPrice } from "./waitingForPrice.js";
 export { default as stepHandlers } from "./stepHandlers.js";
-export { default as ValidCommand } from "./validCommand.js";
+export { VALID_COMMANDS } from "./validCommand.js";
+export type { ValidCommand } from "./validCommand.js";

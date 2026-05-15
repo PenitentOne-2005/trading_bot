@@ -4,7 +4,6 @@ import {
   showOrders,
   createOrder,
   setPaymentMethod,
-  updateStatusToWaiting,
   cancelPaymentProcess,
 } from "@/functions/index.js";
 import {
@@ -41,7 +40,7 @@ const callbackHandlers: Record<string, CallbackHandlers> = {
   agree_sent: async ({ chatId }) => {
     const { confirmPaymentNotification } = await import("@/functions/index.js");
 
-    return confirmPaymentNotification(userState, chatId);
+    return confirmPaymentNotification();
   },
 
   agree_yes: async ({ chatId, username }) => {
@@ -167,11 +166,11 @@ const callbackHandlers: Record<string, CallbackHandlers> = {
   show_crypto_next: ({ chatId }) => {
     userOffsets[chatId] = (userOffsets[chatId] ?? 0) + 2;
 
-    const { currentDb } = userState[chatId] ?? {};
+    const { orderType } = userState[chatId] ?? {};
 
     showOrders({
       chatId,
-      dbName: currentDb || "",
+      type: orderType || "",
       userOffsets,
       text: "Список заявок",
     });
@@ -180,11 +179,11 @@ const callbackHandlers: Record<string, CallbackHandlers> = {
   show_crypto_prev: ({ chatId }) => {
     userOffsets[chatId] = Math.max((userOffsets[chatId] ?? 0) - 2, 0);
 
-    const { currentDb } = userState[chatId] ?? {};
+    const { orderType } = userState[chatId] ?? {};
 
     showOrders({
       chatId,
-      dbName: currentDb || "",
+      type: orderType || "",
       userOffsets,
       text: "Список заявок",
     });
@@ -218,16 +217,15 @@ const callbackHandlers: Record<string, CallbackHandlers> = {
   },
 
   show_payment_buy_info: async ({ chatId }) => {
-    const { showPaymentInfo, notifySellerEscrowStarted } =
-      await import("@/functions/index.js");
+    const { sendEscrowMessages } = await import("@/functions/index.js");
 
-    await updateStatusToWaiting(userState, chatId, "sell_requests");
-    await notifySellerEscrowStarted(userState, chatId);
-    await showPaymentInfo(userState, chatId);
+    await sendEscrowMessages(userState, chatId);
   },
 
   show_payment_sell_info: async ({ chatId }) => {
-    await updateStatusToWaiting(userState, chatId, "buy_requests");
+    const { sendEscrowMessages } = await import("@/functions/index.js");
+
+    await sendEscrowMessages(userState, chatId);
   },
 
   add_pay: async ({ chatId }) => {

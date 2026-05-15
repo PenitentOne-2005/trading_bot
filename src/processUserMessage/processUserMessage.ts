@@ -1,5 +1,6 @@
 import { IProcessUserMessage } from "./interface.js";
-import { ValidCommand, sendMessage, stepHandlers } from "@/functions/index.js";
+import { sendMessage, stepHandlers } from "@/functions/index.js";
+import type { ValidCommand } from "@/functions/index.js";
 import {
   selectLanguageBoard,
   userState,

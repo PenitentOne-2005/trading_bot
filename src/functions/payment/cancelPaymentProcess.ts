@@ -1,20 +1,19 @@
-import { FuncInfoProps } from "./interface.js";
+import { CancelInterface } from "./interface.js";
 import { pool, cancelPaymentProcessKeyBoard } from "@/exports.js";
 import { sendMessage } from "@/functions/index.js";
 
-const cancelPaymentProcess: FuncInfoProps = async (
+const cancelPaymentProcess: CancelInterface = async (
   userState,
   chatId,
-  orderId
+  orderId,
 ) => {
   try {
-    const { amount, sumToPay, crypto, currentDb, orderType } =
-      userState[chatId] ?? {};
+    const { amount, sumToPay, crypto, orderType } = userState[chatId] ?? {};
 
     const action = orderType === "buy" ? "покупку" : "продаж";
 
     const updateQuery = `
-        UPDATE ${currentDb}
+        UPDATE orders
         SET status = 'active',
             buyer_chat_id = NULL
         WHERE id = $1 AND buyer_chat_id = $2

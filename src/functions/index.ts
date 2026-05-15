@@ -1,4 +1,3 @@
-export { default as updateStatusToWaiting } from "./updateStatusToWaiting/index.js";
 export { default as showWallet } from "./showWallet/index.js";
 export { default as showSummary } from "./showSummary/index.js";
 export { default as showSellMenu } from "./showSellMenu/index.js";
@@ -29,20 +28,21 @@ export { default as handleWalletAddressInput } from "./handleWalletAddressInput/
 export { default as cryptoWithdraw } from "./cryptoWithdraw/index.js";
 export { default as promptWithdrawAmount } from "./promptWithdrawAmount/index.js";
 export { default as renderActiveOrders } from "./renderActiveOrders/index.js";
+export { default as waitForConfirmation } from "./cryptoTransaction/waitForConfirmation.js";
+export { default as sendEscrowMessages } from "./cryptoTransaction/sendEscrowMessages.js";
 export {
   handleIBANandIPNstep,
   waitingForAmount,
   waitingForCard,
   waitingForName,
   waitingForPrice,
-  ValidCommand,
   stepHandlers,
 } from "./processCreating/index.js";
+export type { ValidCommand } from "./processCreating/index.js";
 export {
   cancelPaymentProcess,
   confirmPaymentNotification,
   payMethod,
   savePayments,
   setPaymentMethod,
-  showPaymentInfo,
 } from "./payment/index.js";

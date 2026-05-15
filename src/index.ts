@@ -33,11 +33,11 @@ const createUsersTable = async () => {
       console.error("❌ Ошибка при создании таблицы:", error);
       retries--;
       console.log(
-        `⏳ Повторная попытка через 5 секунд... Осталось: ${retries}`
+        `⏳ Повторная попытка через 5 секунд... Осталось: ${retries}`,
       );
       await wait(5000);
     }
   }
 };
 
-createUsersTable();
+await createUsersTable();

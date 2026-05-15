@@ -48,7 +48,7 @@ const decryptPrivateKey = (encryptedKey: string, ivBase64: string): string => {
 export const getPrivateKeyFromDB: IGetPrivateKeyFromDB = async (userId) => {
   const res = await pool.query(
     `SELECT private_key, iv FROM users WHERE telegram_id = $1`,
-    [userId]
+    [userId],
   );
 
   if (res.rowCount === 0) return undefined;

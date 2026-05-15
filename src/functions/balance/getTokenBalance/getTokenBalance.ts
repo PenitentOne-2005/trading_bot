@@ -12,7 +12,10 @@ const getTokenBalance: GetTokenBalance = async (props) => {
 
     return Number(balance.toString()) / Math.pow(10, decimals);
   } catch (e: any) {
-    console.error(`Ошибка при получении токена ${tokenAddress}:`, e.message);
+    console.error(
+      `getTokenBalance: Ошибка при получении токена ${tokenAddress}:`,
+      e.message,
+    );
     sendMessage(chatId, `❌ Ошибка при получении токена ${tokenAddress}`);
     return 0;
   }

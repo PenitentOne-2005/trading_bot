@@ -1,9 +1,7 @@
-import { IAddress } from "@/exports.js";
-
 interface IData {
   chatId: number;
   username: string;
-  address: IAddress;
+  address: string;
   encryptedKey: string;
   iv: string;
 }

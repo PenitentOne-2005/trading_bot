@@ -9,8 +9,7 @@ const getWalletAddress: IgetWalletAddress = async (chatId) => {
     );
 
     if (res.rows.length > 0) {
-      const wallet = JSON.parse(res.rows[0].wallet_address);
-      return wallet.base58;
+      return res.rows[0].wallet_address;
     } else {
       throw new Error("❌ Кошелек не найден в базе");
     }

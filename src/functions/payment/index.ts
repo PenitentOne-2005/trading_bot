@@ -3,4 +3,3 @@ export { default as confirmPaymentNotification } from "./confirmPaymentNotificat
 export { default as payMethod } from "./payMethod.js";
 export { default as savePayments } from "./savePayments.js";
 export { default as setPaymentMethod } from "./setPaymentMethod.js";
-export { default as showPaymentInfo } from "./showPaymentInfo.js";
