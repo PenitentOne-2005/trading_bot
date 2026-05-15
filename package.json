@@ -13,8 +13,13 @@
   },
   "type": "module",
   "scripts": {
-    "start": "concurrently \"npm run build\" \"node dist/index.js\" \"node dist/bot.js\"",
-    "build": "tsc && tsc-alias"
+    "dev": "concurrently \"npm run dev:api\" \"npm run dev:bot\"",
+    "dev:api": "tsx watch src/index.ts",
+    "dev:bot": "tsx watch src/bot.ts",
+    "build": "tsc && tsc-alias",
+    "start": "node dist/index.js",
+    "start:bot": "node dist/bot.js",
+    "prod": "concurrently \"npm run start\" \"npm run start:bot\""
   },
   "devDependencies": {
     "@types/cors": "^2.8.17",
@@ -25,7 +30,10 @@
     "@types/pg": "^8.11.11",
     "concurrently": "^9.1.2",
     "ts-node": "^10.9.2",
+    "ts-node-dev": "^2.0.0",
     "tsc-alias": "^1.8.16",
+    "tsconfig-paths": "^4.2.0",
+    "tsx": "^4.21.0",
     "typescript": "^5.8.2"
   }
 }
