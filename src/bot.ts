@@ -9,11 +9,12 @@ import {
   userState,
   mainMenu,
 } from "./exports.js";
+import recoverTable from "./recovery.js";
 
 const greetings = process.env.GREETINGS;
 if (!greetings) {
   console.error(
-    "❌ GREETINGS не найден! Убедитесь, что он задан в .env файле."
+    "bot.js: ❌ GREETINGS не найден! Убедитесь, что он задан в .env файле.",
   );
   process.exit(1);
 }
@@ -45,7 +46,19 @@ bot.on("callback_query", async (callbackQuery) => {
 });
 
 bot.on("polling_error", (error) => {
-  console.error("❌ Ошибка опроса бота:", error);
+  console.error("bot.js: ❌ Ошибка опроса бота:", error);
 });
 
-bot.startPolling();
+const bootstrap = async () => {
+  try {
+    await recoverTable();
+
+    bot.startPolling();
+    console.log("bot.js: 🤖 Bot started");
+  } catch (err) {
+    console.error("bot.js: ❌ Startup error:", err);
+    process.exit(1);
+  }
+};
+
+bootstrap();
