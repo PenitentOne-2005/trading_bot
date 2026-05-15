@@ -2,11 +2,15 @@ import { Message } from "node-telegram-bot-api";
 import { UserState } from "@/exports.js";
 
 export interface FuncInfoProps {
+  (): Promise<Message | undefined>;
+}
+
+export interface CancelInterface {
   (
     userState: Record<number, UserState>,
     chatId: number,
-    orderId?: string
-  ): Promise<Message | undefined>;
+    orderId: string,
+  ): Promise<Message>;
 }
 
 export interface SetPaymentMethod {

@@ -10,6 +10,6 @@ export interface IShowOrders {
 }
 
 interface IShowOrdersParams extends IUserOffsetsAndChatId {
-  dbName: string;
+  type: string;
   text: string;
 }

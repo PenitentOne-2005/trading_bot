@@ -1,16 +1,21 @@
+import { UserState } from "@/userState";
 import { Message } from "node-telegram-bot-api";
 import { TronWeb } from "tronweb";
 
 export interface SendCryptoTransaction {
-  (chatId: number, orderId: string): Promise<Message | undefined>;
+  (orderId: string): Promise<Message | void>;
 }
 
 export interface SendTRX {
-  (tronWeb: TronWeb, amount: number, chatId: number): Promise<Message>;
+  (tronWeb: TronWeb, amount: number, chatId: number): Promise<void>;
 }
 
 export interface SendTRC20 {
   (props: SendTRC20Props): Promise<Message | undefined>;
+}
+
+export interface SendEscrowMessages {
+  (userState: Record<number, UserState>, chatId: number): Promise<Message>;
 }
 
 interface SendTRC20Props {
@@ -19,23 +24,23 @@ interface SendTRC20Props {
   amountValidate: number;
   sumToPay: number | undefined;
   chatId: number;
-}
-
-export interface EscrowPayload {
-  amountValidate: number;
-  sumToPay: number | undefined;
   orderId: string | undefined;
-  metadata: {
-    IBAN: string;
-    name: string;
-    [key: string]: any;
-  };
 }
 
 export interface ValidateUserState {
-  (chatId: number): { cryptoValidate: string; amountValidate: number; sumToPay?: number };
+  (orderId: string): Promise<{
+    cryptoValidate: string;
+    amountValidate: number;
+    sumToPay: number;
+  }>;
 }
 
 export interface NormalizeCrypto {
   (cryptoRaw?: string): string | undefined;
 }
+
+export type PaymentMetadata = {
+  IBAN?: string;
+  name?: string;
+  text?: string;
+};

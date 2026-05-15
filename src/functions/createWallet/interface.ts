@@ -1,8 +1,6 @@
-import { IAddress } from "@/exports.js";
-
 interface WalletData {
   privateKey: string;
-  address: IAddress;
+  address: string;
 }
 
 export interface ICreateWallet {
