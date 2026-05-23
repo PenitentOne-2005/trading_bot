@@ -8,7 +8,3 @@ Telegram-бот для работы с криптовалютой в сети Tr
 - Telegram Bot API
 - TronWeb + QuickNode (для работы с блокчейном Tron)
 - PostgreSQL (хранение данных пользователей)
-
-**Демо:**
-Бот работает в Telegram: 
-[@TradingGreatBot](https://t.me/TradingGreatBot)
