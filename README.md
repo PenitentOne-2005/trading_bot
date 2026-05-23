@@ -1,10 +1,10 @@
 # Telegram Crypto Bot
 
-**Описание:**  
-Telegram-бот для работы с криптовалютой в сети Tron. Позволяет пользователям покупать крипто, взаимодействовать с меню и динамическими командами через Telegram.  
+**Description:**  
+Telegram-бот for working with cryptocurrency online Tron. Allows users to purchase crypto, interact with menus and dynamic commands through Telegram.  
 
-**Технологии:**
+**Technologies:**
 - Node.js / TypeScript / Express.js 
 - Telegram Bot API
-- TronWeb + QuickNode (для работы с блокчейном Tron)
-- PostgreSQL (хранение данных пользователей)
+- TronWeb + QuickNode (for working with blockchain Tron)
+- PostgreSQL (storing user data)
